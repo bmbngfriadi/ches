@@ -1,0 +1,41 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: 'Montserrat', system-ui, sans-serif;
+  --color-primary: #b52025;
+  --color-primary-dark: #8c191c;
+  --color-primary-light: #d13a3f;
+}
+
+@layer base {
+  html, body, #root {
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
+  }
+  * {
+    font-family: 'Montserrat', sans-serif !important;
+  }
+  input, select, textarea {
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box !important;
+  }
+  .grid > * {
+    min-width: 0;
+  }
+  body {
+    @apply bg-gray-50 text-gray-900;
+  }
+}
+
+/* Glassmorphism Utilities */
+@layer utilities {
+  .glass {
+    @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-lg;
+  }
+  .glass-dark {
+    @apply bg-gray-900/70 backdrop-blur-md border border-gray-700/50 shadow-lg;
+  }
+}
