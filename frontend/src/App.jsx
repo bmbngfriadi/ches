@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import ForgotPassword from './pages/ForgotPassword';
@@ -14,7 +14,7 @@ function App() {
   return (
     <ThemeProvider>
       <AlertProvider>
-        <BrowserRouter>
+        <HashRouter>
           <InactivityTimeout>
             <Routes>
               <Route path="/" element={<Navigate to="/login" replace />} />
@@ -25,7 +25,7 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />} />
             </Routes>
           </InactivityTimeout>
-        </BrowserRouter>
+        </HashRouter>
       </AlertProvider>
     </ThemeProvider>
   );

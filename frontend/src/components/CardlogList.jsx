@@ -99,12 +99,7 @@ export default function CardlogList({ cardlogs, loading, onNavigate, refreshLogs
   };
 
   const handleCreateNew = () => {
-    showAlert(
-      'Buat Laporan Baru',
-      'Apakah Anda ingin membuat form laporan baru?',
-      'confirm',
-      () => onNavigate('form')
-    );
+    onNavigate('new-cardlog');
   };
 
   const handleExportToExcelConfirm = () => {

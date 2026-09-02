@@ -558,7 +558,7 @@ app.delete('/api/users/:id', authenticateToken, async (req, res) => {
 
 app.put('/api/users/:id', authenticateToken, async (req, res) => {
   const { id } = req.params;
-  const { password, email, permissions } = req.body;
+  const { password, email, permissions, username, full_name } = req.body;
   if (req.user.role !== 'administrator/dev') {
     return res.status(403).json({ message: 'Access denied' });
   }
@@ -566,6 +566,21 @@ app.put('/api/users/:id', authenticateToken, async (req, res) => {
   try {
     await db.query('BEGIN');
     
+    // Update username if provided
+    if (username && username.trim() !== '') {
+      const existingUser = await db.query('SELECT id FROM users WHERE username = $1 AND id != $2', [username, id]);
+      if (existingUser.rows.length > 0) {
+        await db.query('ROLLBACK');
+        return res.status(400).json({ message: 'Username already taken' });
+      }
+      await db.query('UPDATE users SET username = $1 WHERE id = $2', [username, id]);
+    }
+
+    // Update full_name if provided
+    if (full_name && full_name.trim() !== '') {
+      await db.query('UPDATE users SET full_name = $1 WHERE id = $2', [full_name, id]);
+    }
+
     // Update password if provided
     if (password && password.trim() !== '') {
       await db.query('UPDATE users SET password = $1 WHERE id = $2', [password, id]);

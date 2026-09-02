@@ -25,9 +25,8 @@ export const AlertProvider = ({ children }) => {
   const handleConfirm = () => {
     if (alertState.onConfirm) {
       alertState.onConfirm();
-    } else {
-      closeAlert();
     }
+    closeAlert();
   };
 
   const getIcon = (type) => {
@@ -58,17 +57,17 @@ export const AlertProvider = ({ children }) => {
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
           <div className="fixed inset-0 bg-black/40 backdrop-blur-sm transition-opacity" onClick={alertState.type === 'loading' ? undefined : closeAlert}></div>
           
-          <div className={`relative bg-white dark:bg-gray-900 w-full max-w-sm rounded-md shadow-lg overflow-hidden transform transition-all border border-gray-200 dark:border-gray-800 animate-in fade-in zoom-in-95 duration-200`}>
+          <div className={`relative bg-white dark:bg-gray-900 w-[92%] sm:w-full sm:max-w-sm rounded-xl sm:rounded-md shadow-2xl overflow-hidden transform transition-all border border-gray-200 dark:border-gray-800 animate-in fade-in zoom-in-95 duration-200`}>
             <div className="p-6">
               <div className="flex items-start">
                 <div className="flex-shrink-0">
                   {getIcon(alertState.type)}
                 </div>
-                <div className="ml-4 flex-1">
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+                <div className="ml-4 flex-1 mt-0.5">
+                  <h3 className="text-xl sm:text-lg font-bold text-gray-900 dark:text-white leading-tight">
                     {alertState.title}
                   </h3>
-                  <div className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                  <div className="mt-3 text-[15px] sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
                     <p>{alertState.message}</p>
                   </div>
                 </div>
@@ -83,18 +82,18 @@ export const AlertProvider = ({ children }) => {
               </div>
             </div>
             {alertState.type !== 'loading' && (
-              <div className="bg-gray-50 dark:bg-gray-800/50 px-6 py-4 flex justify-end gap-3">
+              <div className="bg-gray-50 dark:bg-gray-800/50 p-5 sm:px-6 sm:py-4 flex flex-col-reverse sm:flex-row justify-end gap-3">
                 {alertState.type === 'confirm' && (
                   <button
                     onClick={closeAlert}
-                    className="px-5 py-2 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-600 text-sm font-semibold rounded-md hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors"
+                    className="w-full sm:w-auto px-6 py-3.5 sm:py-2.5 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-600 text-base sm:text-sm font-bold rounded-lg sm:rounded-md hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors"
                   >
                     Batal
                   </button>
                 )}
                 <button
                   onClick={alertState.type === 'confirm' ? handleConfirm : closeAlert}
-                  className="px-6 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-semibold rounded-md hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors"
+                  className="w-full sm:w-auto px-6 py-3.5 sm:py-2.5 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-base sm:text-sm font-bold rounded-lg sm:rounded-md hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors shadow-sm"
                 >
                   {alertState.type === 'confirm' ? 'Ya, Lanjutkan' : 'Mengerti'}
                 </button>

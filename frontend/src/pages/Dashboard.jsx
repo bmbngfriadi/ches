@@ -60,14 +60,14 @@ export default function Dashboard() {
     // If the app is launched as a PWA (history length 1), back button would close it instantly.
     // We push a dummy state first, then our real state, so that hitting back triggers popstate.
     if (!window.history.state || !window.history.state.tab) {
-      window.history.replaceState({ isDummy: true }, '', window.location.pathname);
-      window.history.pushState({ tab: 'overview', data: null, isRoot: true }, '', window.location.pathname);
+      window.history.replaceState({ isDummy: true }, '');
+      window.history.pushState({ tab: 'overview', data: null, isRoot: true }, '');
     }
 
     const handlePopState = (event) => {
       if (window.isFormDirty) {
         // Trap the user back into the form
-        window.history.pushState(currentStateRef.current, '', window.location.pathname);
+        window.history.pushState(currentStateRef.current, '');
         showAlert(
           'Konfirmasi Keluar',
           'Anda sedang mengisi data laporan. Apakah Anda yakin ingin kembali? Data yang sudah diisi akan hilang.',
@@ -88,7 +88,7 @@ export default function Dashboard() {
       } else {
         // Trap the user in dashboard to prevent going back to login screen or closing app
         // They hit the dummy state or an empty state. Push the dashboard root state back!
-        window.history.pushState({ tab: 'overview', data: null, isRoot: true }, '', window.location.pathname);
+        window.history.pushState({ tab: 'overview', data: null, isRoot: true }, '');
         setActiveTab('overview');
         setShowLogoutConfirm(true); // Prompt logout
       }
@@ -104,7 +104,7 @@ export default function Dashboard() {
 
   const handleNavigate = (tab, data = null) => {
     if (activeTab === tab && JSON.stringify(editData) === JSON.stringify(data)) return; // Prevent duplicate state
-    window.history.pushState({ tab, data }, '', window.location.pathname);
+    window.history.pushState({ tab, data }, '');
     setActiveTab(tab);
     setEditData(data || null);
   };
