@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: `http://${window.location.hostname}:5000/api`, // Dynamic Backend URL
+  // Use VITE_API_URL if provided (for Live/Prod server), otherwise fallback to local dev behavior (port 5000)
+  baseURL: import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5000/api`,
   headers: {
     'Content-Type': 'application/json',
   },
