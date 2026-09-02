@@ -102,6 +102,41 @@ export default function Dashboard() {
     };
   }, []);
 
+  // Auto-logout after 15 minutes of inactivity
+  useEffect(() => {
+    let timeoutId;
+    const INACTIVITY_TIME = 15 * 60 * 1000; // 15 minutes in milliseconds
+    
+    const resetTimer = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        // Clear session instantly
+        localStorage.clear();
+        
+        // Notify user and navigate to login
+        showAlert(
+          'Sesi Berakhir',
+          'Anda telah logout otomatis karena tidak ada aktivitas selama 15 menit.',
+          'info'
+        );
+        navigate('/login', { replace: true });
+      }, INACTIVITY_TIME);
+    };
+
+    const events = ['mousemove', 'keydown', 'touchstart', 'scroll', 'click'];
+    
+    // Add event listeners
+    events.forEach(event => window.addEventListener(event, resetTimer));
+    
+    // Initialize timer
+    resetTimer();
+
+    return () => {
+      clearTimeout(timeoutId);
+      events.forEach(event => window.removeEventListener(event, resetTimer));
+    };
+  }, []);
+
   const handleNavigate = (tab, data = null) => {
     if (activeTab === tab && JSON.stringify(editData) === JSON.stringify(data)) return; // Prevent duplicate state
     window.history.pushState({ tab, data }, '');
