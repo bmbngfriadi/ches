@@ -26,8 +26,8 @@ api.interceptors.response.use(
       localStorage.removeItem('ches_token');
       localStorage.removeItem('ches_user');
       // Only redirect if not already on the login page
-      if (window.location.pathname !== '/login') {
-        window.location.href = '/login';
+      if (!window.location.hash.includes('#/login')) {
+        window.location.hash = '#/login';
       }
     }
     return Promise.reject(error);
