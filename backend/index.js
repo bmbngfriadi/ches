@@ -167,9 +167,8 @@ app.get('/api/auth/verify-email/:token', async (req, res) => {
 
     await db.query('UPDATE users SET email_verified = TRUE, verification_token = NULL WHERE id = $1', [user.rows[0].id]);
     
-    // Redirect back to frontend, handling both localhost and local IP network access
-    const frontendHost = req.hostname; // Just the IP/Domain, no port
-    res.redirect(`http://${frontendHost}:5173/login?verified=true`);
+    // Redirect back to production frontend
+    res.redirect('https://cg-plantbatam.com/chis/login?verified=true');
   } catch (err) {
     console.error(err);
     res.status(500).send('<h1 style="text-align: center; margin-top: 50px;">Terjadi kesalahan sistem saat memverifikasi email.</h1>');
