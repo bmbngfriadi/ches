@@ -2,11 +2,11 @@ const { Pool } = require('pg');
 require('dotenv').config({ override: true });
 
 const pool = new Pool({
-  host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER || 'postgres',
-  password: process.env.DB_PASSWORD || 'Gamaadmin53',
-  database: process.env.DB_NAME || 'ches_prod',
-  port: process.env.DB_PORT || 5432,
+  host: 'localhost',
+  user: 'postgres',
+  password: 'Gamaadmin53',
+  database: 'ches_prod',
+  port: 5432,
 });
 
 const initDb = async () => {
