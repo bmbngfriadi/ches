@@ -16,6 +16,16 @@ app.use(cors());
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
+// Debug route
+app.get('/api/ping-db', async (req, res) => {
+  try {
+    await db.query('SELECT 1');
+    res.json({ status: 'ok', message: 'Database connected successfully' });
+  } catch (err) {
+    res.status(500).json({ status: 'error', error: err.message, code: err.code, stack: err.stack });
+  }
+});
+
 // Add role column if it doesn't exist (Migration)
 (async () => {
   try {
