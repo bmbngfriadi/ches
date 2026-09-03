@@ -13,6 +13,11 @@ const JWT_SECRET = process.env.JWT_SECRET || 'fallback_secret';
 
 // Middleware
 app.use(cors());
+app.use((req, res, next) => {
+  const fs = require('fs');
+  fs.appendFileSync('requests.log', `${new Date().toISOString()} - ${req.method} ${req.originalUrl}\n`);
+  next();
+});
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
@@ -567,7 +572,7 @@ app.delete('/api/users/:id', authenticateToken, async (req, res) => {
 
 app.put('/api/users/:id', authenticateToken, async (req, res) => {
   const { id } = req.params;
-  const { password, email, permissions, username, full_name } = req.body;
+  const { password, email, permissions, username, full_name, role_id, is_active } = req.body;
   if (req.user.role !== 'administrator/dev') {
     return res.status(403).json({ message: 'Access denied' });
   }
@@ -606,6 +611,16 @@ app.put('/api/users/:id', authenticateToken, async (req, res) => {
         }
       }
       await db.query('UPDATE users SET email = $1 WHERE id = $2', [email || null, id]);
+    }
+
+    // Update role_id if provided
+    if (role_id !== undefined) {
+      await db.query('UPDATE users SET role_id = $1 WHERE id = $2', [role_id, id]);
+    }
+
+    // Update is_active if provided
+    if (is_active !== undefined) {
+      await db.query('UPDATE users SET is_active = $1 WHERE id = $2', [is_active, id]);
     }
 
     // Update permissions
