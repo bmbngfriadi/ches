@@ -533,9 +533,9 @@ app.post('/api/users', authenticateToken, async (req, res) => {
       return res.status(400).json({ message: 'Username or Email already exists' });
     }
 
-    // Insert user
+    // Insert user (auto verified since created by admin)
     const userRes = await db.query(
-      'INSERT INTO users (username, password, full_name, email) VALUES ($1, $2, $3, $4) RETURNING id',
+      'INSERT INTO users (username, password, full_name, email, email_verified) VALUES ($1, $2, $3, $4, TRUE) RETURNING id',
       [username, password, full_name, email || null]
     );
     const userId = userRes.rows[0].id;
