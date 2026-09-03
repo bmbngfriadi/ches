@@ -64,6 +64,8 @@ export default function UserManagement() {
         try {
           if (editingUserId) {
             await api.put(`/users/${editingUserId}`, {
+              username: userForm.username,
+              full_name: userForm.full_name,
               password: userForm.password,
               email: userForm.email,
               permissions: selectedPermissions
@@ -72,6 +74,8 @@ export default function UserManagement() {
             // Sync with localStorage if editing own account
             const currentUser = JSON.parse(localStorage.getItem('ches_user') || '{}');
             if (currentUser.id === editingUserId) {
+              currentUser.username = userForm.username;
+              currentUser.full_name = userForm.full_name;
               currentUser.email = userForm.email;
               localStorage.setItem('ches_user', JSON.stringify(currentUser));
             }
