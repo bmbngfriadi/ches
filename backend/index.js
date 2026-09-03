@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const { sendMail } = require('./mailer');
 const { generateCardlogEmailHtml } = require('./emailTemplate');
-require('dotenv').config();
+require('dotenv').config({ override: true });
 const db = require('./db');
 
 const app = express();
