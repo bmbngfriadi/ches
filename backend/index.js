@@ -135,8 +135,8 @@ app.post('/api/auth/register', async (req, res) => {
       await db.query('INSERT INTO user_permissions (user_id, permission_id) VALUES ($1, $2)', [newUserId, perm.id]);
     }
 
-    const backendHost = req.get('host'); // e.g. 192.168.x.x:5000 or localhost:5000
-    const verifyUrl = `http://${backendHost}/api/auth/verify-email/${verifyToken}`;
+    // Hardcoded to match NGINX proxy path
+    const verifyUrl = `https://cg-plantbatam.com/api/chis/auth/verify-email/${verifyToken}`;
     const html = `
       <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
         <h2>Verifikasi Email CHIS</h2>
