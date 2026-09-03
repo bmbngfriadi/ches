@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-  // Use VITE_API_URL if provided (for Live/Prod server), otherwise fallback to local dev behavior (port 5000)
-  baseURL: import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5000/api`,
+  // Hardcode the production URL to bypass Mixed Content blocks in Chrome
+  baseURL: 'https://cg-plantbatam.com/api/chis',
   headers: {
     'Content-Type': 'application/json',
   },
