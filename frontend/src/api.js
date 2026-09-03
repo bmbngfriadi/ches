@@ -3,7 +3,7 @@ import axios from 'axios';
 const api = axios.create({
   // Use local backend in development, production URL in production
   baseURL: import.meta.env.MODE === 'production' 
-    ? 'https://cg-plantbatam.com/api/ches' 
+    ? 'https://www.cg-plantbatam.com/api/ches' 
     : 'http://localhost:5000/api',
   headers: {
     'Content-Type': 'application/json',
