@@ -66,12 +66,12 @@ const initDb = async () => {
       INSERT INTO permissions (id, name) VALUES 
       (1, 'cardlog_view'),
       (2, 'cardlog_add'),
-      (3, 'cardlog_edit_1h'),
-      (4, 'cardlog_delete_1h'),
-      (5, 'cardlog_export_png'),
-      (6, 'user_management'),
-      (7, 'cardlog_resolve'),
-      (8, 'cardlog_edit_any'),
+      (3, 'cardlog_edit'),
+      (4, 'cardlog_delete'),
+      (5, 'cardlog_export'),
+      (6, 'cardlog_edit_1h'),
+      (7, 'user_management'),
+      (8, 'cardlog_export_png'),
       (9, 'receive_email_notification'),
       (10, 'resend_email_notification')
       ON CONFLICT (id) DO UPDATE SET name = EXCLUDED.name;
