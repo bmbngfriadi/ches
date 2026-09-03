@@ -1,8 +1,10 @@
 import axios from 'axios';
 
 const api = axios.create({
-  // Hardcode the production URL to bypass Mixed Content blocks in Chrome
-  baseURL: 'https://cg-plantbatam.com/api/chis',
+  // Use local backend in development, production URL in production
+  baseURL: import.meta.env.MODE === 'production' 
+    ? 'https://cg-plantbatam.com/api/ches' 
+    : 'http://localhost:5000/api',
   headers: {
     'Content-Type': 'application/json',
   },

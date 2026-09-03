@@ -193,17 +193,17 @@ export default function Settings() {
             <button 
               type="button" 
               onClick={() => setShowLogoutConfirm(true)}
-              className="flex justify-center items-center px-4 py-2.5 w-full sm:w-auto bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400 rounded-md font-bold hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors"
+              className="flex justify-center items-center px-6 py-3.5 sm:px-4 sm:py-2.5 w-full sm:w-auto bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400 rounded-md font-bold hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors text-base sm:text-sm"
             >
-              <LogOut className="w-4 h-4 mr-2" />
+              <LogOut className="w-5 h-5 sm:w-4 sm:h-4 mr-2" />
               Sign Out
             </button>
             <button 
               type="submit" 
               disabled={loading}
-              className="flex justify-center items-center px-6 py-2.5 w-full sm:w-auto bg-[#b52025] text-white rounded-md font-bold hover:bg-[#8c191c] transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+              className="flex justify-center items-center px-8 py-3.5 sm:px-6 sm:py-2.5 w-full sm:w-auto bg-[#b52025] text-white rounded-md font-bold hover:bg-[#8c191c] transition-colors disabled:opacity-70 disabled:cursor-not-allowed text-base sm:text-sm"
             >
-              <Save className="w-4 h-4 mr-2" />
+              <Save className="w-5 h-5 sm:w-4 sm:h-4 mr-2" />
               {loading ? 'Menyimpan...' : 'Simpan Perubahan'}
             </button>
           </div>
@@ -274,7 +274,7 @@ export default function Settings() {
               />
               <button
                 onClick={handleApplyCrop}
-                className="px-6 py-2 bg-[#b52025] hover:bg-[#8c191c] text-white rounded-md font-bold shrink-0 transition-colors"
+                className="px-8 py-3.5 sm:px-6 sm:py-2 bg-[#b52025] hover:bg-[#8c191c] text-white rounded-md font-bold shrink-0 transition-colors text-base sm:text-sm"
               >
                 Terapkan
               </button>
@@ -298,13 +298,13 @@ export default function Settings() {
             <div className="flex space-x-3">
               <button 
                 onClick={() => setShowLogoutConfirm(false)} 
-                className="flex-1 px-4 py-2.5 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md font-bold text-sm transition-colors"
+                className="flex-1 px-4 py-3.5 sm:py-2.5 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md font-bold text-base sm:text-sm transition-colors"
               >
                 Batal
               </button>
               <button 
                 onClick={executeLogout} 
-                className="flex-1 px-4 py-2.5 bg-[#b52025] hover:bg-[#8c191c] text-white rounded-md font-bold text-sm transition-colors"
+                className="flex-1 px-4 py-3.5 sm:py-2.5 bg-[#b52025] hover:bg-[#8c191c] text-white rounded-md font-bold text-base sm:text-sm transition-colors"
               >
                 Ya, Keluar
               </button>

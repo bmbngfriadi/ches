@@ -1,15 +1,13 @@
-async function testRegister() {
+async function testLogin() {
   try {
-    const res = await fetch('https://cg-plantbatam.com/api/chis/auth/register', {
+    const res = await fetch('http://localhost:5000/api/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        username: 'testuser99',
-        password: 'password123',
-        full_name: 'Test User 99',
-        email: 'testuser99@example.com'
+        username: 'admin',
+        password: 'admin'
       })
     });
     const data = await res.json();
@@ -19,5 +17,4 @@ async function testRegister() {
     console.error('NETWORK ERROR:', err.message);
   }
 }
-
-testRegister();
+testLogin();

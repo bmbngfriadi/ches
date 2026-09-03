@@ -11,7 +11,7 @@ const transporter = nodemailer.createTransport({
 const sendMail = async (to, subject, html) => {
   if (!to) return;
   const mailOptions = {
-    from: '"System Notification Plant Batam - CHIS" <batam.cg@gmail.com>',
+    from: '"System Notification Plant Batam - CHES" <batam.cg@gmail.com>',
     to,
     subject,
     html

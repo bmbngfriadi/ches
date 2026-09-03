@@ -635,16 +635,16 @@ export default function CardlogForm({ onClose, initialData, isReadOnly, onEdit }
           <button
             type="button"
             onClick={handleCancelClick}
-            className="w-full sm:w-auto px-5 py-2.5 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-gray-100 hover:bg-gray-200 dark:bg-gray-900 dark:hover:bg-gray-800 rounded-md font-bold transition-all text-sm flex justify-center items-center"
+            className="w-full sm:w-auto px-6 py-3.5 sm:px-5 sm:py-2.5 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-gray-100 hover:bg-gray-200 dark:bg-gray-900 dark:hover:bg-gray-800 rounded-md font-bold transition-all text-base sm:text-sm flex justify-center items-center"
           >
             {isReadOnly ? 'Back' : 'Cancel'}
           </button>
           {!isReadOnly && (
             <button
               type="submit"
-              className="w-full sm:w-auto flex items-center justify-center px-6 py-2.5 bg-[#b52025] hover:bg-[#8c191c] text-white rounded-md font-bold transition-all text-sm focus:ring-4 focus:ring-[#b52025]/50 outline-none"
+              className="w-full sm:w-auto flex items-center justify-center px-8 py-3.5 sm:px-6 sm:py-2.5 bg-[#b52025] hover:bg-[#8c191c] text-white rounded-md font-bold transition-all text-base sm:text-sm focus:ring-4 focus:ring-[#b52025]/50 outline-none"
             >
-              <Save className="w-4 h-4 mr-1.5" />
+              <Save className="w-5 h-5 sm:w-4 sm:h-4 mr-1.5" />
               {initialData ? 'Update Cardlog' : 'Submit Cardlog'}
             </button>
           )}
@@ -652,9 +652,9 @@ export default function CardlogForm({ onClose, initialData, isReadOnly, onEdit }
             <button
               type="button"
               onClick={handleEditConfirm}
-              className="w-full sm:w-auto flex items-center justify-center px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-md font-bold transition-all text-sm focus:ring-4 focus:ring-blue-500/50 outline-none"
+              className="w-full sm:w-auto flex items-center justify-center px-8 py-3.5 sm:px-6 sm:py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-md font-bold transition-all text-base sm:text-sm focus:ring-4 focus:ring-blue-500/50 outline-none"
             >
-              <Edit2 className="w-4 h-4 mr-1.5" />
+              <Edit2 className="w-5 h-5 sm:w-4 sm:h-4 mr-1.5" />
               Edit Cardlog
             </button>
           )}
@@ -662,9 +662,9 @@ export default function CardlogForm({ onClose, initialData, isReadOnly, onEdit }
             <button
               type="button"
               onClick={handleExportPNGConfirm}
-              className="w-full sm:w-auto flex items-center justify-center px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md font-bold transition-all text-sm focus:ring-4 focus:ring-indigo-500/50 outline-none"
+              className="w-full sm:w-auto flex items-center justify-center px-8 py-3.5 sm:px-6 sm:py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md font-bold transition-all text-base sm:text-sm focus:ring-4 focus:ring-indigo-500/50 outline-none"
             >
-              <Download className="w-4 h-4 mr-1.5" />
+              <Download className="w-5 h-5 sm:w-4 sm:h-4 mr-1.5" />
               Export PNG
             </button>
           )}

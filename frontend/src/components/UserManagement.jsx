@@ -151,9 +151,9 @@ export default function UserManagement() {
         </div>
         <button 
           onClick={handleAddClick}
-          className="flex items-center whitespace-nowrap px-4 py-2.5 bg-[#b52025] text-white rounded-md font-bold hover:bg-[#8c191c] transition-colors"
+          className="flex items-center whitespace-nowrap px-6 py-3.5 sm:px-4 sm:py-2.5 text-base sm:text-sm bg-[#b52025] text-white rounded-md font-bold hover:bg-[#8c191c] transition-colors"
         >
-          <Plus className="w-5 h-5 mr-1.5 flex-shrink-0" />
+          <Plus className="w-6 h-6 sm:w-5 sm:h-5 mr-1.5 flex-shrink-0" />
           <span>{showForm && !editingUserId ? 'Batal' : 'Tambah User'}</span>
         </button>
       </div>
@@ -161,7 +161,7 @@ export default function UserManagement() {
       {showForm && (
         <div className="bg-white dark:bg-gray-950 p-6 rounded-md border border-gray-200 dark:border-gray-800 relative">
           {editingUserId && (
-             <button onClick={() => setShowForm(false)} className="absolute top-4 right-4 text-gray-400 hover:text-gray-600">Batal</button>
+             <button onClick={() => setShowForm(false)} className="absolute top-4 right-4 p-2 sm:p-0 text-gray-400 hover:text-gray-600">Batal</button>
           )}
           <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
             {editingUserId ? `Edit User: ${userForm.username}` : 'Buat User Baru'}
@@ -208,7 +208,7 @@ export default function UserManagement() {
             </div>
 
             <div className="flex justify-end">
-              <button type="submit" className="px-6 py-2.5 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-md font-bold hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors">
+              <button type="submit" className="px-8 py-3.5 sm:px-6 sm:py-2.5 text-base sm:text-sm bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-md font-bold hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors">
                 {editingUserId ? 'Update User' : 'Simpan User'}
               </button>
             </div>

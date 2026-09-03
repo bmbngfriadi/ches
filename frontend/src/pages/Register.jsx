@@ -40,7 +40,12 @@ export default function Register() {
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       <div className="max-w-md w-full bg-white rounded-xl shadow-xl overflow-hidden">
         <div className="bg-[#b52025] p-6 text-center">
-          <h2 className="text-2xl font-bold text-white">CHIS - Register</h2>
+          <img
+            src="https://i.ibb.co.com/prMYS06h/LOGO-2025-03.png"
+            alt="Semen Merah Putih Logo"
+            className="h-14 mx-auto mb-3 object-contain bg-white/10 p-2 rounded-md border border-white/20"
+          />
+          <h2 className="text-2xl font-bold text-white">CHES - Register</h2>
           <p className="text-red-100 mt-2 text-sm">Buat akun baru untuk mulai menggunakan sistem</p>
         </div>
         <div className="p-8">

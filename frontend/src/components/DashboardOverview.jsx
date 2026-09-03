@@ -121,9 +121,9 @@ export default function DashboardOverview({ cardlogs, loading, onNavigate }) {
         </div>
         <button 
           onClick={() => onNavigate('new-cardlog')}
-          className="flex items-center px-4 py-2.5 bg-[#b52025] text-white rounded-md font-bold hover:bg-[#8c191c] transition-colors"
+          className="flex items-center px-6 py-3.5 sm:px-4 sm:py-2.5 text-base sm:text-sm bg-[#b52025] text-white rounded-md font-bold hover:bg-[#8c191c] transition-colors"
         >
-          <Plus className="w-5 h-5 mr-1.5" />
+          <Plus className="w-6 h-6 sm:w-5 sm:h-5 mr-1.5" />
           New Cardlog
         </button>
       </div>

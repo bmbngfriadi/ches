@@ -57,7 +57,7 @@ app.get('/api/ping-db', async (req, res) => {
 
 // 1. Auth Login (Dummy/Basic Implementation for now)
 app.post('/api/auth/login', async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password } = req.body || {};
   try {
     // In a real app, you would compare hash with bcrypt
     const result = await db.query('SELECT * FROM users WHERE username = $1 OR (email = $1 AND email IS NOT NULL AND email != \'\')', [username]);
@@ -116,7 +116,7 @@ const authenticateToken = (req, res, next) => {
 
 // 1.1 Register
 app.post('/api/auth/register', async (req, res) => {
-  const { username, password, full_name, email } = req.body;
+  const { username, password, full_name, email } = req.body || {};
   try {
     const existing = await db.query('SELECT id FROM users WHERE username = $1 OR (email = $2 AND email IS NOT NULL AND email != \'\')', [username, email]);
     if (existing.rows.length > 0) {
@@ -140,20 +140,21 @@ app.post('/api/auth/register', async (req, res) => {
       await db.query('INSERT INTO user_permissions (user_id, permission_id) VALUES ($1, $2)', [newUserId, perm.id]);
     }
 
-    // Hardcoded to match NGINX proxy path
-    const verifyUrl = `https://cg-plantbatam.com/api/chis/auth/verify-email/${verifyToken}`;
+    // Use the origin from the request to generate the link, falling back to production url
+    const frontendUrl = req.headers.origin || 'https://cg-plantbatam.com';
+    const verifyUrl = `${frontendUrl}/#/verify-email/${verifyToken}`;
     const html = `
       <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
-        <h2>Verifikasi Email CHIS</h2>
+        <h2>Verifikasi Email CHES</h2>
         <p>Halo ${full_name},</p>
-        <p>Terima kasih telah mendaftar di CHIS. Silakan klik tombol di bawah ini untuk memverifikasi alamat email Anda agar dapat login:</p>
+        <p>Terima kasih telah mendaftar di CHES. Silakan klik tombol di bawah ini untuk memverifikasi alamat email Anda agar dapat login:</p>
         <a href="${verifyUrl}" style="display: inline-block; padding: 10px 20px; background-color: #b52025; color: white; text-decoration: none; border-radius: 5px; margin: 15px 0;">Verifikasi Email</a>
         <p>Jika tautan tidak berfungsi, salin dan tempel URL berikut ke browser Anda: <br/><a href="${verifyUrl}">${verifyUrl}</a></p>
         <p>Jika Anda tidak merasa mendaftar, abaikan email ini.</p>
       </div>
     `;
 
-    await sendMail(email, 'CHIS - Verifikasi Email Anda', html);
+    await sendMail(email, 'CHES - Verifikasi Email Anda', html);
     res.status(201).json({ message: 'Registrasi berhasil. Silakan cek email Anda untuk verifikasi.' });
   } catch (err) {
     console.error(err);
@@ -161,28 +162,27 @@ app.post('/api/auth/register', async (req, res) => {
   }
 });
 
-// 1.1b Verify Email (Backend redirect)
-app.get('/api/auth/verify-email/:token', async (req, res) => {
-  const { token } = req.params;
+// 1.1b Verify Email (API endpoint)
+app.post('/api/auth/verify-email', async (req, res) => {
+  const { token } = req.body || {};
   try {
     const user = await db.query('SELECT id FROM users WHERE verification_token = $1', [token]);
     if (user.rows.length === 0) {
-      return res.status(400).send('<h1 style="text-align: center; margin-top: 50px;">Token tidak valid atau email sudah terverifikasi.</h1>');
+      return res.status(400).json({ message: 'Token tidak valid atau email sudah terverifikasi.' });
     }
 
     await db.query('UPDATE users SET email_verified = TRUE, verification_token = NULL WHERE id = $1', [user.rows[0].id]);
     
-    // Redirect back to production frontend
-    res.redirect('https://cg-plantbatam.com/chis/login?verified=true');
+    res.status(200).json({ message: 'Email Anda telah berhasil diverifikasi. Silakan login untuk melanjutkan.' });
   } catch (err) {
     console.error(err);
-    res.status(500).send('<h1 style="text-align: center; margin-top: 50px;">Terjadi kesalahan sistem saat memverifikasi email.</h1>');
+    res.status(500).json({ message: 'Terjadi kesalahan sistem saat memverifikasi email.' });
   }
 });
 
 // 1.2 Forgot Password
 app.post('/api/auth/forgot-password', async (req, res) => {
-  const { email } = req.body;
+  const { email } = req.body || {};
   try {
     const user = await db.query('SELECT id, full_name FROM users WHERE email = $1', [email]);
     if (user.rows.length === 0) {
@@ -200,14 +200,14 @@ app.post('/api/auth/forgot-password', async (req, res) => {
       <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
         <h2>Reset Password</h2>
         <p>Halo ${user.rows[0].full_name},</p>
-        <p>Anda meminta untuk mereset password akun CHIS Anda. Silakan klik tombol di bawah ini untuk membuat password baru:</p>
+        <p>Anda meminta untuk mereset password akun CHES Anda. Silakan klik tombol di bawah ini untuk membuat password baru:</p>
         <a href="${resetUrl}" style="display: inline-block; padding: 10px 20px; background-color: #b52025; color: white; text-decoration: none; border-radius: 5px; margin: 15px 0;">Reset Password</a>
         <p>Tautan ini akan kedaluwarsa dalam 1 jam.</p>
         <p>Jika Anda tidak merasa meminta reset password, abaikan email ini.</p>
       </div>
     `;
 
-    await sendMail(email, 'CHIS - Reset Password', html);
+    await sendMail(email, 'CHES - Reset Password', html);
     res.json({ message: 'Email reset password telah dikirim.' });
   } catch (err) {
     console.error(err);
@@ -217,7 +217,7 @@ app.post('/api/auth/forgot-password', async (req, res) => {
 
 // 1.3 Reset Password
 app.post('/api/auth/reset-password', async (req, res) => {
-  const { token, newPassword } = req.body;
+  const { token, newPassword } = req.body || {};
   try {
     const user = await db.query('SELECT id FROM users WHERE reset_token = $1 AND reset_token_expiry > NOW()', [token]);
     if (user.rows.length === 0) {
@@ -337,7 +337,7 @@ app.post('/api/cardlogs', authenticateToken, async (req, res) => {
           const newlyInserted = await db.query('SELECT c.*, u.full_name AS submitter_name FROM cardlogs c LEFT JOIN users u ON c.created_by = u.id WHERE c.id = $1', [cardlogId]);
           const newActs = await db.query('SELECT * FROM cardlog_activities WHERE cardlog_id = $1', [cardlogId]);
           const html = generateCardlogEmailHtml(newlyInserted.rows[0], newActs.rows);
-          await sendMail(emails, `[CHIS] Cardlog Baru: Unit ${unitNo}`, html);
+          await sendMail(emails, `[CHES] Cardlog Baru: Unit ${unitNo}`, html);
         }
       } catch (err) {
         console.error('Failed to send new cardlog notification', err);
@@ -443,7 +443,7 @@ app.put('/api/cardlogs/:id', authenticateToken, async (req, res) => {
           const updatedRow = await db.query('SELECT * FROM cardlogs WHERE id = $1', [id]);
           const upActs = await db.query('SELECT * FROM cardlog_activities WHERE cardlog_id = $1', [id]);
           const html = generateCardlogEmailHtml(updatedRow.rows[0], upActs.rows, req.user.full_name, true, false);
-          await sendMail(emails, `[CHIS] Update Cardlog: Unit ${unitNo}`, html);
+          await sendMail(emails, `[CHES] Update Cardlog: Unit ${unitNo}`, html);
         }
       } catch (err) {
         console.error('Failed to send update cardlog notification', err);
@@ -493,7 +493,7 @@ app.post('/api/cardlogs/:id/resend-email', authenticateToken, async (req, res) =
     const resendActs = await db.query('SELECT * FROM cardlog_activities WHERE cardlog_id = $1', [id]);
     const html = generateCardlogEmailHtml(cardlog, resendActs.rows, req.user.full_name, false, true);
 
-    await sendMail(emails, `[CHIS] Resend Notifikasi Cardlog: Unit ${cardlog.unit_no}`, html);
+    await sendMail(emails, `[CHES] Resend Notifikasi Cardlog: Unit ${cardlog.unit_no}`, html);
     res.json({ message: 'Email notifikasi berhasil dikirim ulang.' });
   } catch (err) {
     console.error('Resend email error:', err);
@@ -522,7 +522,7 @@ app.get('/api/users', authenticateToken, async (req, res) => {
 });
 
 app.post('/api/users', authenticateToken, async (req, res) => {
-  const { username, password, full_name, email, permissions } = req.body;
+  const { username, password, full_name, email, permissions } = req.body || {};
   try {
     await db.query('BEGIN');
     
@@ -572,7 +572,7 @@ app.delete('/api/users/:id', authenticateToken, async (req, res) => {
 
 app.put('/api/users/:id', authenticateToken, async (req, res) => {
   const { id } = req.params;
-  const { password, email, permissions, username, full_name, role_id, is_active } = req.body;
+  const { password, email, permissions, username, full_name, role_id, is_active } = req.body || {};
   if (req.user.role !== 'administrator/dev') {
     return res.status(403).json({ message: 'Access denied' });
   }
@@ -644,7 +644,7 @@ app.put('/api/users/:id', authenticateToken, async (req, res) => {
 
 // Update own profile
 app.put('/api/users/profile/update', authenticateToken, async (req, res) => {
-  const { password, profile_photo } = req.body;
+  const { password, profile_photo } = req.body || {};
   const userId = req.user.id;
   try {
     if (password && profile_photo) {
@@ -663,7 +663,7 @@ app.put('/api/users/profile/update', authenticateToken, async (req, res) => {
 
 app.put('/api/users/:id/role', authenticateToken, async (req, res) => {
   const { id } = req.params;
-  const { role } = req.body;
+  const { role } = req.body || {};
   if (req.user.role !== 'administrator/dev') {
     return res.status(403).json({ message: 'Access denied: Only administrators can change roles' });
   }

@@ -320,17 +320,17 @@ export default function CardlogList({ cardlogs, loading, onNavigate, refreshLogs
           {canExport && (
             <button
               onClick={handleExportToExcelConfirm}
-              className="flex items-center px-4 py-2.5 bg-green-600 text-white rounded-md font-bold hover:bg-green-700 transition-colors"
+              className="flex items-center px-6 py-3.5 sm:px-4 sm:py-2.5 text-base sm:text-sm bg-green-600 text-white rounded-md font-bold hover:bg-green-700 transition-colors"
             >
-              <Download className="w-5 h-5 mr-1.5" />
+              <Download className="w-6 h-6 sm:w-5 sm:h-5 mr-1.5" />
               Export Excel
             </button>
           )}
           <button
             onClick={handleCreateNew}
-            className="flex items-center px-4 py-2.5 bg-[#b52025] text-white rounded-md font-bold hover:bg-[#8c191c] transition-colors"
+            className="flex items-center px-6 py-3.5 sm:px-4 sm:py-2.5 text-base sm:text-sm bg-[#b52025] text-white rounded-md font-bold hover:bg-[#8c191c] transition-colors"
           >
-            <Plus className="w-5 h-5 mr-1.5" />
+            <Plus className="w-6 h-6 sm:w-5 sm:h-5 mr-1.5" />
             New Cardlog
           </button>
         </div>
@@ -484,28 +484,28 @@ export default function CardlogList({ cardlogs, loading, onNavigate, refreshLogs
 
                   <div className="flex justify-end space-x-2 pt-3 border-t border-gray-200 dark:border-gray-800 mt-2" onClick={(e) => e.stopPropagation()}>
                     {!isEditable && (
-                      <button onClick={() => onNavigate('view-cardlog', row)} className="p-2 text-green-500 bg-green-50 dark:bg-green-900/20 rounded-md" title="View">
-                        <FileText className="w-4 h-4" />
+                      <button onClick={() => onNavigate('view-cardlog', row)} className="p-3 sm:p-2 text-green-500 bg-green-50 dark:bg-green-900/20 rounded-md" title="View">
+                        <FileText className="w-5 h-5 sm:w-4 sm:h-4" />
                       </button>
                     )}
                     {isEditable && (
-                      <button onClick={(e) => handleEditConfirm(row, e)} className="p-2 text-blue-500 bg-blue-50 dark:bg-blue-900/20 rounded-md" title="Edit">
-                        <Edit2 className="w-4 h-4" />
+                      <button onClick={(e) => handleEditConfirm(row, e)} className="p-3 sm:p-2 text-blue-500 bg-blue-50 dark:bg-blue-900/20 rounded-md" title="Edit">
+                        <Edit2 className="w-5 h-5 sm:w-4 sm:h-4" />
                       </button>
                     )}
                     {canExportPng && (
-                      <button onClick={(e) => handleExportPngConfirm(row, e)} className="p-2 text-indigo-500 bg-indigo-50 dark:bg-indigo-900/20 rounded-md" title="Export PNG">
-                        <ImageIcon className="w-4 h-4" />
+                      <button onClick={(e) => handleExportPngConfirm(row, e)} className="p-3 sm:p-2 text-indigo-500 bg-indigo-50 dark:bg-indigo-900/20 rounded-md" title="Export PNG">
+                        <ImageIcon className="w-5 h-5 sm:w-4 sm:h-4" />
                       </button>
                     )}
                     {canResendEmail && (
-                      <button onClick={(e) => handleResendEmail(row.id, e)} className="p-2 text-yellow-500 bg-yellow-50 dark:bg-yellow-900/20 rounded-md" title="Resend Email">
-                        <Mail className="w-4 h-4" />
+                      <button onClick={(e) => handleResendEmail(row.id, e)} className="p-3 sm:p-2 text-yellow-500 bg-yellow-50 dark:bg-yellow-900/20 rounded-md" title="Resend Email">
+                        <Mail className="w-5 h-5 sm:w-4 sm:h-4" />
                       </button>
                     )}
                     {canDelete && (
-                      <button onClick={() => handleDelete(row.id)} className="p-2 text-red-500 bg-red-50 dark:bg-red-900/20 rounded-md" title="Delete">
-                        <Trash2 className="w-4 h-4" />
+                      <button onClick={() => handleDelete(row.id)} className="p-3 sm:p-2 text-red-500 bg-red-50 dark:bg-red-900/20 rounded-md" title="Delete">
+                        <Trash2 className="w-5 h-5 sm:w-4 sm:h-4" />
                       </button>
                     )}
                   </div>
