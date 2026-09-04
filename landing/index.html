@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Under Development - PT Cemindo Gemilang Tbk</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom Animations */
+        @keyframes blob {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
+        }
+        .animate-blob {
+            animation: blob 7s infinite;
+        }
+        .animation-delay-2000 {
+            animation-delay: 2s;
+        }
+        .animation-delay-4000 {
+            animation-delay: 4s;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 0 0 rgba(181, 32, 37, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(181, 32, 37, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(181, 32, 37, 0); }
+        }
+        .pulse-glow {
+            animation: pulse-glow 2s infinite;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+    </style>
+</head>
+<body class="bg-gray-900 min-h-screen flex items-center justify-center overflow-hidden relative font-sans selection:bg-[#b52025] selection:text-white">
+
+    <!-- Animated Background -->
+    <div class="absolute inset-0 w-full h-full bg-gray-900 z-0">
+        <!-- Grid pattern -->
+        <div class="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
+        
+        <!-- Glowing Blobs -->
+        <div class="absolute top-0 -left-4 w-72 h-72 bg-[#b52025] rounded-full mix-blend-multiply filter blur-2xl opacity-20 animate-blob"></div>
+        <div class="absolute top-0 -right-4 w-72 h-72 bg-red-600 rounded-full mix-blend-multiply filter blur-2xl opacity-20 animate-blob animation-delay-2000"></div>
+        <div class="absolute -bottom-8 left-20 w-72 h-72 bg-gray-600 rounded-full mix-blend-multiply filter blur-2xl opacity-20 animate-blob animation-delay-4000"></div>
+    </div>
+
+    <!-- Main Content Card -->
+    <div class="relative z-10 w-full max-w-lg px-6">
+        <div class="glass-panel rounded-3xl p-8 sm:p-12 text-center animate-float">
+            
+            <!-- Logo Section -->
+            <div class="mb-8 relative inline-block">
+                <div class="absolute inset-0 bg-[#b52025] blur-xl opacity-20 rounded-full pulse-glow"></div>
+                <img src="https://i.ibb.co.com/prMYS06h/LOGO-2025-03.png" alt="Semen Merah Putih Logo" class="h-24 mx-auto relative z-10 object-contain drop-shadow-xl" />
+            </div>
+
+            <!-- Typography -->
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight mb-2">
+                Under Development
+            </h1>
+            
+            <div class="w-16 h-1 bg-[#b52025] mx-auto rounded-full mb-6"></div>
+
+            <p class="text-gray-600 font-medium mb-6 leading-relaxed">
+                We are currently building something awesome. Please check back later!
+            </p>
+
+            <div class="bg-gray-50 rounded-xl p-4 border border-gray-100 shadow-inner">
+                <p class="text-sm font-bold text-gray-800 tracking-wide uppercase">
+                    PT Cemindo Gemilang Tbk
+                </p>
+                <p class="text-xs text-gray-500 font-semibold mt-1">
+                    Plant Batam
+                </p>
+            </div>
+
+            <!-- Loading dots animation -->
+            <div class="mt-8 flex justify-center space-x-2">
+                <div class="w-2.5 h-2.5 bg-[#b52025] rounded-full animate-bounce" style="animation-delay: 0s"></div>
+                <div class="w-2.5 h-2.5 bg-[#b52025] rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                <div class="w-2.5 h-2.5 bg-[#b52025] rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
+            </div>
+
+        </div>
+        
+        <!-- Footer text -->
+        <p class="text-center text-gray-500 text-xs font-medium mt-8 relative z-10">
+            &copy; 2026 PT Cemindo Gemilang Tbk. All rights reserved.
+        </p>
+    </div>
+
+</body>
+</html>
