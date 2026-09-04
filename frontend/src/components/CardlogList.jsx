@@ -92,10 +92,24 @@ export default function CardlogList({ cardlogs, loading, onNavigate, refreshLogs
   };
 
   const handleDownload = () => {
-    const link = document.createElement('a');
-    link.download = exportFilename;
-    link.href = exportedImage;
-    link.click();
+    try {
+      const link = document.createElement('a');
+      const uniqueName = exportFilename.endsWith('.png') 
+        ? exportFilename.replace('.png', `_${Date.now()}.png`)
+        : `${exportFilename}_${Date.now()}.png`;
+      link.download = uniqueName;
+      link.href = exportedImage;
+      
+      // Show alert immediately to guarantee it renders
+      showAlert('Berhasil!', 'File PNG berhasil didownload ke perangkat Anda.', 'success');
+      
+      // Trigger click slightly after to avoid interrupting React render cycle on mobile
+      setTimeout(() => {
+        link.click();
+      }, 500);
+    } catch (err) {
+      showAlert('Gagal!', 'Terjadi kesalahan saat mendownload file.', 'error');
+    }
   };
 
   const handleCreateNew = () => {
@@ -234,7 +248,7 @@ export default function CardlogList({ cardlogs, loading, onNavigate, refreshLogs
       jamSelesai: act.jam_selesai ? act.jam_selesai.substring(0, 5) : '',
       deskripsi: act.deskripsi
     }));
-    return { formData, checklists, operasional, activities, odometerPhoto: row.odometer_photo };
+    return { formData, checklists, operasional, activities, odometerPhoto: row.odometer_photo_base64 || row.odometer_photo };
   };
 
   const templateProps = getTemplateProps(activeExportRow);
@@ -286,15 +300,28 @@ export default function CardlogList({ cardlogs, loading, onNavigate, refreshLogs
 
   const handleExportPngConfirm = (row, e) => {
     if (e) e.stopPropagation();
-    showAlert(
-      'Konfirmasi Export PNG',
-      'Apakah Anda yakin ingin mengekspor data cardlog ini sebagai gambar PNG?',
-      'confirm',
-      () => {
-        showAlert('Memproses...', 'Sedang membuat gambar PNG, mohon tunggu...', 'loading');
-        setActiveExportRow(row);
+    showAlert('Memproses...', 'Sedang memuat data gambar PNG, mohon tunggu...', 'loading');
+    
+    setTimeout(async () => {
+      try {
+        let photoDataUrl = row.odometer_photo;
+        // Pre-fetch image to base64 for iOS Safari compatibility
+        if (photoDataUrl && !photoDataUrl.startsWith('data:')) {
+          const res = await fetch(photoDataUrl, { cache: 'no-cache' });
+          const blob = await res.blob();
+          photoDataUrl = await new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result);
+            reader.readAsDataURL(blob);
+          });
+        }
+        const rowWithBase64 = { ...row, odometer_photo_base64: photoDataUrl };
+        setActiveExportRow(rowWithBase64);
+      } catch (err) {
+        console.warn('Gagal load foto base64', err);
+        setActiveExportRow(row); // fallback
       }
-    );
+    }, 50);
   };
 
   return (
@@ -555,7 +582,8 @@ export default function CardlogList({ cardlogs, loading, onNavigate, refreshLogs
                 {!!navigator.share && (
                   <button 
                     onClick={handleShare} 
-                    className="w-full flex justify-center items-center px-4 py-3 bg-green-600 hover:bg-green-700 text-white rounded-md font-bold text-sm transition-colors"
+                    onTouchStart={() => {}}
+                    className="w-full flex justify-center items-center px-4 py-3 bg-green-600 hover:bg-green-700 text-white rounded-md font-bold text-sm transition-all duration-150 active:scale-95 shadow-md active:shadow-none"
                   >
                     <Share2 className="w-4 h-4 mr-2" />
                     Bagikan Langsung
@@ -563,7 +591,8 @@ export default function CardlogList({ cardlogs, loading, onNavigate, refreshLogs
                 )}
                 <button 
                   onClick={handleDownload} 
-                  className="w-full flex justify-center items-center px-4 py-3 bg-[#b52025] hover:bg-[#8c191c] text-white rounded-md font-bold text-sm transition-colors"
+                  onTouchStart={() => {}}
+                  className="w-full flex justify-center items-center px-4 py-3 bg-[#b52025] hover:bg-[#8c191c] text-white rounded-md font-bold text-sm transition-all duration-150 active:scale-95 shadow-md active:shadow-none"
                 >
                   <Download className="w-4 h-4 mr-2" />
                   Download File

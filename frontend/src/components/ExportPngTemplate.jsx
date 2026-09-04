@@ -49,7 +49,6 @@ const ExportPngTemplate = React.forwardRef(({
             src={odometerPhoto} 
             alt="Odometer" 
             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-            crossOrigin="anonymous"
           />
         </div>
       ) : (
