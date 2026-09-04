@@ -163,20 +163,20 @@ export default function Dashboard() {
   const NavItem = ({ icon: Icon, label, tabId }) => (
     <button 
       onClick={() => handleNavigate(tabId)}
-      className={`w-full flex items-center space-x-3 px-4 py-3 rounded-md transition-colors ${activeTab === tabId ? 'bg-[#b52025] text-white' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white'}`}
+      className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all ${activeTab === tabId ? 'bg-[#b52025] text-white shadow-md shadow-[#b52025]/20 font-bold' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white font-semibold'}`}
     >
-      <Icon className="w-5 h-5" />
-      <span className="font-semibold text-sm">{label}</span>
+      <Icon className={`w-5 h-5 ${activeTab === tabId ? '' : 'opacity-80'}`} />
+      <span className="text-sm tracking-wide">{label}</span>
     </button>
   );
 
   const BottomNavItem = ({ icon: Icon, label, tabId }) => (
     <button 
       onClick={() => handleNavigate(tabId)}
-      className={`flex-1 flex flex-col items-center justify-center py-2 transition-colors ${activeTab === tabId ? 'text-[#b52025]' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'}`}
+      className={`flex-1 flex flex-col items-center justify-center py-2 transition-all ${activeTab === tabId ? 'text-[#b52025] scale-110 font-bold' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-medium'}`}
     >
-      <Icon className={`w-7 h-7 mb-1 ${activeTab === tabId ? 'fill-current' : ''}`} />
-      <span className="text-[11px] font-medium">{label}</span>
+      <Icon className={`w-6 h-6 mb-1 ${activeTab === tabId ? 'fill-current' : 'opacity-80'}`} />
+      <span className="text-[11px]">{label}</span>
     </button>
   );
 
@@ -205,14 +205,20 @@ export default function Dashboard() {
     <div className="flex h-screen bg-gray-50 dark:bg-gray-900 overflow-hidden font-sans transition-colors duration-200">
       
       {/* Sidebar - Desktop */}
-      <aside className="hidden md:flex flex-col w-64 bg-white dark:bg-gray-950 border-r border-gray-200 dark:border-gray-800 transition-colors duration-200">
-        <div className="p-6 flex flex-col justify-center items-center border-b border-gray-100 dark:border-gray-800 h-28 space-y-3">
-          <img
-            src="https://i.ibb.co.com/prMYS06h/LOGO-2025-03.png"
-            alt="Logo"
-            className="h-10 object-contain drop-shadow-sm"
-          />
-          <span className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest text-center">Cardlog Heavy Equipment</span>
+      <aside className="hidden md:flex flex-col w-64 bg-white dark:bg-gray-950 border-r border-gray-200 dark:border-gray-800 transition-colors duration-200 shrink-0">
+        <div className="p-6 flex flex-col justify-center items-center bg-[#b52025] relative overflow-hidden h-32 space-y-3 shrink-0">
+          {/* Blueprint Pattern */}
+          <div className="absolute inset-0 opacity-10 bg-[linear-gradient(rgba(255,255,255,1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,1)_1px,transparent_1px)] bg-[size:20px_20px]" />
+          <div className="absolute inset-0 bg-gradient-to-br from-black/10 via-transparent to-black/40" />
+          
+          <div className="z-10 bg-white p-2 rounded-xl shadow-md border border-white/20">
+            <img
+              src="https://i.ibb.co.com/prMYS06h/LOGO-2025-03.png"
+              alt="Logo"
+              className="h-8 object-contain"
+            />
+          </div>
+          <span className="z-10 text-[10px] font-bold text-white/90 uppercase tracking-widest text-center shadow-sm">Cardlog Heavy Equipment</span>
         </div>
         
         <div className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">

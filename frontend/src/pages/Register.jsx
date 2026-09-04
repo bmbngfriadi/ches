@@ -37,24 +37,57 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-      <div className="max-w-md w-full bg-white rounded-xl shadow-xl overflow-hidden">
-        <div className="bg-[#b52025] p-6 text-center">
-          <img
-            src="https://i.ibb.co.com/prMYS06h/LOGO-2025-03.png"
-            alt="Semen Merah Putih Logo"
-            className="h-14 mx-auto mb-3 object-contain bg-white/10 p-2 rounded-md border border-white/20"
-          />
-          <h2 className="text-2xl font-bold text-white">CHES - Register</h2>
-          <p className="text-red-100 mt-2 text-sm">Buat akun baru untuk mulai menggunakan sistem</p>
+    <div className="flex min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors duration-200">
+      {/* Left side - Modern Corporate Banner */}
+      <div className="hidden lg:flex lg:w-5/12 bg-[#b52025] relative items-center justify-center overflow-hidden">
+        {/* Blueprint / Industrial Grid Pattern */}
+        <div className="absolute inset-0 opacity-10 bg-[linear-gradient(rgba(255,255,255,1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,1)_1px,transparent_1px)] bg-[size:30px_30px]" />
+        
+        {/* Sleek shadow overlays for depth */}
+        <div className="absolute inset-0 bg-gradient-to-br from-black/10 via-transparent to-black/50" />
+        <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-black/20 to-transparent" />
+
+        <div className="z-10 w-full px-12 xl:px-16 text-white flex flex-col justify-between h-full py-12">
+          <div>
+            <div className="bg-white p-3 rounded-xl inline-block mb-10 shadow-lg border border-white/20">
+              <img src="https://i.ibb.co.com/prMYS06h/LOGO-2025-03.png" alt="Semen Merah Putih Logo" className="h-10 object-contain" />
+            </div>
+            <h1 className="text-4xl xl:text-5xl font-extrabold tracking-tight mb-6 leading-tight">
+              Create an<br />Account
+            </h1>
+            <div className="w-12 h-1.5 bg-white mb-6 rounded-full opacity-90" />
+            <p className="text-lg text-white/90 max-w-md leading-relaxed font-medium">
+              Bergabunglah dengan platform manajemen log alat berat terpadu untuk operasi yang lebih baik.
+            </p>
+          </div>
+          
+          <div className="text-white/70 text-sm font-semibold tracking-wide">
+            PT CEMINDO GEMILANG TBK - PLANT BATAM
+          </div>
         </div>
-        <div className="p-8">
+      </div>
+
+      {/* Right side - Form */}
+      <div className="w-full lg:w-7/12 flex flex-col justify-center px-6 sm:px-16 xl:px-24 relative py-12">
+        <div className="w-full max-w-md mx-auto lg:mx-0 xl:ml-16">
+          <div className="mb-10 text-center lg:text-left">
+            <div className="lg:hidden bg-white p-3 rounded-xl inline-block mb-6 shadow-sm border border-gray-100 dark:bg-gray-900 dark:border-gray-800">
+              <img src="https://i.ibb.co.com/prMYS06h/LOGO-2025-03.png" alt="Semen Merah Putih Logo" className="h-10 object-contain" />
+            </div>
+            <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">
+              CHES Register
+            </h2>
+            <p className="text-gray-500 dark:text-gray-400 mt-2 font-medium">
+              Silakan lengkapi data di bawah ini untuk membuat akun baru.
+            </p>
+          </div>
+
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1">Nama Lengkap</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <UserCheck className="h-5 w-5 text-gray-400" />
+              <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Nama Lengkap</label>
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <UserCheck className="h-5 w-5 text-gray-400 group-focus-within:text-[#b52025] transition-colors" />
                 </div>
                 <input
                   type="text"
@@ -62,17 +95,17 @@ export default function Register() {
                   value={formData.full_name}
                   onChange={handleChange}
                   required
-                  className="pl-10 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-[#b52025] focus:border-[#b52025] transition-colors"
+                  className="block w-full pl-12 pr-4 py-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl focus:ring-2 focus:ring-[#b52025]/20 focus:border-[#b52025] transition-all text-gray-900 dark:text-white shadow-sm"
                   placeholder="Masukkan nama lengkap"
                 />
               </div>
             </div>
             
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1">Username</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <User className="h-5 w-5 text-gray-400" />
+              <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Username</label>
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <User className="h-5 w-5 text-gray-400 group-focus-within:text-[#b52025] transition-colors" />
                 </div>
                 <input
                   type="text"
@@ -80,17 +113,17 @@ export default function Register() {
                   value={formData.username}
                   onChange={handleChange}
                   required
-                  className="pl-10 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-[#b52025] focus:border-[#b52025] transition-colors"
+                  className="block w-full pl-12 pr-4 py-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl focus:ring-2 focus:ring-[#b52025]/20 focus:border-[#b52025] transition-all text-gray-900 dark:text-white shadow-sm"
                   placeholder="Masukkan username"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1">Email</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-gray-400" />
+              <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Email</label>
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <Mail className="h-5 w-5 text-gray-400 group-focus-within:text-[#b52025] transition-colors" />
                 </div>
                 <input
                   type="email"
@@ -98,17 +131,17 @@ export default function Register() {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="pl-10 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-[#b52025] focus:border-[#b52025] transition-colors"
+                  className="block w-full pl-12 pr-4 py-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl focus:ring-2 focus:ring-[#b52025]/20 focus:border-[#b52025] transition-all text-gray-900 dark:text-white shadow-sm"
                   placeholder="Masukkan alamat email aktif"
                 />
               </div>
             </div>
             
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1">Password</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-gray-400" />
+              <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Password</label>
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <Lock className="h-5 w-5 text-gray-400 group-focus-within:text-[#b52025] transition-colors" />
                 </div>
                 <input
                   type={showPassword ? 'text' : 'password'}
@@ -116,13 +149,13 @@ export default function Register() {
                   value={formData.password}
                   onChange={handleChange}
                   required
-                  className="pl-10 pr-10 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-[#b52025] focus:border-[#b52025] transition-colors"
+                  className="block w-full pl-12 pr-12 py-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl focus:ring-2 focus:ring-[#b52025]/20 focus:border-[#b52025] transition-all text-gray-900 dark:text-white shadow-sm"
                   placeholder="Masukkan password"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 transition-colors"
+                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
                 >
                   {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                 </button>
@@ -132,19 +165,21 @@ export default function Register() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 px-4 bg-[#b52025] hover:bg-[#8c191c] text-white font-bold rounded-lg shadow-md transition-colors disabled:opacity-70 disabled:cursor-not-allowed mt-2"
+              className="w-full mt-4 flex justify-center items-center py-3.5 px-4 rounded-xl text-sm font-bold text-white bg-[#b52025] hover:bg-[#8c191c] focus:outline-none focus:ring-4 focus:ring-[#b52025]/30 transition-all disabled:opacity-70 disabled:cursor-not-allowed group shadow-md hover:shadow-lg"
             >
               {loading ? 'Mendaftar...' : 'Daftar Sekarang'}
             </button>
           </form>
           
-          <div className="mt-6 text-center space-y-2">
-            <p className="text-sm text-gray-600">
-              Sudah punya akun?{' '}
-              <Link to="/login" className="font-semibold text-[#b52025] hover:text-[#8c191c]">
-                Login di sini
-              </Link>
-            </p>
+          <div className="mt-8 text-center lg:text-left text-sm font-medium text-gray-600 dark:text-gray-400">
+            Sudah punya akun?{' '}
+            <Link to="/login" className="text-[#b52025] hover:text-[#8c191c] font-bold">
+              Login di sini
+            </Link>
+          </div>
+          
+          <div className="mt-8 text-center lg:text-left text-xs font-semibold text-gray-400 dark:text-gray-600 uppercase tracking-wider">
+            &copy; {new Date().getFullYear()} Semen Merah Putih
           </div>
         </div>
       </div>
