@@ -338,16 +338,16 @@ export default function Dashboard() {
             <p className="text-sm text-gray-500 dark:text-gray-400 mb-6 leading-relaxed">
               Apakah Anda yakin ingin keluar? Anda harus memasukkan username dan password untuk login kembali ke sistem.
             </p>
-            <div className="flex space-x-3">
+            <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 mt-2">
               <button 
                 onClick={() => setShowLogoutConfirm(false)} 
-                className="flex-1 px-4 py-2.5 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md font-bold text-sm transition-colors"
+                className="w-full sm:flex-1 px-4 py-3.5 sm:py-3 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg font-bold text-base sm:text-sm transition-colors"
               >
                 Batal
               </button>
               <button 
                 onClick={executeLogout} 
-                className="flex-1 px-4 py-2.5 bg-[#b52025] hover:bg-[#8c191c] text-white rounded-md font-bold text-sm transition-colors"
+                className="w-full sm:flex-1 px-4 py-3.5 sm:py-3 bg-[#b52025] hover:bg-[#8c191c] text-white rounded-lg font-bold text-base sm:text-sm transition-colors shadow-sm"
               >
                 Ya, Keluar
               </button>
