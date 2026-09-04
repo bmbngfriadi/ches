@@ -317,7 +317,13 @@ export default function CardlogForm({ onClose, initialData, isReadOnly, onEdit }
               reader.readAsDataURL(blob);
             });
             const imgEl = exportRef.current.querySelector('img[alt="Odometer"]');
-            if (imgEl) imgEl.src = dataUrl;
+            if (imgEl) {
+              await new Promise((resolve) => {
+                imgEl.onload = resolve;
+                imgEl.onerror = resolve; // Continue even if error
+                imgEl.src = dataUrl;
+              });
+            }
           } catch(e) {
             console.warn("Gagal konversi foto ke base64", e);
           }
@@ -763,16 +769,16 @@ export default function CardlogForm({ onClose, initialData, isReadOnly, onEdit }
               <div className="w-full flex flex-col space-y-3">
                 {!!navigator.share && (
                   <button 
-                    onClick={handleShareConfirm} 
-                    className="w-full flex justify-center items-center px-4 py-3 bg-green-600 hover:bg-green-700 text-white rounded-md font-bold text-sm transition-colors"
+                    onClick={handleShare} 
+                    className="w-full flex justify-center items-center px-4 py-3 bg-green-600 hover:bg-green-700 text-white rounded-md font-bold text-sm transition-all duration-150 active:scale-95 shadow-md active:shadow-none"
                   >
                     <Share2 className="w-4 h-4 mr-2" />
                     Bagikan Langsung
                   </button>
                 )}
                 <button 
-                  onClick={handleDownloadConfirm} 
-                  className="w-full flex justify-center items-center px-4 py-3 bg-[#b52025] hover:bg-[#8c191c] text-white rounded-md font-bold text-sm transition-colors"
+                  onClick={handleDownload} 
+                  className="w-full flex justify-center items-center px-4 py-3 bg-[#b52025] hover:bg-[#8c191c] text-white rounded-md font-bold text-sm transition-all duration-150 active:scale-95 shadow-md active:shadow-none"
                 >
                   <Download className="w-4 h-4 mr-2" />
                   Download File
