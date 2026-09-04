@@ -121,14 +121,9 @@ export default function Login() {
             </div>
 
             <div>
-              <div className="flex justify-between items-center mb-2">
-                <label htmlFor="password" className="block text-sm font-bold text-gray-700 dark:text-gray-300">
-                  Password
-                </label>
-                <Link to="/forgot-password" className="text-sm font-semibold text-[#b52025] hover:text-[#8c191c] transition-colors">
-                  Lupa Password?
-                </Link>
-              </div>
+              <label htmlFor="password" className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
+                Password
+              </label>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                   <KeyRound className="h-5 w-5 text-gray-400 group-focus-within:text-[#b52025] transition-colors" />
@@ -151,16 +146,21 @@ export default function Login() {
               </div>
             </div>
 
-            <div className="flex items-center">
-              <input
-                id="remember-me"
-                name="remember-me"
-                type="checkbox"
-                className="h-4 w-4 text-[#b52025] focus:ring-[#b52025] border-gray-300 dark:border-gray-700 rounded cursor-pointer bg-white dark:bg-gray-900"
-              />
-              <label htmlFor="remember-me" className="ml-2 block text-sm font-medium text-gray-600 dark:text-gray-400 cursor-pointer">
-                Remember me
-              </label>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <input
+                  id="remember-me"
+                  name="remember-me"
+                  type="checkbox"
+                  className="h-4 w-4 text-[#b52025] focus:ring-[#b52025] border-gray-300 dark:border-gray-700 rounded cursor-pointer bg-white dark:bg-gray-900"
+                />
+                <label htmlFor="remember-me" className="ml-2 block text-sm font-medium text-gray-600 dark:text-gray-400 cursor-pointer">
+                  Remember me
+                </label>
+              </div>
+              <Link to="/forgot-password" className="text-sm font-semibold text-[#b52025] hover:text-[#8c191c] transition-colors">
+                Lupa Password?
+              </Link>
             </div>
 
             <button
