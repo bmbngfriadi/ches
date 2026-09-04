@@ -305,6 +305,9 @@ export default function CardlogForm({ onClose, initialData, isReadOnly, onEdit }
       showAlert('Memproses...', 'Sedang membuat gambar PNG, mohon tunggu...', 'loading');
       setTimeout(async () => {
         try {
+          // FIX: Call toPng twice for iOS Safari. The first call forces Safari to load the image into canvas cache
+          await toPng(exportRef.current, { skipFonts: true, pixelRatio: 1, backgroundColor: '#ffffff' });
+          
           const dataUrl = await toPng(exportRef.current, {
             backgroundColor: '#ffffff',
             pixelRatio: 2, // High resolution
@@ -374,10 +377,15 @@ export default function CardlogForm({ onClose, initialData, isReadOnly, onEdit }
   };
 
   const handleDownload = () => {
-    const link = document.createElement('a');
-    link.download = exportFilename;
-    link.href = exportedImage;
-    link.click();
+    try {
+      const link = document.createElement('a');
+      link.download = exportFilename;
+      link.href = exportedImage;
+      link.click();
+      showAlert('Berhasil!', 'File PNG berhasil didownload ke perangkat Anda.', 'success');
+    } catch (err) {
+      showAlert('Gagal!', 'Terjadi kesalahan saat mendownload file.', 'error');
+    }
   };
 
   const inputClass = "mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-2.5 text-gray-900 dark:text-white focus:border-[#b52025] focus:ring-1 focus:ring-[#b52025] focus:outline-none transition-colors sm:text-sm";
