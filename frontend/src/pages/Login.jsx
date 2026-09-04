@@ -29,7 +29,7 @@ export default function Login() {
     setLoading(true);
     setError('');
     
-    const username = e.target.username.value;
+    const username = e.target.username.value.trim();
     const password = e.target.password.value;
 
     try {

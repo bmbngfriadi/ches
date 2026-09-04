@@ -60,7 +60,7 @@ app.post('/api/auth/login', async (req, res) => {
   const { username, password } = req.body || {};
   try {
     // In a real app, you would compare hash with bcrypt
-    const result = await db.query('SELECT * FROM users WHERE username = $1 OR (email = $1 AND email IS NOT NULL AND email != \'\')', [username]);
+    const result = await db.query('SELECT * FROM users WHERE LOWER(username) = LOWER($1) OR (LOWER(email) = LOWER($1) AND email IS NOT NULL AND email != \'\')', [username]);
     
     // For demo/setup purposes: if admin user is not found, we create it dynamically
     if (result.rows.length === 0 && username === 'admin' && password === 'admin') {
