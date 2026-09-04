@@ -13,11 +13,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'fallback_secret';
 
 // Middleware
 app.use(cors());
-app.use((req, res, next) => {
-  const fs = require('fs');
-  fs.appendFileSync('requests.log', `${new Date().toISOString()} - ${req.method} ${req.originalUrl}\n`);
-  next();
-});
+// Removed synchronous fs.appendFileSync logging that caused event loop freezing
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
@@ -249,12 +245,21 @@ app.get('/api/cardlogs', authenticateToken, async (req, res) => {
       FROM cardlogs c 
       LEFT JOIN users u ON c.created_by = u.id 
       ORDER BY c.created_at DESC
+      LIMIT 200
     `;
     const result = await db.query(query);
     const logs = result.rows;
     
-    const activitiesResult = await db.query('SELECT * FROM cardlog_activities');
-    const activities = activitiesResult.rows;
+    let activities = [];
+    if (logs.length > 0) {
+      const cardlogIds = logs.map(l => l.id);
+      // Only fetch activities for the loaded cardlogs to save huge amounts of memory
+      const activitiesResult = await db.query(
+        'SELECT * FROM cardlog_activities WHERE cardlog_id = ANY($1)',
+        [cardlogIds]
+      );
+      activities = activitiesResult.rows;
+    }
 
     const activitiesByCardlog = activities.reduce((acc, act) => {
       if (!acc[act.cardlog_id]) acc[act.cardlog_id] = [];

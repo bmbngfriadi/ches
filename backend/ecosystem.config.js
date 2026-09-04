@@ -11,6 +11,7 @@ module.exports = {
       DB_NAME: "ches_prod",
       DB_PORT: 5432,
       JWT_SECRET: "super_secret_jwt_key_for_ches"
-    }
+    },
+    max_memory_restart: "350M"
   }]
 };
