@@ -19,8 +19,28 @@
   }
   input, select, textarea {
     max-width: 100%;
-    min-width: 0;
     box-sizing: border-box !important;
+  }
+  
+  /* Fix iOS Safari Date/Time Picker Unclickable Bug */
+  input[type="date"],
+  input[type="time"] {
+    -webkit-appearance: none; /* Some iOS versions need this, some need textfield */
+    min-width: 100% !important;
+    min-height: 2.5rem;
+  }
+  
+  /* Ensure the inner WebKit clickable area takes up the full space on iOS */
+  ::-webkit-datetime-edit {
+    display: block;
+    width: 100%;
+    padding: 0;
+  }
+  
+  /* Make sure the trigger icon is accessible */
+  ::-webkit-calendar-picker-indicator {
+    opacity: 1;
+    display: block;
   }
   .grid > * {
     min-width: 0;
