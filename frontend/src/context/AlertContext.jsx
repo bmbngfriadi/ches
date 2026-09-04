@@ -23,10 +23,11 @@ export const AlertProvider = ({ children }) => {
   }, []);
 
   const handleConfirm = () => {
-    if (alertState.onConfirm) {
-      alertState.onConfirm();
-    }
+    const callback = alertState.onConfirm;
     closeAlert();
+    if (callback) {
+      setTimeout(() => callback(), 150); // wait for close animation
+    }
   };
 
   const getIcon = (type) => {
