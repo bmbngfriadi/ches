@@ -427,9 +427,7 @@ export default function CardlogForm({ onClose, initialData, isReadOnly, onEdit }
             <div className="w-full min-w-0">
               <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">Hari, Tanggal</label>
               <input 
-                type="text" 
-                onFocus={(e) => (e.target.type = 'date')}
-                onBlur={(e) => (e.target.type = 'text')}
+                type="date" 
                 required 
                 disabled={isReadOnly} 
                 className={inputClass} 
@@ -529,11 +527,11 @@ export default function CardlogForm({ onClose, initialData, isReadOnly, onEdit }
               <div className="flex gap-4">
                 <div className="flex-1">
                   <label className="block text-xs font-semibold text-gray-500 uppercase mb-1">Mulai</label>
-                  <input type="text" onFocus={(e) => e.target.type = 'time'} onBlur={(e) => e.target.type = 'text'} disabled={isReadOnly} className={inputClass} value={operasional.chargingMulai} onChange={e => handleOperasionalChange('chargingMulai', e.target.value)} />
+                  <input type="time" disabled={isReadOnly} className={inputClass} value={operasional.chargingMulai} onChange={e => handleOperasionalChange('chargingMulai', e.target.value)} />
                 </div>
                 <div className="flex-1">
                   <label className="block text-xs font-semibold text-gray-500 uppercase mb-1">Selesai</label>
-                  <input type="text" onFocus={(e) => e.target.type = 'time'} onBlur={(e) => e.target.type = 'text'} disabled={isReadOnly} className={inputClass} value={operasional.chargingSelesai} onChange={e => handleOperasionalChange('chargingSelesai', e.target.value)} />
+                  <input type="time" disabled={isReadOnly} className={inputClass} value={operasional.chargingSelesai} onChange={e => handleOperasionalChange('chargingSelesai', e.target.value)} />
                 </div>
                 <div className="flex-1">
                   <label className="block text-xs font-semibold text-gray-500 uppercase mb-1">Total (Jam)</label>
@@ -595,11 +593,11 @@ export default function CardlogForm({ onClose, initialData, isReadOnly, onEdit }
               <div key={item.id} className="flex flex-col sm:flex-row gap-4 p-4 bg-gray-50 dark:bg-gray-900/50 rounded-md border border-gray-200 dark:border-gray-800 relative group">
                 <div className="w-full sm:w-auto min-w-0">
                   <label className="block text-xs font-semibold text-gray-500 uppercase mb-1">Mulai</label>
-                  <input type="text" onFocus={(e) => e.target.type = 'time'} onBlur={(e) => e.target.type = 'text'} required disabled={isReadOnly} className={inputClass} value={item.jamMulai} onChange={e => handleActivityChange(item.id, 'jamMulai', e.target.value)} />
+                  <input type="time" required disabled={isReadOnly} className={inputClass} value={item.jamMulai} onChange={e => handleActivityChange(item.id, 'jamMulai', e.target.value)} />
                 </div>
                 <div className="w-full sm:w-auto min-w-0">
                   <label className="block text-xs font-semibold text-gray-500 uppercase mb-1">Selesai</label>
-                  <input type="text" onFocus={(e) => e.target.type = 'time'} onBlur={(e) => e.target.type = 'text'} required disabled={isReadOnly} className={inputClass} value={item.jamSelesai} onChange={e => handleActivityChange(item.id, 'jamSelesai', e.target.value)} />
+                  <input type="time" required disabled={isReadOnly} className={inputClass} value={item.jamSelesai} onChange={e => handleActivityChange(item.id, 'jamSelesai', e.target.value)} />
                 </div>
                 <div className="flex-1 w-full min-w-0">
                   <label className="block text-xs font-semibold text-gray-500 uppercase mb-1">Deskripsi Kegiatan</label>
