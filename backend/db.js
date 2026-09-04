@@ -94,8 +94,11 @@ const initDb = async () => {
       (7, 'user_management'),
       (8, 'cardlog_export_png'),
       (9, 'receive_email_notification'),
-      (10, 'resend_email_notification')
       ON CONFLICT (id) DO UPDATE SET name = EXCLUDED.name;
+
+      -- Add Indexes to speed up queries drastically
+      CREATE INDEX IF NOT EXISTS idx_cardlogs_created_at ON cardlogs(created_at DESC);
+      CREATE INDEX IF NOT EXISTS idx_cardlog_activities_cardlog_id ON cardlog_activities(cardlog_id);
     `);
     console.log('Database migrated successfully');
   } catch (err) {

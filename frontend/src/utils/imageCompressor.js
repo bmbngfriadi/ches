@@ -1,4 +1,4 @@
-export const compressImage = (file, maxSizeMB = 0.3, maxWidth = 800) => {
+export const compressImage = (file, maxSizeMB = 0.15, maxWidth = 600) => {
   return new Promise((resolve, reject) => {
     // If the file is smaller than maxSizeMB, we can just return it as base64 without compression, 
     // or we can still compress it. To be safe and consistent, we'll process it.
