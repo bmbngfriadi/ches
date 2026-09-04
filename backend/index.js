@@ -194,8 +194,8 @@ app.post('/api/auth/forgot-password', async (req, res) => {
 
     await db.query('UPDATE users SET reset_token = $1, reset_token_expiry = $2 WHERE email = $3', [resetToken, expiry, email]);
 
-    const frontendHost = req.hostname;
-    const resetUrl = `http://${frontendHost}:5173/reset-password/${resetToken}`;
+    const frontendUrl = req.headers.origin || 'https://cg-plantbatam.com/ches';
+    const resetUrl = `${frontendUrl}/#/reset-password/${resetToken}`;
     const html = `
       <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
         <h2>Reset Password</h2>
