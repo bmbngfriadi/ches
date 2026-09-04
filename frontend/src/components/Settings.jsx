@@ -68,7 +68,8 @@ export default function Settings() {
         return;
       }
       try {
-        const compressedBase64 = await compressImage(file, 2);
+        // Compress profile photo to 100KB and 400px width
+        const compressedBase64 = await compressImage(file, 0.1, 400);
         setImageToCrop(compressedBase64);
         setShowPreviewModal(false); // Close preview if open
       } catch (err) {

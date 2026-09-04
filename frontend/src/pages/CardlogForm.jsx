@@ -211,7 +211,8 @@ export default function CardlogForm({ onClose, initialData, isReadOnly, onEdit }
         return;
       }
       try {
-        const compressedBase64 = await compressImage(file, 2);
+        // Compress to 300KB and 800px width max
+        const compressedBase64 = await compressImage(file, 0.3, 800);
         setOdometerPhoto(compressedBase64);
       } catch (err) {
         console.error('Error compressing image:', err);
