@@ -379,10 +379,17 @@ export default function CardlogForm({ onClose, initialData, isReadOnly, onEdit }
   const handleDownload = () => {
     try {
       const link = document.createElement('a');
-      link.download = exportFilename;
+      // Make filename unique to bypass mobile browser "Download again?" native prompts
+      const uniqueName = exportFilename.replace('.png', `_${new Date().getTime()}.png`);
+      link.download = uniqueName;
       link.href = exportedImage;
       link.click();
-      showAlert('Berhasil!', 'File PNG berhasil didownload ke perangkat Anda.', 'success');
+      
+      // Close PNG Siap modal so the success alert is clearly visible
+      setExportedImage(null);
+      setExportedBlob(null);
+      
+      setTimeout(() => showAlert('Berhasil!', 'File PNG berhasil didownload ke perangkat Anda.', 'success'), 300);
     } catch (err) {
       showAlert('Gagal!', 'Terjadi kesalahan saat mendownload file.', 'error');
     }
