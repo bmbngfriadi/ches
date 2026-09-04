@@ -316,14 +316,10 @@ export default function CardlogForm({ onClose, initialData, isReadOnly, onEdit }
               reader.onloadend = () => resolve(reader.result);
               reader.readAsDataURL(blob);
             });
-            const imgEl = exportRef.current.querySelector('img[alt="Odometer"]');
-            if (imgEl) {
-              await new Promise((resolve) => {
-                imgEl.onload = resolve;
-                imgEl.onerror = resolve; // Continue even if error
-                imgEl.src = dataUrl;
-              });
-            }
+            // Update React state directly so the DOM re-renders with the Base64 image
+            setOdometerPhoto(dataUrl);
+            // Wait for React to finish rendering the new image
+            await new Promise(r => setTimeout(r, 600));
           } catch(e) {
             console.warn("Gagal konversi foto ke base64", e);
           }
@@ -414,17 +410,13 @@ export default function CardlogForm({ onClose, initialData, isReadOnly, onEdit }
       link.download = uniqueName;
       link.href = exportedImage;
       
-      // Close PNG Siap modal first
-      setExportedImage(null);
-      setExportedBlob(null);
-      
-      // Show alert immediately BEFORE the click to guarantee it renders
+      // Show alert immediately to guarantee it renders
       showAlert('Berhasil!', 'File PNG berhasil didownload ke perangkat Anda.', 'success');
       
       // Trigger click slightly after to avoid interrupting React render cycle on mobile
       setTimeout(() => {
         link.click();
-      }, 50);
+      }, 500);
       
     } catch (err) {
       showAlert('Gagal!', 'Terjadi kesalahan saat mendownload file.', 'error');
@@ -770,6 +762,7 @@ export default function CardlogForm({ onClose, initialData, isReadOnly, onEdit }
                 {!!navigator.share && (
                   <button 
                     onClick={handleShare} 
+                    onTouchStart={() => {}}
                     className="w-full flex justify-center items-center px-4 py-3 bg-green-600 hover:bg-green-700 text-white rounded-md font-bold text-sm transition-all duration-150 active:scale-95 shadow-md active:shadow-none"
                   >
                     <Share2 className="w-4 h-4 mr-2" />
@@ -778,6 +771,7 @@ export default function CardlogForm({ onClose, initialData, isReadOnly, onEdit }
                 )}
                 <button 
                   onClick={handleDownload} 
+                  onTouchStart={() => {}}
                   className="w-full flex justify-center items-center px-4 py-3 bg-[#b52025] hover:bg-[#8c191c] text-white rounded-md font-bold text-sm transition-all duration-150 active:scale-95 shadow-md active:shadow-none"
                 >
                   <Download className="w-4 h-4 mr-2" />
