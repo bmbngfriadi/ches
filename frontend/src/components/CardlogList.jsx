@@ -293,13 +293,38 @@ export default function CardlogList({ cardlogs, loading, onNavigate, refreshLogs
     );
   };
 
+  const fetchPhotoForCardlog = async (id) => {
+    try {
+      const res = await api.get(`/cardlogs/${id}/photo`);
+      return res.data.photo;
+    } catch (err) {
+      console.warn('Gagal memuat foto dari API', err);
+      return null;
+    }
+  };
+
+  const handleView = async (row, e) => {
+    if (e) e.stopPropagation();
+    showAlert('Memuat...', 'Sedang mengambil detail data...', 'loading');
+    const photo = await fetchPhotoForCardlog(row.id);
+    const rowWithPhoto = { ...row, odometer_photo: photo };
+    showAlert(null); // clear alert
+    onNavigate('view-cardlog', rowWithPhoto);
+  };
+
   const handleEditConfirm = (row, e) => {
     if (e) e.stopPropagation();
     showAlert(
       'Konfirmasi Edit',
       'Apakah Anda yakin ingin mengedit data cardlog ini?',
       'confirm',
-      () => onNavigate('edit-cardlog', row)
+      async () => {
+        showAlert('Memuat...', 'Sedang mengambil detail data...', 'loading');
+        const photo = await fetchPhotoForCardlog(row.id);
+        const rowWithPhoto = { ...row, odometer_photo: photo };
+        showAlert(null); // clear alert
+        onNavigate('edit-cardlog', rowWithPhoto);
+      }
     );
   };
 
@@ -309,51 +334,49 @@ export default function CardlogList({ cardlogs, loading, onNavigate, refreshLogs
       'Konfirmasi Export PNG',
       'Apakah Anda yakin ingin mengekspor data cardlog ini sebagai gambar PNG?',
       'confirm',
-      () => {
+      async () => {
         showAlert('Memproses...', 'Sedang memuat data gambar PNG, mohon tunggu...', 'loading');
         
-        setTimeout(async () => {
-          try {
-            let photoDataUrl = row.odometer_photo;
-            if (photoDataUrl && !photoDataUrl.startsWith('data:')) {
-              const res = await fetch(photoDataUrl, { cache: 'no-cache' });
-              const blob = await res.blob();
-              // Load image and compress it to bypass iOS Safari SVG size limits
-              photoDataUrl = await new Promise((resolve, reject) => {
-                const img = new Image();
-                img.crossOrigin = 'anonymous';
-                img.onload = () => {
-                  const canvas = document.createElement('canvas');
-                  let width = img.width;
-                  let height = img.height;
-                  const MAX_DIM = 1000;
-                  
-                  if (width > height && width > MAX_DIM) {
-                    height = Math.round((height * MAX_DIM) / width);
-                    width = MAX_DIM;
-                  } else if (height > width && height > MAX_DIM) {
-                    width = Math.round((width * MAX_DIM) / height);
-                    height = MAX_DIM;
-                  }
-                  
-                  canvas.width = width;
-                  canvas.height = height;
-                  const ctx = canvas.getContext('2d');
-                  ctx.drawImage(img, 0, 0, width, height);
-                  // Export as JPEG with 0.7 quality to ensure small base64 string
-                  resolve(canvas.toDataURL('image/jpeg', 0.7));
-                };
-                img.onerror = () => reject(new Error('Image load failed'));
-                img.src = URL.createObjectURL(blob);
-              });
-            }
-            const rowWithBase64 = { ...row, odometer_photo_base64: photoDataUrl };
-            setActiveExportRow(rowWithBase64);
-          } catch (err) {
-            console.warn('Gagal load foto base64', err);
-            setActiveExportRow(row); // fallback
+        try {
+          let photoDataUrl = await fetchPhotoForCardlog(row.id);
+          
+          if (photoDataUrl && !photoDataUrl.startsWith('data:')) {
+            const res = await fetch(photoDataUrl, { cache: 'no-cache' });
+            const blob = await res.blob();
+            // Load image and compress it to bypass iOS Safari SVG size limits
+            photoDataUrl = await new Promise((resolve, reject) => {
+              const img = new Image();
+              img.crossOrigin = 'anonymous';
+              img.onload = () => {
+                const canvas = document.createElement('canvas');
+                let width = img.width;
+                let height = img.height;
+                const MAX_DIM = 1000;
+                
+                if (width > height && width > MAX_DIM) {
+                  height = Math.round((height * MAX_DIM) / width);
+                  width = MAX_DIM;
+                } else if (height > width && height > MAX_DIM) {
+                  width = Math.round((width * MAX_DIM) / height);
+                  height = MAX_DIM;
+                }
+                
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+                resolve(canvas.toDataURL('image/jpeg', 0.7));
+              };
+              img.onerror = () => reject(new Error('Image load failed'));
+              img.src = URL.createObjectURL(blob);
+            });
           }
-        }, 50);
+          const rowWithBase64 = { ...row, odometer_photo_base64: photoDataUrl };
+          setActiveExportRow(rowWithBase64);
+        } catch (err) {
+          console.warn('Gagal memuat foto untuk Export', err);
+          setActiveExportRow(row); // fallback without photo
+        }
       }
     );
   };
@@ -438,7 +461,7 @@ export default function CardlogList({ cardlogs, loading, onNavigate, refreshLogs
                     <tr 
                       key={row.id} 
                       className="hover:bg-gray-50/50 dark:hover:bg-gray-900/50 transition-colors cursor-pointer"
-                      onClick={() => onNavigate('view-cardlog', row)}
+                      onClick={(e) => handleView(row, e)}
                     >
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900 dark:text-white">#LOG-{row.id}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{new Date(row.date).toLocaleDateString()}</td>
@@ -455,7 +478,7 @@ export default function CardlogList({ cardlogs, loading, onNavigate, refreshLogs
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{row.submitted_by_name || '-'}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-right flex justify-end space-x-2" onClick={(e) => e.stopPropagation()}>
                         {!isEditable && (
-                          <button onClick={() => onNavigate('view-cardlog', row)} className="p-2 text-green-500 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 rounded-lg hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors" title="View Cardlog">
+                          <button onClick={(e) => handleView(row, e)} className="p-2 text-green-500 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 rounded-lg hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors" title="View Cardlog">
                             <FileText className="w-4 h-4" />
                           </button>
                         )}
@@ -511,7 +534,7 @@ export default function CardlogList({ cardlogs, loading, onNavigate, refreshLogs
                 <div 
                   key={row.id}
                   className="bg-gray-50 dark:bg-gray-900 rounded-md p-4 border border-gray-200 dark:border-gray-800 flex flex-col space-y-3 cursor-pointer"
-                  onClick={() => onNavigate('view-cardlog', row)}
+                  onClick={(e) => handleView(row, e)}
                 >
                   <div className="flex justify-between items-start">
                     <div>
@@ -545,7 +568,7 @@ export default function CardlogList({ cardlogs, loading, onNavigate, refreshLogs
 
                   <div className="flex justify-end space-x-2 pt-3 border-t border-gray-200 dark:border-gray-800 mt-2" onClick={(e) => e.stopPropagation()}>
                     {!isEditable && (
-                      <button onClick={() => onNavigate('view-cardlog', row)} className="p-3 sm:p-2 text-green-500 bg-green-50 dark:bg-green-900/20 rounded-md" title="View">
+                      <button onClick={(e) => handleView(row, e)} className="p-3 sm:p-2 text-green-500 bg-green-50 dark:bg-green-900/20 rounded-md" title="View">
                         <FileText className="w-5 h-5 sm:w-4 sm:h-4" />
                       </button>
                     )}

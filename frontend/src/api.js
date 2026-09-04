@@ -5,6 +5,7 @@ const api = axios.create({
   baseURL: import.meta.env.MODE === 'production' 
     ? '/api/ches' 
     : 'http://localhost:5000/api',
+  timeout: 15000, // 15 seconds timeout to prevent indefinite loading
   headers: {
     'Content-Type': 'application/json',
   },

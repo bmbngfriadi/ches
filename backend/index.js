@@ -235,7 +235,22 @@ app.post('/api/auth/reset-password', async (req, res) => {
 // 2. Fetch Cardlogs
 app.get('/api/cardlogs', authenticateToken, async (req, res) => {
   try {
-    const result = await db.query('SELECT c.*, EXTRACT(EPOCH FROM (NOW() - c.created_at))/60 AS age_minutes, u.full_name AS submitted_by_name FROM cardlogs c LEFT JOIN users u ON c.created_by = u.id ORDER BY c.created_at DESC');
+    const query = `
+      SELECT 
+        c.id, c.date, c.shift_no, c.operator, c.unit_no, 
+        c.lampu_depan, c.lampu_belakang, c.ban_depan, c.ban_belakang, 
+        c.klakson, c.alarm_mundur, c.rem_jalan, c.rem_parkir, 
+        c.sabuk_pengaman, c.kebersihan, c.hm_awal, c.hm_akhir, 
+        c.odometer_awal, c.odometer_akhir, c.charging_durasi, 
+        c.charging_mulai, c.charging_selesai, c.created_by, 
+        c.created_at, c.updated_at,
+        EXTRACT(EPOCH FROM (NOW() - c.created_at))/60 AS age_minutes, 
+        u.full_name AS submitted_by_name 
+      FROM cardlogs c 
+      LEFT JOIN users u ON c.created_by = u.id 
+      ORDER BY c.created_at DESC
+    `;
+    const result = await db.query(query);
     const logs = result.rows;
     
     const activitiesResult = await db.query('SELECT * FROM cardlog_activities');
@@ -255,6 +270,22 @@ app.get('/api/cardlogs', authenticateToken, async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Error fetching cardlogs' });
+  }
+});
+
+// Fetch Cardlog Photo separately (Lazy Load to prevent OOM)
+app.get('/api/cardlogs/:id/photo', authenticateToken, async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await db.query('SELECT odometer_photo FROM cardlogs WHERE id = $1', [id]);
+    if (result.rows.length > 0) {
+      res.json({ photo: result.rows[0].odometer_photo });
+    } else {
+      res.status(404).json({ message: 'Cardlog not found' });
+    }
+  } catch (err) {
+    console.error('Error fetching photo:', err);
+    res.status(500).json({ message: 'Error fetching cardlog photo' });
   }
 });
 
