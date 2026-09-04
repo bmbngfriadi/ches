@@ -45,15 +45,10 @@ const ExportPngTemplate = React.forwardRef(({
       {/* Header Image */}
       {odometerPhoto ? (
         <div style={{ width: '100%', height: '400px', backgroundColor: '#000', overflow: 'hidden' }}>
-          <div 
-            style={{ 
-              width: '100%', 
-              height: '100%', 
-              backgroundImage: `url("${odometerPhoto}")`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              backgroundRepeat: 'no-repeat'
-            }}
+          <img 
+            src={odometerPhoto} 
+            alt="Odometer" 
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           />
         </div>
       ) : (

@@ -330,14 +330,14 @@ export default function CardlogForm({ onClose, initialData, isReadOnly, onEdit }
 
       setTimeout(async () => {
         try {
-          // FIX: Call toPng twice for iOS Safari. The first call forces Safari to load the image into canvas cache
-          await toPng(exportRef.current, { skipFonts: true, pixelRatio: 1, backgroundColor: '#ffffff' });
-          
-          const dataUrl = await toPng(exportRef.current, {
+          const html2canvas = (await import('html2canvas')).default;
+          const canvas = await html2canvas(exportRef.current, {
             backgroundColor: '#ffffff',
-            pixelRatio: 2, // High resolution
-            skipFonts: true // Fix for iOS Safari WebGL bug
+            scale: 2,
+            useCORS: true,
+            allowTaint: true
           });
+          const dataUrl = canvas.toDataURL('image/png');
           
           // Convert Data URL to Blob immediately for iOS compatibility
           const arr = dataUrl.split(',');

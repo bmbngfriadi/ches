@@ -40,8 +40,14 @@ export default function CardlogList({ cardlogs, loading, onNavigate, refreshLogs
     if (activeExportRow && exportRef.current) {
       const exportImage = async () => {
         try {
-          const { toPng } = await import('html-to-image');
-          const dataUrl = await toPng(exportRef.current, { backgroundColor: '#ffffff', pixelRatio: 2, skipFonts: true });
+          const html2canvas = (await import('html2canvas')).default;
+          const canvas = await html2canvas(exportRef.current, {
+            backgroundColor: '#ffffff',
+            scale: 2,
+            useCORS: true,
+            allowTaint: true
+          });
+          const dataUrl = canvas.toDataURL('image/png');
           
           // Convert Data URL to Blob immediately for iOS compatibility
           const arr = dataUrl.split(',');
