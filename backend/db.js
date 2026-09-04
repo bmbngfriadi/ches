@@ -30,7 +30,9 @@ const initDb = async () => {
       ADD COLUMN IF NOT EXISTS email VARCHAR(255) UNIQUE,
       ADD COLUMN IF NOT EXISTS role VARCHAR(50) DEFAULT 'operator',
       ADD COLUMN IF NOT EXISTS email_verified BOOLEAN DEFAULT FALSE,
-      ADD COLUMN IF NOT EXISTS verification_token VARCHAR(255);
+      ADD COLUMN IF NOT EXISTS verification_token VARCHAR(255),
+      ADD COLUMN IF NOT EXISTS reset_token VARCHAR(255),
+      ADD COLUMN IF NOT EXISTS reset_token_expiry TIMESTAMP;
 
       CREATE TABLE IF NOT EXISTS permissions (
           id SERIAL PRIMARY KEY,
