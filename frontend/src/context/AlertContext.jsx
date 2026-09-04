@@ -55,7 +55,7 @@ export const AlertProvider = ({ children }) => {
       
       {/* Custom Modal Popup */}
       {alertState.isOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
           <div className="fixed inset-0 bg-black/40 backdrop-blur-sm transition-opacity" onClick={alertState.type === 'loading' ? undefined : closeAlert}></div>
           
           <div className={`relative bg-white dark:bg-gray-900 w-[92%] sm:w-full sm:max-w-sm rounded-xl sm:rounded-md shadow-2xl overflow-hidden transform transition-all border border-gray-200 dark:border-gray-800 animate-in fade-in zoom-in-95 duration-200`}>
