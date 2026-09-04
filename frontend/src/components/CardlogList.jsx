@@ -308,7 +308,7 @@ export default function CardlogList({ cardlogs, loading, onNavigate, refreshLogs
     showAlert('Memuat...', 'Sedang mengambil detail data...', 'loading');
     const photo = await fetchPhotoForCardlog(row.id);
     const rowWithPhoto = { ...row, odometer_photo: photo };
-    showAlert(null); // clear alert
+    if (closeAlert) closeAlert(); // clear alert
     onNavigate('view-cardlog', rowWithPhoto);
   };
 
@@ -322,7 +322,7 @@ export default function CardlogList({ cardlogs, loading, onNavigate, refreshLogs
         showAlert('Memuat...', 'Sedang mengambil detail data...', 'loading');
         const photo = await fetchPhotoForCardlog(row.id);
         const rowWithPhoto = { ...row, odometer_photo: photo };
-        showAlert(null); // clear alert
+        if (closeAlert) closeAlert(); // clear alert
         onNavigate('edit-cardlog', rowWithPhoto);
       }
     );
