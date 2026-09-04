@@ -46,10 +46,29 @@ const initDb = async () => {
 
       CREATE TABLE IF NOT EXISTS cardlogs (
           id SERIAL PRIMARY KEY,
-          user_id INTEGER REFERENCES users(id),
-          description TEXT NOT NULL,
-          image_url VARCHAR(255),
-          status VARCHAR(50) DEFAULT 'open',
+          date DATE NOT NULL,
+          shift_no VARCHAR(20) NOT NULL,
+          operator VARCHAR(100) NOT NULL,
+          unit_no VARCHAR(20) NOT NULL,
+          lampu_depan VARCHAR(50),
+          lampu_belakang VARCHAR(50),
+          ban_depan VARCHAR(50),
+          ban_belakang VARCHAR(50),
+          klakson VARCHAR(50),
+          alarm_mundur VARCHAR(50),
+          rem_jalan VARCHAR(50),
+          rem_parkir VARCHAR(50),
+          sabuk_pengaman VARCHAR(50),
+          kebersihan VARCHAR(50),
+          hm_awal DECIMAL(10,2),
+          hm_akhir DECIMAL(10,2),
+          odometer_awal DECIMAL(10,2),
+          odometer_akhir DECIMAL(10,2),
+          charging_durasi DECIMAL(10,2),
+          charging_mulai VARCHAR(10),
+          charging_selesai VARCHAR(10),
+          odometer_photo TEXT,
+          created_by INT REFERENCES users(id) ON DELETE SET NULL,
           created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
           updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
       );
@@ -57,9 +76,9 @@ const initDb = async () => {
       CREATE TABLE IF NOT EXISTS cardlog_activities (
           id SERIAL PRIMARY KEY,
           cardlog_id INTEGER REFERENCES cardlogs(id) ON DELETE CASCADE,
-          user_id INTEGER REFERENCES users(id),
-          action VARCHAR(50) NOT NULL,
-          note TEXT,
+          jam_mulai VARCHAR(10),
+          jam_selesai VARCHAR(10),
+          deskripsi TEXT,
           created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
       );
 
