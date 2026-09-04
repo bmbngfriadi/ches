@@ -300,9 +300,32 @@ export default function CardlogForm({ onClose, initialData, isReadOnly, onEdit }
     );
   };
 
-  const handleExportPNG = () => {
+  const handleExportPNG = async () => {
     if (exportRef.current) {
       showAlert('Memproses...', 'Sedang membuat gambar PNG, mohon tunggu...', 'loading');
+      
+      try {
+        // FIX: For iOS Safari, external image URLs fail to render in html-to-image due to CORS/canvas tainting.
+        // We MUST convert the image to a Base64 Data URI before taking the snapshot.
+        if (odometerPhoto && !odometerPhoto.startsWith('data:')) {
+          try {
+            const res = await fetch(odometerPhoto, { cache: 'no-cache' });
+            const blob = await res.blob();
+            const dataUrl = await new Promise((resolve) => {
+              const reader = new FileReader();
+              reader.onloadend = () => resolve(reader.result);
+              reader.readAsDataURL(blob);
+            });
+            const imgEl = exportRef.current.querySelector('img[alt="Odometer"]');
+            if (imgEl) imgEl.src = dataUrl;
+          } catch(e) {
+            console.warn("Gagal konversi foto ke base64", e);
+          }
+        }
+      } catch (e) {
+        console.error(e);
+      }
+
       setTimeout(async () => {
         try {
           // FIX: Call toPng twice for iOS Safari. The first call forces Safari to load the image into canvas cache
@@ -379,17 +402,24 @@ export default function CardlogForm({ onClose, initialData, isReadOnly, onEdit }
   const handleDownload = () => {
     try {
       const link = document.createElement('a');
-      // Make filename unique to bypass mobile browser "Download again?" native prompts
-      const uniqueName = exportFilename.replace('.png', `_${new Date().getTime()}.png`);
+      const uniqueName = exportFilename.endsWith('.png') 
+        ? exportFilename.replace('.png', `_${Date.now()}.png`)
+        : `${exportFilename}_${Date.now()}.png`;
       link.download = uniqueName;
       link.href = exportedImage;
-      link.click();
       
-      // Close PNG Siap modal so the success alert is clearly visible
+      // Close PNG Siap modal first
       setExportedImage(null);
       setExportedBlob(null);
       
-      setTimeout(() => showAlert('Berhasil!', 'File PNG berhasil didownload ke perangkat Anda.', 'success'), 300);
+      // Show alert immediately BEFORE the click to guarantee it renders
+      showAlert('Berhasil!', 'File PNG berhasil didownload ke perangkat Anda.', 'success');
+      
+      // Trigger click slightly after to avoid interrupting React render cycle on mobile
+      setTimeout(() => {
+        link.click();
+      }, 50);
+      
     } catch (err) {
       showAlert('Gagal!', 'Terjadi kesalahan saat mendownload file.', 'error');
     }
