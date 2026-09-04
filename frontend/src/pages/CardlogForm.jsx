@@ -311,12 +311,36 @@ export default function CardlogForm({ onClose, initialData, isReadOnly, onEdit }
           try {
             const res = await fetch(odometerPhoto, { cache: 'no-cache' });
             const blob = await res.blob();
-            const dataUrl = await new Promise((resolve) => {
-              const reader = new FileReader();
-              reader.onloadend = () => resolve(reader.result);
-              reader.readAsDataURL(blob);
+            // Load image and compress it to bypass iOS Safari SVG size limits
+            const dataUrl = await new Promise((resolve, reject) => {
+              const img = new Image();
+              img.crossOrigin = 'anonymous';
+              img.onload = () => {
+                const canvas = document.createElement('canvas');
+                let width = img.width;
+                let height = img.height;
+                const MAX_DIM = 1000;
+                
+                if (width > height && width > MAX_DIM) {
+                  height = Math.round((height * MAX_DIM) / width);
+                  width = MAX_DIM;
+                } else if (height > width && height > MAX_DIM) {
+                  width = Math.round((width * MAX_DIM) / height);
+                  height = MAX_DIM;
+                }
+                
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+                // Export as JPEG with 0.7 quality to ensure small base64 string
+                resolve(canvas.toDataURL('image/jpeg', 0.7));
+              };
+              img.onerror = () => reject(new Error('Image load failed'));
+              img.src = URL.createObjectURL(blob);
             });
-            // Update React state directly so the DOM re-renders with the Base64 image
+            
+            // Update React state directly so the DOM re-renders with the optimized Base64 image
             setOdometerPhoto(dataUrl);
             // Wait for React to finish rendering the new image
             await new Promise(r => setTimeout(r, 600));
@@ -330,14 +354,13 @@ export default function CardlogForm({ onClose, initialData, isReadOnly, onEdit }
 
       setTimeout(async () => {
         try {
-          const html2canvas = (await import('html2canvas')).default;
-          const canvas = await html2canvas(exportRef.current, {
+          const { toPng } = await import('html-to-image');
+          const dataUrl = await toPng(exportRef.current, {
             backgroundColor: '#ffffff',
-            scale: 2,
-            useCORS: true,
-            allowTaint: true
+            pixelRatio: 2,
+            skipFonts: true,
+            style: { margin: '0' } // Ensure no weird offsets
           });
-          const dataUrl = canvas.toDataURL('image/png');
           
           // Convert Data URL to Blob immediately for iOS compatibility
           const arr = dataUrl.split(',');
