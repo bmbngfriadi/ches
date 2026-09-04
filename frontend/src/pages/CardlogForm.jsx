@@ -749,13 +749,6 @@ export default function CardlogForm({ onClose, initialData, isReadOnly, onEdit }
             </div>
             
             <div className="p-6 flex flex-col items-center bg-gray-50 dark:bg-gray-950 pointer-events-auto">
-              <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/30 rounded-md p-3 mb-4 w-full text-center">
-                <p className="text-xs text-blue-700 dark:text-blue-400 font-medium leading-relaxed">
-                  💡 <strong>Pengguna iPhone / HP:</strong> <br/>
-                  Tekan dan tahan (long-press) gambar di bawah ini, lalu pilih <strong>"Simpan ke Galeri"</strong> atau <strong>"Bagikan"</strong>.
-                </p>
-              </div>
-
               <img src={exportedImage} alt="Export Preview" style={{ WebkitTouchCallout: 'default', pointerEvents: 'auto', userSelect: 'none', WebkitUserSelect: 'none' }} className="w-full h-auto max-h-64 object-contain shadow-lg border border-gray-200 dark:border-gray-800 mb-6 rounded cursor-pointer" />
               
               <div className="w-full flex flex-col space-y-3">

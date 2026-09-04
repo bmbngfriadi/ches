@@ -300,28 +300,34 @@ export default function CardlogList({ cardlogs, loading, onNavigate, refreshLogs
 
   const handleExportPngConfirm = (row, e) => {
     if (e) e.stopPropagation();
-    showAlert('Memproses...', 'Sedang memuat data gambar PNG, mohon tunggu...', 'loading');
-    
-    setTimeout(async () => {
-      try {
-        let photoDataUrl = row.odometer_photo;
-        // Pre-fetch image to base64 for iOS Safari compatibility
-        if (photoDataUrl && !photoDataUrl.startsWith('data:')) {
-          const res = await fetch(photoDataUrl, { cache: 'no-cache' });
-          const blob = await res.blob();
-          photoDataUrl = await new Promise((resolve) => {
-            const reader = new FileReader();
-            reader.onloadend = () => resolve(reader.result);
-            reader.readAsDataURL(blob);
-          });
-        }
-        const rowWithBase64 = { ...row, odometer_photo_base64: photoDataUrl };
-        setActiveExportRow(rowWithBase64);
-      } catch (err) {
-        console.warn('Gagal load foto base64', err);
-        setActiveExportRow(row); // fallback
+    showAlert(
+      'Konfirmasi Export PNG',
+      'Apakah Anda yakin ingin mengekspor data cardlog ini sebagai gambar PNG?',
+      'confirm',
+      () => {
+        showAlert('Memproses...', 'Sedang memuat data gambar PNG, mohon tunggu...', 'loading');
+        
+        setTimeout(async () => {
+          try {
+            let photoDataUrl = row.odometer_photo;
+            if (photoDataUrl && !photoDataUrl.startsWith('data:')) {
+              const res = await fetch(photoDataUrl, { cache: 'no-cache' });
+              const blob = await res.blob();
+              photoDataUrl = await new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onloadend = () => resolve(reader.result);
+                reader.readAsDataURL(blob);
+              });
+            }
+            const rowWithBase64 = { ...row, odometer_photo_base64: photoDataUrl };
+            setActiveExportRow(rowWithBase64);
+          } catch (err) {
+            console.warn('Gagal load foto base64', err);
+            setActiveExportRow(row); // fallback
+          }
+        }, 50);
       }
-    }, 50);
+    );
   };
 
   return (
@@ -569,13 +575,6 @@ export default function CardlogList({ cardlogs, loading, onNavigate, refreshLogs
             </div>
             
             <div className="p-6 flex flex-col items-center bg-gray-50 dark:bg-gray-950 pointer-events-auto">
-              <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/30 rounded-md p-3 mb-4 w-full text-center">
-                <p className="text-xs text-blue-700 dark:text-blue-400 font-medium leading-relaxed">
-                  💡 <strong>Pengguna iPhone / HP:</strong> <br/>
-                  Tekan dan tahan (long-press) gambar di bawah ini, lalu pilih <strong>"Simpan ke Galeri"</strong> atau <strong>"Bagikan"</strong>.
-                </p>
-              </div>
-
               <img src={exportedImage} alt="Export Preview" style={{ WebkitTouchCallout: 'default', pointerEvents: 'auto', userSelect: 'none', WebkitUserSelect: 'none' }} className="w-full h-auto max-h-64 object-contain shadow-lg border border-gray-200 dark:border-gray-800 mb-6 rounded cursor-pointer" />
               
               <div className="w-full flex flex-col space-y-3">
