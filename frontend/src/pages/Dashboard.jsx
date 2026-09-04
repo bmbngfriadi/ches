@@ -257,12 +257,33 @@ export default function Dashboard() {
       {/* Main Content */}
       <main className="flex-1 flex flex-col overflow-hidden">
         
-        {/* Topbar */}
-        <header className="bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800 h-20 flex items-center justify-between px-4 sm:px-6 lg:px-8 z-10 transition-colors duration-200 shrink-0">
-          <div className="flex items-center md:hidden">
-            {/* Mobile Header Logo */}
-            <img src="https://i.ibb.co.com/prMYS06h/LOGO-2025-03.png" alt="Logo" className="h-8 object-contain" />
+        {/* Mobile Topbar - Modern Industrial */}
+        <div className="md:hidden flex items-center justify-between bg-[#b52025] relative overflow-hidden px-5 py-4 shrink-0 shadow-md">
+          {/* Blueprint Pattern */}
+          <div className="absolute inset-0 opacity-10 bg-[linear-gradient(rgba(255,255,255,1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,1)_1px,transparent_1px)] bg-[size:15px_15px]" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/20 to-transparent" />
+          
+          <div className="flex items-center space-x-3 z-10 relative">
+            <div className="bg-white p-1.5 rounded-lg shadow-sm border border-white/20">
+              <img
+                src="https://i.ibb.co.com/prMYS06h/LOGO-2025-03.png"
+                alt="Logo"
+                className="h-7 object-contain"
+              />
+            </div>
+            <span className="text-[13px] font-extrabold text-white uppercase tracking-widest drop-shadow-sm">CHES</span>
           </div>
+          <button
+            onClick={() => setShowLogoutConfirm(true)}
+            className="p-2 z-10 relative text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-all"
+          >
+            <LogOut className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Desktop Topbar */}
+        <header className="bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800 h-20 hidden md:flex items-center justify-between px-4 sm:px-6 lg:px-8 z-10 transition-colors duration-200 shrink-0">
+
           <div className="hidden md:flex items-center">
             <h1 className="text-xl font-bold text-gray-800 dark:text-white capitalize">
               {activeTab.replace('-', ' ')}

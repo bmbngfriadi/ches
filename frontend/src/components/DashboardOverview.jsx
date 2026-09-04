@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { FileText, Plus, Truck, Clock, Zap } from 'lucide-react';
+import { FileText, Plus, Truck, Clock, Zap, Forklift } from 'lucide-react';
 import { 
   AreaChart, Area, 
   BarChart, Bar,
@@ -132,12 +132,12 @@ export default function DashboardOverview({ cardlogs, loading, onNavigate }) {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {[
           { label: 'Total Cardlogs', value: stats.totalCardlogs, icon: FileText, color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-50 dark:bg-blue-900/20' },
-          { label: 'Unit Beroperasi', value: stats.activeUnits, icon: Truck, color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-900/20' },
+          { label: 'Unit Beroperasi', value: stats.activeUnits, icon: Forklift, color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-900/20' },
           { label: 'Total HM Terakumulasi', value: stats.totalHM, icon: Clock, color: 'text-amber-600 dark:text-amber-400', bg: 'bg-amber-50 dark:bg-amber-900/20' },
           { label: 'Total Jam Charging', value: stats.totalCharging, icon: Zap, color: 'text-purple-600 dark:text-purple-400', bg: 'bg-purple-50 dark:bg-purple-900/20' },
         ].map((stat, i) => (
-          <div key={i} className="bg-white dark:bg-gray-950 rounded-md p-6 border border-gray-200 dark:border-gray-800">
-            <div className={`w-12 h-12 rounded-md ${stat.bg} ${stat.color} flex items-center justify-center mb-4`}>
+          <div key={i} className="bg-white dark:bg-gray-950 rounded-md p-6 border border-gray-200 dark:border-gray-800 shadow-sm transition-transform hover:-translate-y-1 duration-200">
+            <div className={`w-12 h-12 rounded-xl ${stat.bg} ${stat.color} flex items-center justify-center mb-4`}>
               <stat.icon className="w-6 h-6" />
             </div>
             <h3 className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{stat.label}</h3>

@@ -25,7 +25,18 @@ export default function VerifyEmail() {
   }, [token]);
 
   return (
-    <div className="flex min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors duration-200">
+    <div className="flex flex-col lg:flex-row min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors duration-200">
+      {/* Mobile Header - Modern Industrial Banner */}
+      <div className="lg:hidden w-full bg-[#b52025] relative overflow-hidden py-10 px-6 text-center flex flex-col items-center justify-center shadow-md">
+        <div className="absolute inset-0 opacity-10 bg-[linear-gradient(rgba(255,255,255,1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,1)_1px,transparent_1px)] bg-[size:20px_20px]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-transparent" />
+        <div className="z-10 relative bg-white p-3 rounded-xl shadow-lg border border-white/20 mb-4 inline-block">
+          <img src="https://i.ibb.co.com/prMYS06h/LOGO-2025-03.png" alt="Semen Merah Putih Logo" className="h-9 object-contain" />
+        </div>
+        <h1 className="z-10 relative text-2xl font-extrabold text-white tracking-tight">CHES Portal</h1>
+        <p className="z-10 relative text-white/80 text-sm mt-1 font-medium">Cardlog Heavy Equipment System</p>
+      </div>
+
       {/* Left side - Modern Corporate Banner */}
       <div className="hidden lg:flex lg:w-5/12 bg-[#b52025] relative items-center justify-center overflow-hidden">
         {/* Blueprint / Industrial Grid Pattern */}
@@ -56,12 +67,8 @@ export default function VerifyEmail() {
       </div>
 
       {/* Right side - Content */}
-      <div className="w-full lg:w-7/12 flex flex-col justify-center px-6 sm:px-16 xl:px-24 relative py-12">
+      <div className="w-full lg:w-7/12 flex flex-col justify-center px-6 sm:px-16 xl:px-24 relative py-8 lg:py-12 flex-1">
         <div className="w-full max-w-md mx-auto lg:mx-0 xl:ml-16 text-center lg:text-left">
-          <div className="lg:hidden bg-white p-3 rounded-xl inline-block mb-6 shadow-sm border border-gray-100 dark:bg-gray-900 dark:border-gray-800">
-            <img src="https://i.ibb.co.com/prMYS06h/LOGO-2025-03.png" alt="Semen Merah Putih Logo" className="h-10 object-contain" />
-          </div>
-          
           <div className="mb-8 flex justify-center lg:justify-start">
             {status === 'loading' && <Loader2 className="w-16 h-16 text-[#b52025] animate-spin" />}
             {status === 'success' && <CheckCircle className="w-16 h-16 text-green-500" />}
