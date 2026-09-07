@@ -273,12 +273,21 @@ export default function Dashboard() {
             </div>
             <span className="text-[13px] font-extrabold text-white uppercase tracking-widest drop-shadow-sm">CHES</span>
           </div>
-          <button
-            onClick={() => setShowLogoutConfirm(true)}
-            className="p-2 z-10 relative text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-all"
-          >
-            <LogOut className="w-5 h-5" />
-          </button>
+          <div className="flex items-center space-x-1 z-10 relative">
+            <button 
+              onClick={toggleTheme}
+              className="p-2 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-all"
+              title="Toggle Theme"
+            >
+              {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            </button>
+            <button
+              onClick={() => setShowLogoutConfirm(true)}
+              className="p-2 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-all"
+            >
+              <LogOut className="w-5 h-5" />
+            </button>
+          </div>>
         </div>
 
         {/* Desktop Topbar */}
