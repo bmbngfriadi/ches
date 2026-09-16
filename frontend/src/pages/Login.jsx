@@ -78,10 +78,10 @@ export default function Login() {
         <div className="login-right-content relative">
           
           {/* Dark Mode Toggle */}
-          <div className="absolute top-8 right-8 sm:top-10 sm:right-12 lg:fixed lg:top-8 lg:right-8 z-50">
+          <div className="absolute top-4 right-4 sm:top-6 sm:right-8 lg:fixed lg:top-8 lg:right-8 z-50">
             <button
               onClick={toggleTheme}
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-[var(--surface)] text-[var(--primary-600)] dark:text-[var(--primary-400)] hover:bg-[var(--surface-hover)] border border-gray-200 dark:border-gray-700/50 transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary-500)]"
+              className="w-12 h-12 flex items-center justify-center rounded-full bg-[var(--surface)] text-[var(--primary-600)] dark:text-[var(--primary-400)] hover:bg-[var(--surface-hover)] border border-gray-200 dark:border-gray-700/50 transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary-500)]"
               aria-label="Toggle Dark Mode"
             >
               {theme === 'dark' ? <Sun className="w-5 h-5" strokeWidth={1.5} /> : <Moon className="w-5 h-5" strokeWidth={1.5} />}
