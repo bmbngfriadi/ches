@@ -78,7 +78,7 @@ export default function Login() {
         <div className="login-right-content relative">
           
           {/* Dark Mode Toggle */}
-          <div className="absolute top-6 right-6 lg:fixed lg:top-8 lg:right-8 z-50">
+          <div className="absolute top-8 right-8 sm:top-10 sm:right-12 lg:fixed lg:top-8 lg:right-8 z-50">
             <button
               onClick={toggleTheme}
               className="w-10 h-10 flex items-center justify-center rounded-full bg-[var(--surface)] text-[var(--primary-600)] dark:text-[var(--primary-400)] hover:bg-[var(--surface-hover)] border border-gray-200 dark:border-gray-700/50 transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary-500)]"
@@ -88,7 +88,7 @@ export default function Login() {
             </button>
           </div>
 
-          <div className="mb-8 lg:mb-10 text-center lg:text-left mt-2">
+          <div className="mb-8 lg:mb-10 text-left pr-12 lg:pr-0 mt-2">
             <h2 className="text-3xl font-extrabold text-[var(--text-primary)] tracking-tight">
               Selamat Datang
             </h2>
