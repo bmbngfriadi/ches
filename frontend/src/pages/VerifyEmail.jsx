@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import api from '../api';
 import { CheckCircle, XCircle, Loader2 } from 'lucide-react';
 
 export default function VerifyEmail() {
   const { token } = useParams();
+  const navigate = useNavigate();
   const [status, setStatus] = useState('loading'); // 'loading', 'success', 'error'
   const [message, setMessage] = useState('');
 
@@ -14,6 +15,11 @@ export default function VerifyEmail() {
         const res = await api.post('/auth/verify-email', { token });
         setStatus('success');
         setMessage(res.data.message);
+        
+        // Auto redirect to login after 3.5 seconds
+        setTimeout(() => {
+          navigate('/login');
+        }, 3500);
       } catch (err) {
         setStatus('error');
         setMessage(err.response?.data?.message || 'Gagal memverifikasi email. Tautan mungkin telah kadaluarsa atau sudah digunakan.');
@@ -22,7 +28,7 @@ export default function VerifyEmail() {
     if (token) {
       verify();
     }
-  }, [token]);
+  }, [token, navigate]);
 
   return (
     <div className="login-split-container">
@@ -67,6 +73,11 @@ export default function VerifyEmail() {
               ? 'Mohon tunggu sebentar, kami sedang memverifikasi alamat email Anda.'
               : message
             }
+            {status === 'success' && (
+              <span className="block mt-2 text-sm text-[var(--primary-600)] animate-pulse">
+                Mengarahkan ke halaman login dalam beberapa detik...
+              </span>
+            )}
           </p>
 
           {status !== 'loading' && (
