@@ -93,7 +93,7 @@ const initDb = async () => {
       (6, 'cardlog_edit_1h'),
       (7, 'user_management'),
       (8, 'cardlog_export_png'),
-      (9, 'receive_email_notification'),
+      (9, 'receive_email_notification')
       ON CONFLICT (id) DO UPDATE SET name = EXCLUDED.name;
 
       -- Add Indexes to speed up queries drastically
