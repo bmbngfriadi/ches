@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { KeyRound, UserRound, ArrowRight, Loader2, ShieldCheck, Eye, EyeOff } from 'lucide-react';
+import { KeyRound, UserRound, ArrowRight, Loader2, Eye, EyeOff, Moon, Sun } from 'lucide-react';
 import api from '../api';
 import { useAlert } from '../context/AlertContext';
+import { useTheme } from '../context/ThemeContext';
 
 export default function Login() {
   const navigate = useNavigate();
   const location = useLocation();
   const { showAlert } = useAlert();
+  const { theme, toggleTheme } = useTheme();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -73,8 +75,20 @@ export default function Login() {
 
       {/* Right side (Bottom overlapping card on mobile) */}
       <div className="login-right-panel">
-        <div className="login-right-content">
-          <div className="mb-8 lg:mb-10 text-center lg:text-left">
+        <div className="login-right-content relative">
+          
+          {/* Dark Mode Toggle */}
+          <div className="absolute top-0 right-0 sm:-top-2 sm:-right-2">
+            <button
+              onClick={toggleTheme}
+              className="p-2.5 rounded-xl bg-[var(--surface-50)] text-[var(--text-secondary)] hover:bg-[var(--surface-hover)] hover:text-[var(--text-primary)] border border-[var(--border-color)] transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary-500)]"
+              aria-label="Toggle Dark Mode"
+            >
+              {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            </button>
+          </div>
+
+          <div className="mb-8 lg:mb-10 text-center lg:text-left mt-2">
             <h2 className="text-3xl font-extrabold text-[var(--text-primary)] tracking-tight">
               Selamat Datang
             </h2>
