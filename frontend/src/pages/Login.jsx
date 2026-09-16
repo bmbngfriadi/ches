@@ -78,7 +78,7 @@ export default function Login() {
         <div className="login-right-content relative">
           
           {/* Dark Mode Toggle */}
-          <div className="absolute top-4 right-4 sm:top-6 sm:right-8 lg:fixed lg:top-8 lg:right-8 z-50">
+          <div className="absolute top-6 right-6 lg:fixed lg:top-8 lg:right-8 z-50">
             <button
               onClick={toggleTheme}
               className="w-12 h-12 flex items-center justify-center rounded-full bg-[var(--surface)] text-[var(--primary-600)] dark:text-[var(--primary-400)] hover:bg-[var(--surface-hover)] border border-gray-200 dark:border-gray-700/50 transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary-500)]"
