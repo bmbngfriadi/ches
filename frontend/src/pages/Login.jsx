@@ -88,7 +88,7 @@ export default function Login() {
         </div>
 
         <div className="login-right-content relative">
-          <div className="mb-8 lg:mb-10 text-left pr-12 lg:pr-0 mt-2">
+          <div className="mb-8 lg:mb-10 text-center lg:text-left -mt-2 lg:mt-0">
             <h2 className="text-3xl font-extrabold text-[var(--text-primary)] tracking-tight">
               Selamat Datang
             </h2>
