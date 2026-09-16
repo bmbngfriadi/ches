@@ -138,7 +138,7 @@ app.post('/api/auth/register', async (req, res) => {
 
     // Use the origin from the request to generate the link, falling back to production url
     const frontendUrl = req.headers.origin || 'https://cg-plantbatam.com';
-    const verifyUrl = `${frontendUrl}/#/verify-email/${verifyToken}`;
+    const verifyUrl = `${frontendUrl}/ches/#/verify-email/${verifyToken}`;
     const html = `
       <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
         <h2>Verifikasi Email CHES</h2>
@@ -190,8 +190,8 @@ app.post('/api/auth/forgot-password', async (req, res) => {
 
     await db.query('UPDATE users SET reset_token = $1, reset_token_expiry = $2 WHERE email = $3', [resetToken, expiry, email]);
 
-    const frontendUrl = req.headers.origin || 'https://cg-plantbatam.com/ches';
-    const resetUrl = `${frontendUrl}/#/reset-password/${resetToken}`;
+    const frontendUrl = req.headers.origin || 'https://cg-plantbatam.com';
+    const resetUrl = `${frontendUrl}/ches/#/reset-password/${resetToken}`;
     const html = `
       <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
         <h2>Reset Password</h2>
