@@ -1,11 +1,11 @@
 const { Pool } = require('pg');
-require('dotenv').config({ override: true });
+require('dotenv').config();
 
 const pool = new Pool({
   host: process.env.DB_HOST || 'localhost',
   user: process.env.DB_USER || 'postgres',
   password: process.env.DB_PASSWORD || 'Gamaadmin53',
-  database: process.env.DB_NAME || 'ches_prod',
+  database: process.env.DB_NAME && process.env.DB_NAME !== 'ches_db' ? process.env.DB_NAME : 'ches_prod',
   port: process.env.DB_PORT || 5432,
 });
 
