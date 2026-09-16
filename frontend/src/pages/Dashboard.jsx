@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, 
@@ -163,9 +164,9 @@ export default function Dashboard() {
   const NavItem = ({ icon: Icon, label, tabId }) => (
     <button 
       onClick={() => handleNavigate(tabId)}
-      className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all ${activeTab === tabId ? 'bg-[#b52025] text-white shadow-md shadow-[#b52025]/20 font-bold' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white font-semibold'}`}
+      className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 ${activeTab === tabId ? 'bg-[var(--primary-50)] dark:bg-[var(--primary-500)]/10 text-[var(--primary-600)] dark:text-[var(--primary-400)] font-bold shadow-sm border border-[var(--primary-500)]/20' : 'text-[var(--text-secondary)] hover:bg-[var(--surface-hover)] hover:text-[var(--text-primary)] font-semibold'}`}
     >
-      <Icon className={`w-5 h-5 ${activeTab === tabId ? '' : 'opacity-80'}`} />
+      <Icon className={`w-5 h-5 ${activeTab === tabId ? '' : 'opacity-70'}`} />
       <span className="text-sm tracking-wide">{label}</span>
     </button>
   );
@@ -173,9 +174,9 @@ export default function Dashboard() {
   const BottomNavItem = ({ icon: Icon, label, tabId }) => (
     <button 
       onClick={() => handleNavigate(tabId)}
-      className={`flex-1 flex flex-col items-center justify-center py-2 transition-all ${activeTab === tabId ? 'text-[#b52025] scale-110 font-bold' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-medium'}`}
+      className={`flex-1 flex flex-col items-center justify-center py-2 transition-all duration-300 ${activeTab === tabId ? 'text-[var(--primary-500)] scale-110 font-bold' : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-medium'}`}
     >
-      <Icon className={`w-6 h-6 mb-1 ${activeTab === tabId ? 'fill-current' : 'opacity-80'}`} />
+      <Icon className={`w-6 h-6 mb-1 ${activeTab === tabId ? 'fill-[var(--primary-50)] dark:fill-[var(--primary-900)]' : 'opacity-70'}`} />
       <span className="text-[11px]">{label}</span>
     </button>
   );
@@ -202,44 +203,46 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="flex h-screen bg-gray-50 dark:bg-gray-900 overflow-hidden font-sans transition-colors duration-200">
+    <div className="flex h-screen bg-[var(--bg-default)] overflow-hidden font-sans transition-colors duration-300">
       
       {/* Sidebar - Desktop */}
-      <aside className="hidden md:flex flex-col w-64 bg-white dark:bg-gray-950 border-r border-gray-200 dark:border-gray-800 transition-colors duration-200 shrink-0">
-        <div className="p-6 flex flex-col justify-center items-center bg-[#b52025] relative overflow-hidden h-32 space-y-3 shrink-0">
+      <aside className="hidden md:flex flex-col w-64 bg-[var(--surface)] border-r border-[var(--border-color)] transition-colors duration-300 shrink-0 shadow-sm z-20">
+        <div className="p-6 flex flex-col justify-center items-center relative overflow-hidden h-32 space-y-3 shrink-0">
+          <div className="absolute inset-0 bg-[url('/bg-login.jpg')] bg-cover bg-center z-0" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[rgba(140,25,28,0.85)] to-[rgba(74,13,15,0.95)] z-0" />
           {/* Blueprint Pattern */}
-          <div className="absolute inset-0 opacity-10 bg-[linear-gradient(rgba(255,255,255,1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,1)_1px,transparent_1px)] bg-[size:20px_20px]" />
-          <div className="absolute inset-0 bg-gradient-to-br from-black/10 via-transparent to-black/40" />
+          <div className="absolute inset-0 opacity-10 bg-[linear-gradient(rgba(255,255,255,1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,1)_1px,transparent_1px)] bg-[size:20px_20px] z-0" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/10 to-transparent z-0" />
           
-          <div className="z-10 bg-white p-2 rounded-xl shadow-md border border-white/20">
+          <div className="z-10 bg-white p-2.5 rounded-xl shadow-[0_4px_14px_0_rgba(0,0,0,0.15)] border border-white/20 transform transition-transform hover:scale-105">
             <img
               src="https://i.ibb.co.com/prMYS06h/LOGO-2025-03.png"
               alt="Logo"
               className="h-8 object-contain"
             />
           </div>
-          <span className="z-10 text-[10px] font-bold text-white/90 uppercase tracking-widest text-center shadow-sm">Cardlog Heavy Equipment</span>
+          <span className="z-10 text-[10px] font-extrabold text-white/95 uppercase tracking-widest text-center shadow-sm">Cardlog Heavy Equipment</span>
         </div>
         
-        <div className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+        <div className="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto custom-scrollbar">
           <NavItem icon={LayoutDashboard} label="Dashboard" tabId="overview" />
           <NavItem icon={FileText} label="Cardlogs" tabId="cardlogs" />
           {isDevAdmin && <NavItem icon={Users} label="User Management" tabId="users" />}
           <NavItem icon={SettingsIcon} label="Profile" tabId="settings" />
         </div>
 
-        <div className="p-4 border-t border-gray-100 dark:border-gray-800">
+        <div className="p-4 border-t border-[var(--border-color)] bg-[var(--surface-50)]">
           <button 
             onClick={() => setShowLogoutConfirm(true)}
-            className="w-full flex items-center space-x-3 px-4 py-3 text-red-600 dark:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition-colors"
+            className="w-full flex items-center space-x-3 px-4 py-3 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/10 rounded-xl transition-all duration-200"
           >
             <LogOut className="w-5 h-5" />
-            <span className="font-semibold text-sm">Sign Out</span>
+            <span className="font-bold text-sm tracking-wide">Sign Out</span>
           </button>
         </div>
       </aside>
 
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-gray-950 border-t border-gray-200 dark:border-gray-800 flex justify-around items-center px-2 pb-safe shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] h-[72px]">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-[var(--surface)]/90 backdrop-blur-xl border-t border-[var(--border-color)] flex justify-around items-center px-2 pb-safe shadow-[0_-8px_30px_rgba(0,0,0,0.08)] h-[76px] transition-colors duration-300">
         <BottomNavItem icon={LayoutDashboard} label="Home" tabId="overview" />
         <BottomNavItem icon={FileText} label="Logs" tabId="cardlogs" />
         {isDevAdmin && <BottomNavItem icon={Users} label="Users" tabId="users" />}
@@ -249,7 +252,7 @@ export default function Dashboard() {
       {/* Floating Add Button - Bottom Right Mobile */}
       <button 
         onClick={() => handleNavigate('new-cardlog')}
-        className="md:hidden fixed bottom-24 right-6 z-50 w-14 h-14 bg-[#b52025] hover:bg-[#8c191c] rounded-full flex items-center justify-center text-white shadow-xl transform hover:scale-105 transition-transform"
+        className="md:hidden fixed bottom-28 right-6 z-50 w-14 h-14 bg-[var(--primary-500)] hover:bg-[var(--primary-600)] rounded-full flex items-center justify-center text-white shadow-[0_8px_20px_rgba(225,29,72,0.4)] transform hover:scale-105 active:scale-95 transition-all duration-300"
       >
         <Plus className="w-7 h-7" />
       </button>
@@ -258,13 +261,14 @@ export default function Dashboard() {
       <main className="flex-1 flex flex-col overflow-hidden">
         
         {/* Mobile Topbar - Modern Industrial */}
-        <div className="md:hidden flex items-center justify-between bg-[#b52025] relative overflow-hidden px-5 py-4 shrink-0 shadow-md">
+        <div className="md:hidden flex items-center justify-between relative overflow-hidden px-5 py-4 shrink-0 shadow-md">
+          <div className="absolute inset-0 bg-[url('/bg-login.jpg')] bg-cover bg-center z-0" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[rgba(140,25,28,0.85)] to-[rgba(74,13,15,0.95)] z-0" />
           {/* Blueprint Pattern */}
-          <div className="absolute inset-0 opacity-10 bg-[linear-gradient(rgba(255,255,255,1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,1)_1px,transparent_1px)] bg-[size:15px_15px]" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/20 to-transparent" />
+          <div className="absolute inset-0 opacity-10 bg-[linear-gradient(rgba(255,255,255,1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,1)_1px,transparent_1px)] bg-[size:15px_15px] z-0" />
           
           <div className="flex items-center space-x-3 z-10 relative">
-            <div className="bg-white p-1.5 rounded-lg shadow-sm border border-white/20">
+            <div className="bg-white p-1.5 rounded-lg shadow-[0_2px_8px_rgba(0,0,0,0.12)] border border-white/20">
               <img
                 src="https://i.ibb.co.com/prMYS06h/LOGO-2025-03.png"
                 alt="Logo"
@@ -276,14 +280,14 @@ export default function Dashboard() {
           <div className="flex items-center space-x-1 z-10 relative">
             <button 
               onClick={toggleTheme}
-              className="p-2 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-all"
+              className="p-2 text-white/90 hover:text-white bg-white/10 hover:bg-white/20 rounded-lg transition-all backdrop-blur-sm"
               title="Toggle Theme"
             >
               {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </button>
             <button
               onClick={() => setShowLogoutConfirm(true)}
-              className="p-2 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-all"
+              className="p-2 text-white/90 hover:text-white bg-white/10 hover:bg-white/20 rounded-lg transition-all backdrop-blur-sm ml-2"
             >
               <LogOut className="w-5 h-5" />
             </button>
@@ -291,78 +295,85 @@ export default function Dashboard() {
         </div>
 
         {/* Desktop Topbar */}
-        <header className="bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800 h-20 hidden md:flex items-center justify-between px-4 sm:px-6 lg:px-8 z-10 transition-colors duration-200 shrink-0">
+        <header className="bg-[var(--surface)]/80 backdrop-blur-md border-b border-[var(--border-color)] h-20 hidden md:flex items-center justify-between px-6 lg:px-10 z-10 transition-colors duration-300 shrink-0 sticky top-0">
 
           <div className="hidden md:flex items-center">
-            <h1 className="text-xl font-bold text-gray-800 dark:text-white capitalize">
+            <h1 className="text-2xl font-extrabold text-[var(--text-primary)] capitalize tracking-tight flex items-center gap-3">
+              <div className="w-2 h-8 bg-[var(--primary-500)] rounded-full"></div>
               {activeTab.replace('-', ' ')}
             </h1>
           </div>
 
-          <div className="flex items-center space-x-2 sm:space-x-4">
+          <div className="flex items-center space-x-4">
             <button 
               onClick={toggleTheme}
-              className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              className="p-2.5 text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-full hover:bg-[var(--surface-hover)] transition-all bg-[var(--surface)] border border-[var(--border-color)] shadow-sm"
               title="Toggle Theme"
             >
               {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </button>
-            <div className="h-8 w-px bg-gray-200 dark:bg-gray-800 mx-1 sm:mx-2" />
+            <div className="h-8 w-px bg-[var(--border-color)] mx-2" />
             <div 
               onClick={() => handleNavigate('settings')}
-              className="flex items-center space-x-3 cursor-pointer p-1.5 rounded-md hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors"
+              className="flex items-center space-x-3 cursor-pointer p-2 rounded-xl hover:bg-[var(--surface-hover)] transition-all border border-transparent hover:border-[var(--border-color)]"
             >
               {currentUser.profile_photo ? (
-                <img src={currentUser.profile_photo} alt="Profile" className="w-9 h-9 rounded-full object-cover border border-gray-200 dark:border-gray-700" />
+                <img src={currentUser.profile_photo} alt="Profile" className="w-10 h-10 rounded-full object-cover border-2 border-[var(--primary-500)]/30 shadow-sm" />
               ) : (
-                <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#b52025] to-[#8c191c] flex items-center justify-center text-white font-bold text-sm uppercase">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[var(--primary-500)] to-[var(--primary-700)] flex items-center justify-center text-white font-bold text-sm uppercase shadow-sm">
                   {(currentUser.full_name || currentUser.username || 'AD').substring(0, 2)}
                 </div>
               )}
               <div className="hidden sm:block text-sm">
-                <p className="font-bold text-gray-700 dark:text-gray-200 leading-tight">{currentUser.full_name || currentUser.username || 'Admin User'}</p>
-                <p className="text-xs text-gray-500 dark:text-gray-400 font-medium capitalize">{(currentUser.role || 'administrator').replace(/_/g, ' ')}</p>
+                <p className="font-bold text-[var(--text-primary)] leading-tight tracking-tight">{currentUser.full_name || currentUser.username || 'Admin User'}</p>
+                <p className="text-xs text-[var(--text-secondary)] font-medium capitalize mt-0.5">{(currentUser.role || 'administrator').replace(/_/g, ' ')}</p>
               </div>
             </div>
           </div>
         </header>
 
         {/* Dynamic SPA Content */}
-        <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-8 bg-gray-50/50 dark:bg-gray-900/50 pb-32 md:pb-8 w-full max-w-full">
-          <div className="max-w-7xl mx-auto relative min-h-full w-full">
-            {renderContent()}
+        <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6 lg:p-10 bg-[var(--bg-default)] pb-32 md:pb-10 w-full max-w-full custom-scrollbar">
+          <div className="max-w-[1600px] mx-auto relative min-h-full w-full">
+            <div key={activeTab} className="animate-page-enter">
+              {renderContent()}
+            </div>
           </div>
         </div>
       </main>
 
       {/* Logout Confirmation Modal */}
-      {showLogoutConfirm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-gray-900/80 backdrop-blur-sm" onClick={() => setShowLogoutConfirm(false)} />
-          <div className="relative bg-white dark:bg-gray-900 rounded-md shadow-xl border border-gray-200 dark:border-gray-800 w-full max-w-sm p-6 animate-in fade-in zoom-in duration-200">
-            <div className="flex items-center space-x-3 text-[#b52025] mb-4">
-              <LogOut className="w-6 h-6" />
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white">Konfirmasi Logout</h3>
+      {showLogoutConfirm && createPortal(
+        <div className="fixed inset-0 z-[120] flex items-end sm:items-center justify-center p-0 sm:p-4">
+          <div className="absolute inset-0 bg-gray-900/80 backdrop-blur-md" onClick={() => setShowLogoutConfirm(false)} />
+          <div className="relative bg-[var(--surface)] rounded-t-[32px] sm:rounded-2xl shadow-2xl border border-[var(--border-color)] w-full max-w-md p-7 pb-10 sm:pb-7 animate-slide-up-sheet sm:animate-in sm:fade-in sm:zoom-in duration-200">
+            <button onClick={() => setShowLogoutConfirm(false)} className="absolute top-5 right-5 p-2 rounded-full bg-[var(--surface-50)] hover:bg-[var(--surface-hover)] text-[var(--text-secondary)] transition-colors border border-[var(--border-color)]">
+              <X className="w-4 h-4" />
+            </button>
+            <div className="w-12 h-12 bg-red-50 dark:bg-red-900/20 rounded-full flex items-center justify-center mb-5 border border-red-100 dark:border-red-900/30">
+              <LogOut className="w-6 h-6 text-red-500" />
             </div>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-6 leading-relaxed">
-              Apakah Anda yakin ingin keluar? Anda harus memasukkan username dan password untuk login kembali ke sistem.
+            <h3 className="text-xl font-extrabold text-[var(--text-primary)] mb-2 tracking-tight">Konfirmasi Logout</h3>
+            <p className="text-[var(--text-secondary)] mb-8 leading-relaxed font-medium">
+              Apakah Anda yakin ingin keluar dari sistem? Anda harus login kembali untuk mengakses data.
             </p>
-            <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 mt-2">
+            <div className="flex flex-col-reverse sm:flex-row sm:space-x-3 gap-3 sm:gap-0 mt-2">
               <button 
                 onClick={() => setShowLogoutConfirm(false)} 
-                className="w-full sm:flex-1 px-4 py-3.5 sm:py-3 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg font-bold text-base sm:text-sm transition-colors"
+                className="w-full sm:flex-1 px-4 py-3.5 bg-[var(--surface-50)] hover:bg-[var(--surface-hover)] border border-[var(--border-color)] text-[var(--text-primary)] rounded-full sm:rounded-xl font-bold text-sm transition-all focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800"
               >
                 Batal
               </button>
               <button 
                 onClick={executeLogout} 
-                className="w-full sm:flex-1 px-4 py-3.5 sm:py-3 bg-[#b52025] hover:bg-[#8c191c] text-white rounded-lg font-bold text-base sm:text-sm transition-colors shadow-sm"
+                className="w-full sm:flex-1 px-4 py-3.5 bg-red-600 hover:bg-red-700 text-white rounded-full sm:rounded-xl font-bold text-sm transition-all shadow-[0_4px_14px_0_rgba(220,38,38,0.39)] hover:shadow-[0_6px_20px_rgba(220,38,38,0.23)] hover:-translate-y-0.5 focus:ring-4 focus:ring-red-600/30"
               >
                 Ya, Keluar
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );

@@ -47,99 +47,82 @@ export default function Login() {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors duration-200">
-      {/* Mobile Header - Modern Industrial Banner */}
-      <div className="lg:hidden w-full bg-[#b52025] relative overflow-hidden py-10 px-6 text-center flex flex-col items-center justify-center shadow-md">
-        <div className="absolute inset-0 opacity-10 bg-[linear-gradient(rgba(255,255,255,1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,1)_1px,transparent_1px)] bg-[size:20px_20px]" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-transparent" />
-        <div className="z-10 relative bg-white p-3 rounded-xl shadow-lg border border-white/20 mb-4 inline-block">
-          <img src="https://i.ibb.co.com/prMYS06h/LOGO-2025-03.png" alt="Semen Merah Putih Logo" className="h-9 object-contain" />
-        </div>
-        <h1 className="z-10 relative text-2xl font-extrabold text-white tracking-tight">CHES Portal</h1>
-        <p className="z-10 relative text-white/80 text-sm mt-1 font-medium">Cardlog Heavy Equipment System</p>
-      </div>
-
-      {/* Left side - Modern Corporate Banner (Desktop) */}
-      <div className="hidden lg:flex lg:w-5/12 bg-[#b52025] relative items-center justify-center overflow-hidden">
-        {/* Blueprint / Industrial Grid Pattern */}
-        <div className="absolute inset-0 opacity-10 bg-[linear-gradient(rgba(255,255,255,1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,1)_1px,transparent_1px)] bg-[size:30px_30px]" />
-        
-        {/* Sleek shadow overlays for depth */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black/10 via-transparent to-black/50" />
-        <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-black/20 to-transparent" />
-
-        <div className="z-10 w-full px-12 xl:px-16 text-white flex flex-col justify-between h-full py-12">
+    <div className="login-split-container">
+      {/* Left side (Top on mobile) */}
+      <div className="login-left-panel">
+        <div className="login-brand-wrapper text-center lg:text-left mx-auto lg:mx-0 lg:ml-12 xl:ml-20 flex flex-col h-full justify-center lg:justify-start lg:py-12">
           <div>
-            <div className="bg-white p-3 rounded-xl inline-block mb-10 shadow-lg border border-white/20">
-              <img src="https://i.ibb.co.com/prMYS06h/LOGO-2025-03.png" alt="Semen Merah Putih Logo" className="h-10 object-contain" />
+            <div className="bg-white p-3 rounded-xl inline-block mb-4 lg:mb-10 shadow-lg border border-white/20">
+              <img src="https://i.ibb.co.com/prMYS06h/LOGO-2025-03.png" alt="Semen Merah Putih Logo" className="h-9 lg:h-10 object-contain" />
             </div>
-            <h1 className="text-4xl xl:text-5xl font-extrabold tracking-tight mb-6 leading-tight">
-              Cardlog Heavy<br />Equipment System
+            <h1 className="text-2xl lg:text-4xl xl:text-5xl font-extrabold tracking-tight mb-2 lg:mb-6 leading-tight text-white drop-shadow-sm">
+              <span className="lg:hidden">CHES Portal</span>
+              <span className="hidden lg:inline">Cardlog Heavy<br />Equipment System</span>
             </h1>
-            <div className="w-12 h-1.5 bg-white mb-6 rounded-full opacity-90" />
-            <p className="text-lg text-white/90 max-w-md leading-relaxed font-medium">
-              Sistem manajemen log alat berat terpadu untuk efisiensi dan transparansi operasional lapangan.
+            <div className="hidden lg:block w-12 h-1.5 bg-white mb-6 rounded-full opacity-90 shadow-sm" />
+            <p className="text-white/90 text-sm lg:text-lg max-w-md leading-relaxed font-medium mx-auto lg:mx-0 drop-shadow-sm">
+              <span className="lg:hidden">Cardlog Heavy Equipment System</span>
+              <span className="hidden lg:inline">Sistem manajemen log alat berat terpadu untuk efisiensi dan transparansi operasional lapangan.</span>
             </p>
           </div>
-          
-          <div className="text-white/70 text-sm font-semibold tracking-wide">
+          <div className="hidden lg:block mt-auto pt-16 text-white/70 text-sm font-semibold tracking-wide">
             PT CEMINDO GEMILANG TBK - PLANT BATAM
           </div>
         </div>
       </div>
 
-      {/* Right side - Form */}
-      <div className="w-full lg:w-7/12 flex flex-col justify-center px-6 sm:px-16 xl:px-24 relative py-8 lg:py-12 flex-1">
-        <div className="w-full max-w-md mx-auto lg:mx-0 xl:ml-16">
+      {/* Right side (Bottom overlapping card on mobile) */}
+      <div className="login-right-panel">
+        <div className="login-right-content">
           <div className="mb-8 lg:mb-10 text-center lg:text-left">
-            <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">
+            <h2 className="text-3xl font-extrabold text-[var(--text-primary)] tracking-tight">
               Selamat Datang
             </h2>
-            <p className="text-gray-500 dark:text-gray-400 mt-2 font-medium">
+            <p className="text-[var(--text-secondary)] mt-2 font-medium">
               Silakan login untuk mengakses dashboard operasional.
             </p>
           </div>
 
           <form className="space-y-6" onSubmit={handleLogin}>
             <div>
-              <label htmlFor="username" className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
+              <label htmlFor="username" className="block text-sm font-bold text-[var(--text-primary)] mb-2">
                 Username / Email
               </label>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <UserRound className="h-5 w-5 text-gray-400 group-focus-within:text-[#b52025] transition-colors" />
+                  <UserRound className="h-5 w-5 text-[var(--text-secondary)] group-focus-within:text-[var(--primary-500)] transition-colors" />
                 </div>
                 <input
                   id="username"
                   name="username"
                   type="text"
                   required
-                  className="block w-full pl-12 pr-4 py-3.5 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl focus:ring-2 focus:ring-[#b52025]/20 focus:border-[#b52025] transition-all text-gray-900 dark:text-white shadow-sm"
+                  className="block w-full pl-12 pr-4 py-3.5 bg-[var(--surface)] border border-[var(--border-color)] rounded-xl focus:ring-2 focus:ring-[var(--primary-500)] focus:border-transparent transition-all text-[var(--text-primary)] shadow-sm"
                   placeholder="Enter your username or email"
                 />
               </div>
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
+              <label htmlFor="password" className="block text-sm font-bold text-[var(--text-primary)] mb-2">
                 Password
               </label>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <KeyRound className="h-5 w-5 text-gray-400 group-focus-within:text-[#b52025] transition-colors" />
+                  <KeyRound className="h-5 w-5 text-[var(--text-secondary)] group-focus-within:text-[var(--primary-500)] transition-colors" />
                 </div>
                 <input
                   id="password"
                   name="password"
                   type={showPassword ? 'text' : 'password'}
                   required
-                  className="block w-full pl-12 pr-12 py-3.5 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl focus:ring-2 focus:ring-[#b52025]/20 focus:border-[#b52025] transition-all text-gray-900 dark:text-white shadow-sm"
+                  className="block w-full pl-12 pr-12 py-3.5 bg-[var(--surface)] border border-[var(--border-color)] rounded-xl focus:ring-2 focus:ring-[var(--primary-500)] focus:border-transparent transition-all text-[var(--text-primary)] shadow-sm"
                   placeholder="••••••••"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
                 >
                   {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                 </button>
@@ -152,13 +135,13 @@ export default function Login() {
                   id="remember-me"
                   name="remember-me"
                   type="checkbox"
-                  className="h-4 w-4 text-[#b52025] focus:ring-[#b52025] border-gray-300 dark:border-gray-700 rounded cursor-pointer bg-white dark:bg-gray-900"
+                  className="h-4 w-4 text-[var(--primary-500)] focus:ring-[var(--primary-500)] border-[var(--border-color)] rounded cursor-pointer bg-[var(--surface)]"
                 />
-                <label htmlFor="remember-me" className="ml-2 block text-sm font-medium text-gray-600 dark:text-gray-400 cursor-pointer">
+                <label htmlFor="remember-me" className="ml-2 block text-sm font-medium text-[var(--text-secondary)] cursor-pointer">
                   Remember me
                 </label>
               </div>
-              <Link to="/forgot-password" className="text-sm font-semibold text-[#b52025] hover:text-[#8c191c] transition-colors">
+              <Link to="/forgot-password" className="text-sm font-semibold text-[var(--primary-500)] hover:text-[var(--primary-700)] transition-colors">
                 Lupa Password?
               </Link>
             </div>
@@ -166,7 +149,7 @@ export default function Login() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex justify-center items-center py-3.5 px-4 rounded-xl text-sm font-bold text-white bg-[#b52025] hover:bg-[#8c191c] focus:outline-none focus:ring-4 focus:ring-[#b52025]/30 transition-all disabled:opacity-70 disabled:cursor-not-allowed group shadow-md hover:shadow-lg"
+              className="w-full flex justify-center items-center py-3.5 px-4 rounded-xl text-sm font-bold text-white bg-[var(--primary-500)] hover:bg-[var(--primary-600)] focus:outline-none focus:ring-4 focus:ring-[var(--primary-500)]/30 transition-all disabled:opacity-70 disabled:cursor-not-allowed group shadow-[0_4px_14px_0_rgba(225,29,72,0.39)] hover:shadow-[0_6px_20px_rgba(225,29,72,0.23)] hover:-translate-y-0.5"
             >
               {loading ? (
                 <Loader2 className="animate-spin h-5 w-5 text-white" />
@@ -179,11 +162,11 @@ export default function Login() {
             </button>
           </form>
           
-          <div className="mt-10 text-center lg:text-left text-sm font-medium text-gray-600 dark:text-gray-400">
-            Belum punya akun? <Link to="/register" className="text-[#b52025] hover:text-[#8c191c] font-bold">Daftar di sini</Link>
+          <div className="mt-10 text-center lg:text-left text-sm font-medium text-[var(--text-secondary)]">
+            Belum punya akun? <Link to="/register" className="text-[var(--primary-500)] hover:text-[var(--primary-700)] font-bold">Daftar di sini</Link>
           </div>
           
-          <div className="mt-8 text-center lg:text-left text-xs font-semibold text-gray-400 dark:text-gray-600 uppercase tracking-wider">
+          <div className="mt-8 text-center lg:text-left text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider">
             &copy; {new Date().getFullYear()} Semen Merah Putih
           </div>
         </div>
