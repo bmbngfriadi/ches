@@ -116,13 +116,44 @@
 .login-left-panel {
   flex: 1;
   background: 
-    linear-gradient(135deg, rgba(181, 32, 37, 0.85) 0%, rgba(74, 13, 15, 0.95) 100%),
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(135deg, rgba(60, 8, 10, 0.98), rgba(130, 15, 18, 0.9), rgba(150, 20, 25, 0.88), rgba(40, 5, 7, 0.98)),
     url('/bg-login.jpg') center/cover no-repeat;
+  background-size: 30px 30px, 30px 30px, 300% 300%, cover;
+  background-position: 0% 0%, 0% 0%, 0% 50%, center;
+  animation: gradientShift 15s ease infinite;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 3rem;
+  padding: 4rem;
   color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-left-panel::before {
+  content: '';
+  position: absolute;
+  top: -20%; left: -10%;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(35px);
+  animation: floatOrb 8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.login-left-panel::after {
+  content: '';
+  position: absolute;
+  bottom: 10%; right: -10%;
+  width: 450px; height: 450px;
+  background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(40px);
+  animation: floatOrb 10s ease-in-out infinite reverse;
+  pointer-events: none;
 }
 
 .login-right-panel {
@@ -156,41 +187,20 @@
     padding: 4rem 1.5rem 7rem 1.5rem;
     align-items: center;
     text-align: center;
-    background: 
-      linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-      linear-gradient(120deg, rgba(102, 16, 18, 0.9), rgba(181, 32, 37, 0.85), rgba(181, 32, 37, 0.85), rgba(74, 13, 15, 0.95)),
-      url('/bg-login.jpg') center/cover no-repeat;
     background-size: 25px 25px, 25px 25px, 300% 300%, cover;
-    background-position: 0% 0%, 0% 0%, 0% 50%, center;
-    animation: mobileGradientShift 12s ease infinite;
-    position: relative;
-    overflow: hidden;
     box-shadow: inset 0 -20px 40px rgba(0,0,0,0.4);
   }
   
   .login-left-panel::before {
-    content: '';
-    position: absolute;
-    top: -20%; left: -20%;
     width: 250px; height: 250px;
     background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
-    border-radius: 50%;
     filter: blur(25px);
-    animation: floatOrb 8s ease-in-out infinite;
-    pointer-events: none;
   }
   
   .login-left-panel::after {
-    content: '';
-    position: absolute;
-    bottom: 10%; right: -20%;
     width: 300px; height: 300px;
     background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
-    border-radius: 50%;
     filter: blur(30px);
-    animation: floatOrb 10s ease-in-out infinite reverse;
-    pointer-events: none;
   }
   
   .login-brand-wrapper {
@@ -220,7 +230,7 @@
 }
 
 /* Shared Keyframes */
-@keyframes mobileGradientShift {
+@keyframes gradientShift {
   0% { background-position: 0% 0%, 0% 0%, 0% 50%, center; }
   50% { background-position: 0% 0%, 0% 0%, 100% 50%, center; }
   100% { background-position: 0% 0%, 0% 0%, 0% 50%, center; }

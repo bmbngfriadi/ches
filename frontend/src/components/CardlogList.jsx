@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { Plus, Edit2, Trash2, Download, FileText, Search, Image as ImageIcon, Mail, Share2, X } from 'lucide-react';
 import * as XLSX from 'xlsx';
 import ExportPngTemplate from './ExportPngTemplate';
@@ -76,6 +77,18 @@ export default function CardlogList({ cardlogs, loading, onNavigate, refreshLogs
     }
   }, [activeExportRow]);
 
+  // Prevent body scroll when export modal is open
+  useEffect(() => {
+    if (exportedImage) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [exportedImage]);
+
   const handleShare = async () => {
     try {
       const file = new File([exportedBlob], exportFilename, {type: exportedBlob.type});
@@ -86,6 +99,8 @@ export default function CardlogList({ cardlogs, loading, onNavigate, refreshLogs
           title: exportFilename,
           text: 'Laporan Cardlog'
         });
+        setExportedImage(null);
+        setExportedBlob(null);
       } else {
         // Close modal first so alert is visible
         setExportedImage(null);
@@ -107,6 +122,8 @@ export default function CardlogList({ cardlogs, loading, onNavigate, refreshLogs
       
       // Show alert immediately to guarantee it renders
       showAlert('Berhasil!', 'File PNG berhasil didownload ke perangkat Anda.', 'success');
+      setExportedImage(null);
+      setExportedBlob(null);
       
       // Trigger click slightly after to avoid interrupting React render cycle on mobile
       setTimeout(() => {
@@ -641,43 +658,48 @@ export default function CardlogList({ cardlogs, loading, onNavigate, refreshLogs
       )}
 
       {/* Export Result Modal */}
-      {exportedImage && (
-        <div className="fixed inset-0 z-[120] flex items-end sm:items-center justify-center p-0 sm:p-4">
-          <div className="absolute inset-0 bg-gray-900/80 backdrop-blur-md" onClick={() => { setExportedImage(null); setExportedBlob(null); URL.revokeObjectURL(exportedImage); }} />
-          <div className="relative bg-[var(--surface)] rounded-t-[32px] sm:rounded-2xl shadow-2xl border border-[var(--border-color)] w-full max-w-sm overflow-hidden animate-slide-up-sheet sm:animate-in sm:fade-in sm:zoom-in duration-200">
-            <div className="flex justify-between items-center p-5 border-b border-[var(--border-color)]">
-              <h3 className="font-extrabold text-[var(--text-primary)]">PNG Siap!</h3>
-              <button onClick={() => { setExportedImage(null); setExportedBlob(null); URL.revokeObjectURL(exportedImage); }} className="p-2 text-[var(--text-secondary)] hover:bg-[var(--surface-hover)] rounded-full transition-colors">
-                <X className="w-5 h-5" />
+      {exportedImage && createPortal(
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-transparent transition-opacity" onClick={() => { setExportedImage(null); setExportedBlob(null); URL.revokeObjectURL(exportedImage); }} />
+          <div className="relative w-fit h-fit mx-auto my-auto animate-in fade-in zoom-in-95 duration-200 flex flex-col items-center">
+            <button 
+              className="absolute -top-3 -right-3 p-1.5 text-white bg-red-500 hover:bg-red-600 rounded-full shadow-md transition-all z-10"
+              onClick={() => { setExportedImage(null); setExportedBlob(null); URL.revokeObjectURL(exportedImage); }}
+            >
+              <X className="w-5 h-5" />
+            </button>
+            
+            <img 
+              src={exportedImage} 
+              alt="Export Preview" 
+              style={{ WebkitTouchCallout: 'default', pointerEvents: 'auto', userSelect: 'none', WebkitUserSelect: 'none' }} 
+              className="w-auto h-auto max-w-[95vw] md:max-w-3xl max-h-[75vh] rounded-lg block shadow-2xl bg-white" 
+              onClick={e => e.stopPropagation()} 
+            />
+            
+            <div className="w-full max-w-[95vw] md:max-w-3xl mt-4 flex flex-col sm:flex-row sm:space-y-0 sm:space-x-3 space-y-3 shrink-0" onClick={e => e.stopPropagation()}>
+              {!!navigator.share && (
+                <button 
+                  onClick={handleShare} 
+                  onTouchStart={() => {}}
+                  className="w-full flex-1 flex justify-center items-center px-4 py-3.5 bg-green-600 hover:bg-green-700 text-white rounded-xl font-bold text-sm transition-all duration-150 active:scale-95 shadow-[0_4px_14px_0_rgba(22,163,74,0.39)] active:shadow-none"
+                >
+                  <Share2 className="w-4 h-4 mr-2" />
+                  Bagikan Langsung
+                </button>
+              )}
+              <button 
+                onClick={handleDownload} 
+                onTouchStart={() => {}}
+                className="w-full flex-1 flex justify-center items-center px-4 py-3.5 bg-[var(--primary-500)] hover:bg-[var(--primary-600)] text-white rounded-xl font-bold text-sm transition-all duration-150 active:scale-95 shadow-[0_4px_14px_0_rgba(225,29,72,0.39)] active:shadow-none"
+              >
+                <Download className="w-4 h-4 mr-2" />
+                Download File
               </button>
             </div>
-            
-            <div className="p-6 flex flex-col items-center bg-[var(--surface-50)] pointer-events-auto">
-              <img src={exportedImage} alt="Export Preview" style={{ WebkitTouchCallout: 'default', pointerEvents: 'auto', userSelect: 'none', WebkitUserSelect: 'none' }} className="w-full h-auto max-h-64 object-contain shadow-md border border-[var(--border-color)] mb-6 rounded-xl cursor-pointer hover:scale-[1.02] transition-transform" />
-              
-              <div className="w-full flex flex-col space-y-3">
-                {!!navigator.share && (
-                  <button 
-                    onClick={handleShare} 
-                    onTouchStart={() => {}}
-                    className="w-full flex justify-center items-center px-4 py-3.5 bg-green-600 hover:bg-green-700 text-white rounded-xl font-bold text-sm transition-all duration-150 active:scale-95 shadow-[0_4px_14px_0_rgba(22,163,74,0.39)] active:shadow-none"
-                  >
-                    <Share2 className="w-4 h-4 mr-2" />
-                    Bagikan Langsung
-                  </button>
-                )}
-                <button 
-                  onClick={handleDownload} 
-                  onTouchStart={() => {}}
-                  className="w-full flex justify-center items-center px-4 py-3.5 bg-[var(--primary-500)] hover:bg-[var(--primary-600)] text-white rounded-xl font-bold text-sm transition-all duration-150 active:scale-95 shadow-[0_4px_14px_0_rgba(225,29,72,0.39)] active:shadow-none"
-                >
-                  <Download className="w-4 h-4 mr-2" />
-                  Download File
-                </button>
-              </div>
-            </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
