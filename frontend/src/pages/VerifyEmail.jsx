@@ -83,7 +83,7 @@ export default function VerifyEmail() {
           {status !== 'loading' && (
             <Link
               to="/login"
-              className="w-full flex justify-center items-center py-3.5 px-4 rounded-xl text-sm font-bold text-white bg-[var(--primary-500)] hover:bg-[var(--primary-600)] focus:outline-none focus:ring-4 focus:ring-[var(--primary-500)]/30 transition-all shadow-[0_4px_14px_0_rgba(225,29,72,0.39)] hover:shadow-[0_6px_20px_rgba(225,29,72,0.23)] hover:-translate-y-0.5"
+              className="w-full btn-primary"
             >
               Lanjutkan ke Halaman Login
             </Link>

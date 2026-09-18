@@ -205,7 +205,7 @@ export default function Settings() {
             <button 
               type="submit" 
               disabled={loading}
-              className="flex justify-center items-center px-8 py-3.5 sm:px-6 sm:py-3 w-full sm:w-auto bg-[var(--primary-500)] text-white rounded-xl font-bold hover:bg-[var(--primary-600)] transition-all disabled:opacity-70 disabled:cursor-not-allowed text-base sm:text-sm shadow-[0_4px_14px_0_rgba(225,29,72,0.39)] hover:shadow-[0_6px_20px_rgba(225,29,72,0.23)] hover:-translate-y-0.5 active:translate-y-0"
+              className="w-full sm:w-auto btn-primary"
             >
               <Save className="w-5 h-5 sm:w-4 sm:h-4 mr-2" />
               {loading ? 'Menyimpan...' : 'Simpan Perubahan'}
@@ -279,7 +279,7 @@ export default function Settings() {
               />
               <button
                 onClick={handleApplyCrop}
-                className="px-8 py-3.5 sm:px-6 sm:py-3 bg-[var(--primary-500)] hover:bg-[var(--primary-600)] text-white rounded-xl font-bold shrink-0 transition-colors text-base sm:text-sm shadow-[0_4px_14px_0_rgba(225,29,72,0.39)]"
+                className="shrink-0 btn-primary"
               >
                 Terapkan
               </button>

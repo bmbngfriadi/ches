@@ -114,30 +114,30 @@ export default function DashboardOverview({ cardlogs, loading, onNavigate }) {
   return (
     <div className="space-y-8">
       {/* Page Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
+      <div className="page-header">
         <div>
-          <h1 className="text-2xl font-extrabold text-[var(--text-primary)] tracking-tight">Overview Dashboard</h1>
-          <p className="text-sm text-[var(--text-secondary)] font-medium mt-1">Monitor heavy equipment operations and logs.</p>
+          <h1>Overview Dashboard</h1>
+          <p>Monitor heavy equipment operations and logs.</p>
         </div>
         <button 
           onClick={() => onNavigate('new-cardlog')}
-          className="flex items-center justify-center px-5 py-3 sm:py-2.5 text-base sm:text-sm bg-[var(--primary-500)] text-white rounded-xl font-bold hover:bg-[var(--primary-600)] transition-all shadow-[0_4px_14px_0_rgba(225,29,72,0.39)] hover:shadow-[0_6px_20px_rgba(225,29,72,0.23)] hover:-translate-y-0.5"
+          className="btn-primary"
         >
-          <Plus className="w-5 h-5 mr-2" />
+          <Plus className="w-5 h-5" />
           New Cardlog
         </button>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="stats-grid">
         {[
           { label: 'Total Cardlogs', value: stats.totalCardlogs, icon: FileText, color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-50 dark:bg-blue-900/20' },
           { label: 'Unit Beroperasi', value: stats.activeUnits, icon: Forklift, color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-900/20' },
           { label: 'Total HM Terakumulasi', value: stats.totalHM, icon: Clock, color: 'text-amber-600 dark:text-amber-400', bg: 'bg-amber-50 dark:bg-amber-900/20' },
           { label: 'Total Jam Charging', value: stats.totalCharging, icon: Zap, color: 'text-purple-600 dark:text-purple-400', bg: 'bg-purple-50 dark:bg-purple-900/20' },
         ].map((stat, i) => (
-          <div key={i} className={`bg-[var(--surface)] rounded-2xl p-6 border border-[var(--border-color)] shadow-sm hover:shadow-md transition-all hover:-translate-y-1 duration-300 animate-page-enter`}>
-            <div className={`w-12 h-12 rounded-2xl ${stat.bg} ${stat.color} flex items-center justify-center mb-5 shadow-sm`}>
+          <div key={i} className="stat-card">
+            <div className={`stat-icon-box ${stat.bg} ${stat.color}`}>
               <stat.icon className="w-6 h-6" />
             </div>
             <h3 className="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-wider">{stat.label}</h3>

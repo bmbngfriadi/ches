@@ -87,14 +87,14 @@ export const AlertProvider = ({ children }) => {
                 {alertState.type === 'confirm' && (
                   <button
                     onClick={closeAlert}
-                    className="w-full sm:w-auto px-6 py-3 bg-[var(--surface)] hover:bg-[var(--surface-hover)] text-[var(--text-primary)] border border-[var(--border-color)] text-base sm:text-sm font-bold rounded-xl transition-colors"
+                    className="w-full sm:w-auto btn-secondary"
                   >
                     Batal
                   </button>
                 )}
                 <button
                   onClick={alertState.type === 'confirm' ? handleConfirm : closeAlert}
-                  className="w-full sm:w-auto px-6 py-3 bg-[var(--primary-500)] hover:bg-[var(--primary-600)] text-white text-base sm:text-sm font-bold rounded-xl transition-colors shadow-[0_4px_14px_0_rgba(225,29,72,0.39)]"
+                  className="w-full sm:w-auto btn-primary"
                 >
                   {alertState.type === 'confirm' ? 'Ya, Lanjutkan' : 'Mengerti'}
                 </button>

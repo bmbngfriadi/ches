@@ -400,248 +400,136 @@ export default function CardlogList({ cardlogs, loading, onNavigate, refreshLogs
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
+      <div className="page-header">
         <div>
-          <h1 className="text-2xl font-extrabold text-[var(--text-primary)] tracking-tight">Semua Cardlogs</h1>
-          <p className="text-sm text-[var(--text-secondary)] font-medium mt-1">Daftar seluruh history operasional unit.</p>
+          <h1>Semua Cardlogs</h1>
+          <p>Daftar seluruh history operasional unit.</p>
         </div>
         
-        <div className="flex items-center bg-[var(--surface)] rounded-xl px-4 py-3 border border-[var(--border-color)] focus-within:ring-2 focus-within:ring-[var(--primary-500)]/30 focus-within:border-transparent transition-all w-full sm:w-80 shadow-sm">
-          <Search className="w-5 h-5 text-[var(--text-secondary)] mr-3" />
-          <input 
-            type="text" 
-            placeholder="Search operator, unit, or ID..." 
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="bg-transparent border-none outline-none text-sm w-full text-[var(--text-primary)]"
-          />
-        </div>
+        <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
+          <div className="flex items-center bg-[var(--surface)] rounded-xl px-4 py-3 border border-[var(--border-color)] focus-within:ring-2 focus-within:ring-[var(--primary-500)]/30 focus-within:border-transparent transition-all w-full sm:w-80 shadow-sm">
+            <Search className="w-5 h-5 text-[var(--text-secondary)] mr-3" />
+            <input 
+              type="text" 
+              placeholder="Search operator, unit, or ID..." 
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="bg-transparent border-none outline-none text-sm w-full text-[var(--text-primary)]"
+            />
+          </div>
 
-        <div className="flex space-x-3 w-full sm:w-auto">
           {canExport && (
             <button
               onClick={handleExportToExcelConfirm}
-              className="flex items-center justify-center px-5 py-3 sm:py-2.5 text-base sm:text-sm bg-green-600 text-white rounded-xl font-bold hover:bg-green-700 transition-all shadow-sm hover:shadow-md"
+              className="w-full sm:w-auto btn-success"
             >
-              <Download className="w-5 h-5 mr-2" />
-              Export Excel
+              <Download className="w-5 h-5" />
+              Export
             </button>
           )}
           <button
             onClick={handleCreateNew}
-            className="flex items-center justify-center px-5 py-3 sm:py-2.5 text-base sm:text-sm bg-[var(--primary-500)] text-white rounded-xl font-bold hover:bg-[var(--primary-600)] transition-all shadow-[0_4px_14px_0_rgba(225,29,72,0.39)] hover:shadow-[0_6px_20px_rgba(225,29,72,0.23)] hover:-translate-y-0.5"
+            className="w-full sm:w-auto btn-primary"
           >
-            <Plus className="w-5 h-5 mr-2" />
-            New Cardlog
+            <Plus className="w-5 h-5" />
+            New
           </button>
         </div>
       </div>
 
-      <div className="bg-[var(--surface)] rounded-2xl border border-[var(--border-color)] overflow-hidden shadow-sm">
-        {/* Desktop Table */}
-        <div className="overflow-x-auto hidden md:block">
-          <table className="min-w-full divide-y divide-[var(--border-color)]">
-            <thead className="bg-[var(--surface-50)] border-b border-[var(--border-color)]">
-              <tr>
-                <th className="px-6 py-4 text-left text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider">ID</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider">Date</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider">Shift</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider">Operator</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider">Unit</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider">Submitted By</th>
-                <th className="px-6 py-4 text-right text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-[var(--border-color)]">
-              {loading ? (
-                [...Array(5)].map((_, i) => (
-                  <tr key={i} className="animate-skeleton">
-                    <td className="px-6 py-4"><div className="h-4 bg-[var(--border-color)] rounded w-16"></div></td>
-                    <td className="px-6 py-4"><div className="h-4 bg-[var(--border-color)] rounded w-24"></div></td>
-                    <td className="px-6 py-4"><div className="h-4 bg-[var(--border-color)] rounded w-20"></div></td>
-                    <td className="px-6 py-4"><div className="flex items-center"><div className="w-7 h-7 rounded-full bg-[var(--border-color)] mr-3"></div><div className="h-4 bg-[var(--border-color)] rounded w-32"></div></div></td>
-                    <td className="px-6 py-4"><div className="h-4 bg-[var(--border-color)] rounded w-16"></div></td>
-                    <td className="px-6 py-4"><div className="h-4 bg-[var(--border-color)] rounded w-24"></div></td>
-                    <td className="px-6 py-4 text-right"><div className="h-8 bg-[var(--border-color)] rounded w-24 ml-auto"></div></td>
-                  </tr>
-                ))
-              ) : cardlogs.length === 0 ? (
-                <tr>
-                  <td colSpan="7" className="px-6 py-8 text-center text-sm font-medium text-[var(--text-secondary)]">No cardlogs found.</td>
+      <div className="data-table-container">
+        <table className="data-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Date</th>
+              <th>Shift</th>
+              <th>Operator</th>
+              <th>Unit</th>
+              <th>Submitted By</th>
+              <th className="text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {loading ? (
+              [...Array(5)].map((_, i) => (
+                <tr key={i} className="animate-skeleton">
+                  <td data-label="ID"><div className="h-4 bg-[var(--border-color)] rounded w-16"></div></td>
+                  <td data-label="Date"><div className="h-4 bg-[var(--border-color)] rounded w-24"></div></td>
+                  <td data-label="Shift"><div className="h-4 bg-[var(--border-color)] rounded w-20"></div></td>
+                  <td data-label="Operator"><div className="flex items-center"><div className="w-7 h-7 rounded-full bg-[var(--border-color)] mr-3 hidden md:block"></div><div className="h-4 bg-[var(--border-color)] rounded w-32"></div></div></td>
+                  <td data-label="Unit"><div className="h-4 bg-[var(--border-color)] rounded w-16"></div></td>
+                  <td data-label="Submitted By"><div className="h-4 bg-[var(--border-color)] rounded w-24"></div></td>
+                  <td data-label="Actions" className="md:text-right"><div className="h-8 bg-[var(--border-color)] rounded w-24 md:ml-auto"></div></td>
                 </tr>
-              ) : (
-                cardlogs.filter(log => {
-                  if (!searchTerm) return true;
-                  const term = searchTerm.toLowerCase();
-                  return log.operator?.toLowerCase().includes(term) || log.unit_no?.toLowerCase().includes(term) || String(log.id).includes(term);
-                }).map((row, index) => {
-                  let isEditable = canEditAny;
-                  if (!isEditable && canEdit1h && row.age_minutes !== undefined) {
-                    if (parseFloat(row.age_minutes) <= 60 && parseFloat(row.age_minutes) >= 0) {
-                      isEditable = true;
-                    }
+              ))
+            ) : cardlogs.length === 0 ? (
+              <tr>
+                <td colSpan="7" className="p-8 text-center text-sm font-medium text-[var(--text-secondary)]">No cardlogs found.</td>
+              </tr>
+            ) : (
+              cardlogs.filter(log => {
+                if (!searchTerm) return true;
+                const term = searchTerm.toLowerCase();
+                return log.operator?.toLowerCase().includes(term) || log.unit_no?.toLowerCase().includes(term) || String(log.id).includes(term);
+              }).map((row, index) => {
+                let isEditable = canEditAny;
+                if (!isEditable && canEdit1h && row.age_minutes !== undefined) {
+                  if (parseFloat(row.age_minutes) <= 60 && parseFloat(row.age_minutes) >= 0) {
+                    isEditable = true;
                   }
+                }
 
-                  return (
-                    <tr 
-                      key={row.id} 
-                      className={`hover:bg-[var(--surface-hover)] transition-colors cursor-pointer group animate-page-enter`}
-                      onClick={(e) => handleView(row, e)}
-                    >
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-extrabold text-[var(--primary-600)] dark:text-[var(--primary-400)]">#LOG-{row.id}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[var(--text-secondary)]">{new Date(row.date).toLocaleDateString()}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-[var(--text-primary)]">{row.shift_no}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-primary)]">
-                        <div className="flex items-center">
-                          <div className="w-7 h-7 rounded-full bg-[var(--primary-50)] dark:bg-[var(--primary-900)]/30 text-[var(--primary-600)] dark:text-[var(--primary-400)] border border-[var(--primary-500)]/20 flex items-center justify-center text-xs font-bold mr-3">
-                            {row.operator.charAt(0)}
-                          </div>
-                          <span className="font-semibold">{row.operator}</span>
+                return (
+                  <tr key={row.id} className="group cursor-pointer" onClick={(e) => handleView(row, e)}>
+                    <td data-label="ID" className="font-extrabold text-[var(--primary-600)] dark:text-[var(--primary-400)]">#LOG-{row.id}</td>
+                    <td data-label="Date" className="font-medium text-[var(--text-secondary)]">{new Date(row.date).toLocaleDateString()}</td>
+                    <td data-label="Shift" className="font-bold text-[var(--text-primary)]">{row.shift_no}</td>
+                    <td data-label="Operator" className="text-[var(--text-primary)]">
+                      <div className="flex items-center">
+                        <div className="w-7 h-7 rounded-full bg-[var(--primary-50)] dark:bg-[var(--primary-900)]/30 text-[var(--primary-600)] dark:text-[var(--primary-400)] border border-[var(--primary-500)]/20 items-center justify-center text-xs font-bold mr-3 hidden md:flex">
+                          {row.operator.charAt(0)}
                         </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-black text-[var(--text-primary)]">{row.unit_no}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[var(--text-secondary)]">{row.submitted_by_name || '-'}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-right flex justify-end space-x-1.5 opacity-0 group-hover:opacity-100 transition-opacity" onClick={(e) => e.stopPropagation()}>
+                        <span className="font-semibold">{row.operator}</span>
+                      </div>
+                    </td>
+                    <td data-label="Unit" className="font-black text-[var(--text-primary)]">{row.unit_no}</td>
+                    <td data-label="Submitted By" className="font-medium text-[var(--text-secondary)]">{row.submitted_by_name || '-'}</td>
+                    <td data-label="Actions" className="md:text-right">
+                      <div className="flex md:justify-end space-x-1.5 transition-opacity mt-2 md:mt-0" onClick={(e) => e.stopPropagation()}>
                         {!isEditable && (
-                          <button onClick={(e) => handleView(row, e)} className="p-2 text-green-600 hover:text-white rounded-lg hover:bg-green-600 transition-colors" title="View Cardlog">
+                          <button onClick={(e) => handleView(row, e)} className="p-2 text-green-600 hover:text-white bg-green-50 md:bg-transparent rounded-lg hover:bg-green-600 transition-colors" title="View Cardlog">
                             <FileText className="w-4 h-4" />
                           </button>
                         )}
                         {isEditable && (
-                          <button onClick={(e) => handleEditConfirm(row, e)} className="p-2 text-blue-600 hover:text-white rounded-lg hover:bg-blue-600 transition-colors" title="Edit Cardlog">
+                          <button onClick={(e) => handleEditConfirm(row, e)} className="p-2 text-blue-600 hover:text-white bg-blue-50 md:bg-transparent rounded-lg hover:bg-blue-600 transition-colors" title="Edit Cardlog">
                             <Edit2 className="w-4 h-4" />
                           </button>
                         )}
                         {canExportPng && (
-                          <button onClick={(e) => handleExportPngConfirm(row, e)} className="p-2 text-indigo-600 hover:text-white rounded-lg hover:bg-indigo-600 transition-colors" title="Export PNG">
+                          <button onClick={(e) => handleExportPngConfirm(row, e)} className="p-2 text-indigo-600 hover:text-white bg-indigo-50 md:bg-transparent rounded-lg hover:bg-indigo-600 transition-colors" title="Export PNG">
                             <ImageIcon className="w-4 h-4" />
                           </button>
                         )}
                         {canResendEmail && (
-                          <button onClick={(e) => handleResendEmail(row.id, e)} className="p-2 text-yellow-600 hover:text-white rounded-lg hover:bg-yellow-500 transition-colors" title="Resend Email">
+                          <button onClick={(e) => handleResendEmail(row.id, e)} className="p-2 text-yellow-600 hover:text-white bg-yellow-50 md:bg-transparent rounded-lg hover:bg-yellow-500 transition-colors" title="Resend Email">
                             <Mail className="w-4 h-4" />
                           </button>
                         )}
                         {canDelete && (
-                          <button onClick={() => handleDelete(row.id)} className="p-2 text-red-600 hover:text-white rounded-lg hover:bg-red-600 transition-colors" title="Hapus Cardlog">
+                          <button onClick={() => handleDelete(row.id)} className="p-2 text-red-600 hover:text-white bg-red-50 md:bg-transparent rounded-lg hover:bg-red-600 transition-colors" title="Hapus Cardlog">
                             <Trash2 className="w-4 h-4" />
                           </button>
                         )}
-                      </td>
-                    </tr>
-                  );
-                })
-              )}
-            </tbody>
-          </table>
-        </div>
-
-        {/* Mobile Cards */}
-        <div className="grid grid-cols-1 gap-4 p-4 md:hidden bg-[var(--bg-default)]">
-          {loading ? (
-            [...Array(3)].map((_, i) => (
-              <div key={i} className="bg-[var(--surface)] rounded-2xl p-5 border border-[var(--border-color)] flex flex-col space-y-4 shadow-sm animate-skeleton">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <div className="h-3 bg-[var(--border-color)] rounded w-16 mb-2"></div>
-                    <div className="h-5 bg-[var(--border-color)] rounded w-24 mb-1"></div>
-                    <div className="h-4 bg-[var(--border-color)] rounded w-20"></div>
-                  </div>
-                  <div className="text-right">
-                    <div className="h-3 bg-[var(--border-color)] rounded w-16 mb-2 ml-auto"></div>
-                    <div className="h-5 bg-[var(--border-color)] rounded w-12 mb-1 ml-auto"></div>
-                    <div className="h-4 bg-[var(--border-color)] rounded w-16 ml-auto"></div>
-                  </div>
-                </div>
-                <div className="pt-3 border-t border-[var(--border-color)]">
-                  <div className="h-3 bg-[var(--border-color)] rounded w-16 mb-2"></div>
-                  <div className="flex items-center"><div className="w-6 h-6 rounded-full bg-[var(--border-color)] mr-2"></div><div className="h-4 bg-[var(--border-color)] rounded w-32"></div></div>
-                </div>
-              </div>
-            ))
-          ) : cardlogs.length === 0 ? (
-            <div className="text-center p-4 text-[var(--text-secondary)] font-medium">No cardlogs found.</div>
-          ) : (
-            cardlogs.filter(log => {
-              if (!searchTerm) return true;
-              const term = searchTerm.toLowerCase();
-              return log.operator?.toLowerCase().includes(term) || log.unit_no?.toLowerCase().includes(term) || String(log.id).includes(term);
-            }).map((row, index) => {
-              let isEditable = canEditAny;
-              if (!isEditable && canEdit1h && row.age_minutes !== undefined) {
-                if (parseFloat(row.age_minutes) <= 60 && parseFloat(row.age_minutes) >= 0) {
-                  isEditable = true;
-                }
-              }
-
-              return (
-                <div 
-                  key={row.id}
-                  className={`bg-[var(--surface)] rounded-2xl p-5 border border-[var(--border-color)] flex flex-col space-y-4 cursor-pointer shadow-sm active:scale-[0.98] transition-transform animate-page-enter`}
-                  onClick={(e) => handleView(row, e)}
-                >
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <span className="text-[10px] font-black text-[var(--text-secondary)] uppercase block mb-1 tracking-wider">ID & Date</span>
-                      <div className="text-sm font-extrabold text-[var(--primary-600)] dark:text-[var(--primary-400)]">#LOG-{row.id}</div>
-                      <div className="text-xs font-medium text-[var(--text-secondary)]">{new Date(row.date).toLocaleDateString()}</div>
-                    </div>
-                    <div className="text-right">
-                      <span className="text-[10px] font-black text-[var(--text-secondary)] uppercase block mb-1 tracking-wider">Unit & Shift</span>
-                      <div className="text-sm font-black text-[var(--primary-500)] bg-[var(--primary-500)]/10 px-2 py-0.5 rounded inline-block">{row.unit_no}</div>
-                      <div className="text-xs font-bold text-[var(--text-primary)] mt-1">{row.shift_no}</div>
-                    </div>
-                  </div>
-                  
-                  <div className="pt-3 border-t border-[var(--border-color)]">
-                    <span className="text-[10px] font-black text-[var(--text-secondary)] uppercase block mb-2 tracking-wider">Operator</span>
-                    <div className="flex items-center text-sm font-bold text-[var(--text-primary)]">
-                      <div className="w-6 h-6 rounded-full bg-[var(--primary-50)] dark:bg-[var(--primary-900)]/30 text-[var(--primary-600)] dark:text-[var(--primary-400)] border border-[var(--primary-500)]/20 flex items-center justify-center text-[10px] font-bold mr-2">
-                        {row.operator.charAt(0)}
                       </div>
-                      {row.operator}
-                    </div>
-                  </div>
-
-                  <div className="pt-3 border-t border-[var(--border-color)]">
-                    <span className="text-[10px] font-black text-[var(--text-secondary)] uppercase block mb-1 tracking-wider">Submitted By</span>
-                    <div className="text-xs font-medium text-[var(--text-secondary)]">
-                      {row.submitted_by_name || '-'}
-                    </div>
-                  </div>
-
-                  <div className="flex justify-end space-x-2 pt-3 border-t border-[var(--border-color)] mt-2" onClick={(e) => e.stopPropagation()}>
-                    {!isEditable && (
-                      <button onClick={(e) => handleView(row, e)} className="p-2.5 text-green-600 bg-green-50 dark:bg-green-900/20 rounded-xl" title="View">
-                        <FileText className="w-4 h-4" />
-                      </button>
-                    )}
-                    {isEditable && (
-                      <button onClick={(e) => handleEditConfirm(row, e)} className="p-2.5 text-blue-600 bg-blue-50 dark:bg-blue-900/20 rounded-xl" title="Edit">
-                        <Edit2 className="w-4 h-4" />
-                      </button>
-                    )}
-                    {canExportPng && (
-                      <button onClick={(e) => handleExportPngConfirm(row, e)} className="p-2.5 text-indigo-600 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl" title="Export PNG">
-                        <ImageIcon className="w-4 h-4" />
-                      </button>
-                    )}
-                    {canResendEmail && (
-                      <button onClick={(e) => handleResendEmail(row.id, e)} className="p-2.5 text-yellow-600 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl" title="Resend Email">
-                        <Mail className="w-4 h-4" />
-                      </button>
-                    )}
-                    {canDelete && (
-                      <button onClick={() => handleDelete(row.id)} className="p-2.5 text-red-600 bg-red-50 dark:bg-red-900/20 rounded-xl" title="Delete">
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    )}
-                  </div>
-                </div>
-              );
-            })
-          )}
-        </div>
+                    </td>
+                  </tr>
+                );
+              })
+            )}
+          </tbody>
+        </table>
       </div>
       {/* Hidden PNG Template for Export */}
       {activeExportRow && templateProps && (

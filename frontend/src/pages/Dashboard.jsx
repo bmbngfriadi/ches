@@ -164,22 +164,27 @@ export default function Dashboard() {
   const NavItem = ({ icon: Icon, label, tabId }) => (
     <button 
       onClick={() => handleNavigate(tabId)}
-      className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 ${activeTab === tabId ? 'bg-[var(--primary-50)] dark:bg-[var(--primary-500)]/10 text-[var(--primary-600)] dark:text-[var(--primary-400)] font-bold shadow-sm border border-[var(--primary-500)]/20' : 'text-[var(--text-secondary)] hover:bg-[var(--surface-hover)] hover:text-[var(--text-primary)] font-semibold'}`}
+      className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 ${activeTab === tabId ? 'bg-[var(--primary-500)] text-white shadow-[0_4px_12px_rgba(225,29,72,0.25)] font-bold' : 'text-[var(--text-secondary)] hover:bg-[var(--surface-hover)] hover:translate-x-1 hover:text-[var(--text-primary)] font-semibold'}`}
     >
       <Icon className={`w-5 h-5 ${activeTab === tabId ? '' : 'opacity-70'}`} />
       <span className="text-sm tracking-wide">{label}</span>
     </button>
   );
 
-  const BottomNavItem = ({ icon: Icon, label, tabId }) => (
-    <button 
-      onClick={() => handleNavigate(tabId)}
-      className={`flex-1 flex flex-col items-center justify-center py-2 transition-all duration-300 ${activeTab === tabId ? 'text-[var(--primary-500)] scale-110 font-bold' : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-medium'}`}
-    >
-      <Icon className={`w-6 h-6 mb-1 ${activeTab === tabId ? 'fill-[var(--primary-50)] dark:fill-[var(--primary-900)]' : 'opacity-70'}`} />
-      <span className="text-[11px]">{label}</span>
-    </button>
-  );
+  const BottomNavItem = ({ icon: Icon, label, tabId }) => {
+    const isActive = activeTab === tabId;
+    return (
+      <button 
+        onClick={() => handleNavigate(tabId)}
+        className="flex-1 flex flex-col items-center justify-center py-1 transition-all duration-300 group"
+      >
+        <div className={`w-11 h-11 sm:w-12 sm:h-12 flex items-center justify-center rounded-full mb-1 transition-all duration-300 ${isActive ? 'bg-[var(--primary-50)] text-[var(--primary-600)] dark:bg-[var(--primary-900)]/30 dark:text-[var(--primary-400)]' : 'text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] group-hover:bg-[var(--surface-hover)]'}`}>
+          <Icon className="w-5 h-5 sm:w-[22px] sm:h-[22px]" strokeWidth={isActive ? 2.5 : 2} />
+        </div>
+        <span className={`text-[10px] sm:text-[11px] font-extrabold tracking-wide transition-all duration-300 ${isActive ? 'text-[var(--primary-600)] dark:text-[var(--primary-400)]' : 'text-[var(--text-secondary)] group-hover:text-[var(--text-primary)]'}`}>{label}</span>
+      </button>
+    );
+  };
 
   const renderContent = () => {
     switch (activeTab) {
@@ -203,46 +208,75 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="flex h-screen bg-[var(--bg-default)] overflow-hidden font-sans transition-colors duration-300">
+    <div className="flex min-h-screen bg-[var(--bg-default)] font-sans transition-colors duration-300">
       
       {/* Sidebar - Desktop */}
-      <aside className="hidden md:flex flex-col w-64 bg-[var(--surface)] border-r border-[var(--border-color)] transition-colors duration-300 shrink-0 shadow-sm z-20">
-        <div className="p-6 flex flex-col justify-center items-center relative overflow-hidden h-32 space-y-3 shrink-0">
-          <div className="absolute inset-0 bg-[url('/bg-login.jpg')] bg-cover bg-center z-0" />
-          <div className="absolute inset-0 bg-gradient-to-br from-[rgba(140,25,28,0.85)] to-[rgba(74,13,15,0.95)] z-0" />
-          {/* Blueprint Pattern */}
-          <div className="absolute inset-0 opacity-10 bg-[linear-gradient(rgba(255,255,255,1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,1)_1px,transparent_1px)] bg-[size:20px_20px] z-0" />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/10 to-transparent z-0" />
-          
-          <div className="z-10 bg-white p-2.5 rounded-xl shadow-[0_4px_14px_0_rgba(0,0,0,0.15)] border border-white/20 transform transition-transform hover:scale-105">
-            <img
-              src="https://i.ibb.co.com/prMYS06h/LOGO-2025-03.png"
-              alt="Logo"
-              className="h-8 object-contain"
-            />
+      <div className="hidden md:block w-64 xl:w-72 shrink-0 p-6 pr-0 sticky top-0 h-screen">
+        <aside className="flex flex-col w-full h-full bg-[var(--bg-card)] rounded-[24px] border border-[var(--border-color)] shadow-sm overflow-hidden z-20">
+          <div className="p-6 flex flex-col justify-center items-center relative overflow-hidden h-32 space-y-3 shrink-0">
+            <div className="absolute inset-0 bg-[url('/bg-login.jpg')] bg-cover bg-center z-0" />
+            <div className="absolute inset-0 bg-gradient-to-br from-[rgba(140,25,28,0.85)] to-[rgba(74,13,15,0.95)] z-0" />
+            {/* Blueprint Pattern */}
+            <div className="absolute inset-0 opacity-10 bg-[linear-gradient(rgba(255,255,255,1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,1)_1px,transparent_1px)] bg-[size:20px_20px] z-0" />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/10 to-transparent z-0" />
+            
+            <div className="z-10 bg-white p-2.5 rounded-xl shadow-[0_4px_14px_0_rgba(0,0,0,0.15)] border border-white/20 transform transition-transform hover:scale-105">
+              <img
+                src="https://i.ibb.co.com/prMYS06h/LOGO-2025-03.png"
+                alt="Logo"
+                className="h-8 object-contain"
+              />
+            </div>
+            <span className="z-10 text-[10px] font-extrabold text-white/95 uppercase tracking-widest text-center shadow-sm">Cardlog Heavy Equipment</span>
           </div>
-          <span className="z-10 text-[10px] font-extrabold text-white/95 uppercase tracking-widest text-center shadow-sm">Cardlog Heavy Equipment</span>
-        </div>
-        
-        <div className="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto custom-scrollbar">
-          <NavItem icon={LayoutDashboard} label="Dashboard" tabId="overview" />
-          <NavItem icon={FileText} label="Cardlogs" tabId="cardlogs" />
-          {isDevAdmin && <NavItem icon={Users} label="User Management" tabId="users" />}
-          <NavItem icon={SettingsIcon} label="Profile" tabId="settings" />
-        </div>
+          
+          <div className="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto custom-scrollbar">
+            <NavItem icon={LayoutDashboard} label="Dashboard" tabId="overview" />
+            <NavItem icon={FileText} label="Cardlogs" tabId="cardlogs" />
+            {isDevAdmin && <NavItem icon={Users} label="User Management" tabId="users" />}
+          </div>
 
-        <div className="p-4 border-t border-[var(--border-color)] bg-[var(--surface-50)]">
-          <button 
-            onClick={() => setShowLogoutConfirm(true)}
-            className="w-full flex items-center space-x-3 px-4 py-3 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/10 rounded-xl transition-all duration-200"
-          >
-            <LogOut className="w-5 h-5" />
-            <span className="font-bold text-sm tracking-wide">Sign Out</span>
-          </button>
-        </div>
-      </aside>
+          <div className="p-4 border-t border-[var(--border-color)] bg-[var(--surface-50)] space-y-3">
+            {/* Profile Widget */}
+            <div 
+              onClick={() => handleNavigate('settings')}
+              className="flex items-center space-x-3 cursor-pointer p-3 rounded-xl hover:bg-[var(--surface-hover)] transition-all border border-[var(--border-color)]/50 hover:border-[var(--border-color)] bg-[var(--bg-card)] shadow-sm"
+            >
+              {currentUser.profile_photo ? (
+                <img src={currentUser.profile_photo} alt="Profile" className="w-10 h-10 rounded-full object-cover border-2 border-[var(--primary-500)]/30 shadow-sm shrink-0" />
+              ) : (
+                <div className="w-10 h-10 shrink-0 rounded-full bg-gradient-to-br from-[var(--primary-500)] to-[var(--primary-700)] flex items-center justify-center text-white font-bold text-sm uppercase shadow-sm">
+                  {(currentUser.full_name || currentUser.username || 'AD').substring(0, 2)}
+                </div>
+              )}
+              <div className="text-sm overflow-hidden text-left flex-1">
+                <p className="font-bold text-[var(--text-primary)] leading-tight tracking-tight truncate">{currentUser.full_name || currentUser.username || 'Admin User'}</p>
+                <p className="text-xs text-[var(--text-secondary)] font-medium capitalize mt-0.5 truncate">{(currentUser.role || 'administrator').replace(/_/g, ' ')}</p>
+              </div>
+            </div>
 
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-[var(--surface)]/90 backdrop-blur-xl border-t border-[var(--border-color)] flex justify-around items-center px-2 pb-safe shadow-[0_-8px_30px_rgba(0,0,0,0.08)] h-[76px] transition-colors duration-300">
+            <div className="flex items-center gap-2">
+              <button 
+                onClick={toggleTheme}
+                className="flex items-center justify-center p-3 text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-hover)] rounded-xl transition-all border border-transparent hover:border-[var(--border-color)]"
+                title="Toggle Theme"
+              >
+                {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              </button>
+              
+              <button 
+                onClick={() => setShowLogoutConfirm(true)}
+                className="flex-1 flex items-center justify-center space-x-2 p-3 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/10 rounded-xl transition-all duration-200"
+              >
+                <LogOut className="w-5 h-5" />
+                <span className="font-bold text-sm tracking-wide">Sign Out</span>
+              </button>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-[var(--surface)]/90 backdrop-blur-xl border-t border-[var(--border-color)] flex justify-around items-center px-1 pt-1.5 pb-[calc(0.5rem+env(safe-area-inset-bottom))] shadow-[0_-8px_30px_rgba(0,0,0,0.08)] transition-colors duration-300 rounded-t-2xl">
         <BottomNavItem icon={LayoutDashboard} label="Home" tabId="overview" />
         <BottomNavItem icon={FileText} label="Logs" tabId="cardlogs" />
         {isDevAdmin && <BottomNavItem icon={Users} label="Users" tabId="users" />}
@@ -258,10 +292,10 @@ export default function Dashboard() {
       </button>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col overflow-hidden">
+      <main className="flex-1 flex flex-col min-w-0">
         
         {/* Mobile Topbar - Modern Industrial */}
-        <div className="md:hidden flex items-center justify-between relative overflow-hidden px-5 py-4 shrink-0 shadow-md">
+        <div className="md:hidden flex items-center justify-between relative overflow-hidden px-5 py-4 mb-6 shrink-0 shadow-md">
           <div className="absolute inset-0 bg-[url('/bg-login.jpg')] bg-cover bg-center z-0" />
           <div className="absolute inset-0 bg-gradient-to-br from-[rgba(140,25,28,0.85)] to-[rgba(74,13,15,0.95)] z-0" />
           {/* Blueprint Pattern */}
@@ -295,7 +329,7 @@ export default function Dashboard() {
         </div>
 
         {/* Desktop Topbar */}
-        <header className="bg-[var(--surface)]/80 backdrop-blur-md border-b border-[var(--border-color)] h-20 hidden md:flex items-center justify-between px-6 lg:px-10 z-10 transition-colors duration-300 shrink-0 sticky top-0">
+        <header className="hidden md:flex items-center justify-between px-6 lg:px-10 pt-6 pb-2 z-10 transition-colors duration-300 shrink-0 sticky top-0 bg-[var(--bg-default)]/80 backdrop-blur-xl">
 
           <div className="hidden md:flex items-center">
             <h1 className="text-2xl font-extrabold text-[var(--text-primary)] capitalize tracking-tight flex items-center gap-3">
@@ -304,37 +338,11 @@ export default function Dashboard() {
             </h1>
           </div>
 
-          <div className="flex items-center space-x-4">
-            <button 
-              onClick={toggleTheme}
-              className="p-2.5 text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-full hover:bg-[var(--surface-hover)] transition-all bg-[var(--surface)] border border-[var(--border-color)] shadow-sm"
-              title="Toggle Theme"
-            >
-              {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-            </button>
-            <div className="h-8 w-px bg-[var(--border-color)] mx-2" />
-            <div 
-              onClick={() => handleNavigate('settings')}
-              className="flex items-center space-x-3 cursor-pointer p-2 rounded-xl hover:bg-[var(--surface-hover)] transition-all border border-transparent hover:border-[var(--border-color)]"
-            >
-              {currentUser.profile_photo ? (
-                <img src={currentUser.profile_photo} alt="Profile" className="w-10 h-10 rounded-full object-cover border-2 border-[var(--primary-500)]/30 shadow-sm" />
-              ) : (
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[var(--primary-500)] to-[var(--primary-700)] flex items-center justify-center text-white font-bold text-sm uppercase shadow-sm">
-                  {(currentUser.full_name || currentUser.username || 'AD').substring(0, 2)}
-                </div>
-              )}
-              <div className="hidden sm:block text-sm">
-                <p className="font-bold text-[var(--text-primary)] leading-tight tracking-tight">{currentUser.full_name || currentUser.username || 'Admin User'}</p>
-                <p className="text-xs text-[var(--text-secondary)] font-medium capitalize mt-0.5">{(currentUser.role || 'administrator').replace(/_/g, ' ')}</p>
-              </div>
-            </div>
-          </div>
         </header>
 
         {/* Dynamic SPA Content */}
-        <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6 lg:p-10 bg-[var(--bg-default)] pb-32 md:pb-10 w-full max-w-full custom-scrollbar">
-          <div className="max-w-[1600px] mx-auto relative min-h-full w-full">
+        <div className="flex-1 px-4 pb-28 md:pb-6 lg:px-10 lg:pb-10 w-full max-w-full">
+          <div className="max-w-[1600px] mx-auto w-full relative">
             <div key={activeTab} className="animate-page-enter">
               {renderContent()}
             </div>

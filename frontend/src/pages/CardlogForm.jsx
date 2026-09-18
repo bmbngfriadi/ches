@@ -730,14 +730,14 @@ export default function CardlogForm({ onClose, initialData, isReadOnly, onEdit }
           <button
             type="button"
             onClick={handleCancelClick}
-            className="w-full sm:w-auto px-6 py-3.5 sm:px-5 sm:py-3 text-[var(--text-secondary)] hover:text-[var(--text-primary)] bg-[var(--surface-50)] hover:bg-[var(--surface-hover)] border border-[var(--border-color)] rounded-xl font-bold transition-all text-base sm:text-sm flex justify-center items-center"
+            className="w-full sm:w-auto btn-secondary"
           >
             {isReadOnly ? 'Back' : 'Cancel'}
           </button>
           {!isReadOnly && (
             <button
               type="submit"
-              className="w-full sm:w-auto flex items-center justify-center px-8 py-3.5 sm:px-6 sm:py-3 bg-[var(--primary-500)] hover:bg-[var(--primary-600)] text-white rounded-xl font-bold transition-all shadow-[0_4px_14px_0_rgba(225,29,72,0.39)] hover:shadow-[0_6px_20px_rgba(225,29,72,0.23)] text-base sm:text-sm focus:ring-4 focus:ring-[var(--primary-500)]/30 outline-none"
+              className="w-full sm:w-auto btn-primary"
             >
               <Save className="w-5 h-5 sm:w-4 sm:h-4 mr-2" />
               {initialData ? 'Update Cardlog' : 'Submit Cardlog'}
@@ -747,7 +747,7 @@ export default function CardlogForm({ onClose, initialData, isReadOnly, onEdit }
             <button
               type="button"
               onClick={handleEditConfirm}
-              className="w-full sm:w-auto flex items-center justify-center px-8 py-3.5 sm:px-6 sm:py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold transition-all shadow-[0_4px_14px_0_rgba(37,99,235,0.39)] hover:shadow-[0_6px_20px_rgba(37,99,235,0.23)] text-base sm:text-sm focus:ring-4 focus:ring-blue-500/30 outline-none"
+              className="w-full sm:w-auto btn-info"
             >
               <Edit2 className="w-5 h-5 sm:w-4 sm:h-4 mr-2" />
               Edit Cardlog
@@ -757,7 +757,7 @@ export default function CardlogForm({ onClose, initialData, isReadOnly, onEdit }
             <button
               type="button"
               onClick={handleExportPNGConfirm}
-              className="w-full sm:w-auto flex items-center justify-center px-8 py-3.5 sm:px-6 sm:py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold transition-all shadow-[0_4px_14px_0_rgba(79,70,229,0.39)] hover:shadow-[0_6px_20px_rgba(79,70,229,0.23)] text-base sm:text-sm focus:ring-4 focus:ring-indigo-500/30 outline-none"
+              className="w-full sm:w-auto btn-success"
             >
               <Download className="w-5 h-5 sm:w-4 sm:h-4 mr-2" />
               Export PNG
@@ -827,7 +827,7 @@ export default function CardlogForm({ onClose, initialData, isReadOnly, onEdit }
                 <button 
                   onClick={handleShare} 
                   onTouchStart={() => {}}
-                  className="w-full flex-1 flex justify-center items-center px-4 py-3.5 bg-green-600 hover:bg-green-700 text-white rounded-xl font-bold text-sm transition-all duration-150 active:scale-95 shadow-[0_4px_14px_0_rgba(22,163,74,0.39)] active:shadow-none"
+                  className="w-full flex-1 btn-success"
                 >
                   <Share2 className="w-4 h-4 mr-2" />
                   Bagikan Langsung
@@ -836,7 +836,7 @@ export default function CardlogForm({ onClose, initialData, isReadOnly, onEdit }
               <button 
                 onClick={handleDownload} 
                 onTouchStart={() => {}}
-                className="w-full flex-1 flex justify-center items-center px-4 py-3.5 bg-[var(--primary-500)] hover:bg-[var(--primary-600)] text-white rounded-xl font-bold text-sm transition-all duration-150 active:scale-95 shadow-[0_4px_14px_0_rgba(225,29,72,0.39)] active:shadow-none"
+                className="w-full flex-1 btn-success"
               >
                 <Download className="w-4 h-4 mr-2" />
                 Download File

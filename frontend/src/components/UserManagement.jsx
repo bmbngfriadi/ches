@@ -144,16 +144,16 @@ export default function UserManagement() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <div className="page-header">
         <div>
-          <h1 className="text-2xl font-extrabold text-[var(--text-primary)] tracking-tight">User Management</h1>
-          <p className="text-sm text-[var(--text-secondary)] font-medium mt-1">Kelola akun dan hak akses pengguna.</p>
+          <h1>User Management</h1>
+          <p>Kelola akun dan hak akses pengguna.</p>
         </div>
         <button 
           onClick={handleAddClick}
-          className="flex items-center justify-center whitespace-nowrap px-6 py-3.5 sm:px-4 sm:py-2.5 text-base sm:text-sm bg-[var(--primary-500)] text-white rounded-xl font-bold hover:bg-[var(--primary-600)] transition-all shadow-[0_4px_14px_0_rgba(225,29,72,0.39)] hover:shadow-[0_6px_20px_rgba(225,29,72,0.23)] hover:-translate-y-0.5 active:translate-y-0"
+          className={showForm && !editingUserId ? "btn-secondary" : "btn-primary"}
         >
-          <Plus className="w-5 h-5 mr-1.5 flex-shrink-0" />
+          <Plus className={`w-5 h-5 mr-1.5 flex-shrink-0 transition-transform ${showForm && !editingUserId ? 'rotate-45' : ''}`} />
           <span>{showForm && !editingUserId ? 'Batal' : 'Tambah User'}</span>
         </button>
       </div>
@@ -161,28 +161,28 @@ export default function UserManagement() {
       {showForm && (
         <div className="bg-[var(--surface)] p-6 md:p-8 rounded-2xl border border-[var(--border-color)] relative shadow-sm animate-in slide-in-from-top-4 fade-in duration-300">
           {editingUserId && (
-             <button onClick={() => setShowForm(false)} className="absolute top-6 right-6 p-2 text-[var(--text-secondary)] hover:bg-[var(--surface-hover)] rounded-full transition-colors"><Trash2 className="w-5 h-5 hidden" />Batal</button>
+             <button onClick={() => setShowForm(false)} className="absolute top-6 right-6 p-2 text-[var(--text-secondary)] hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full transition-colors flex items-center gap-1"><Trash2 className="w-5 h-5 hidden" />Batal</button>
           )}
           <h2 className="text-xl font-extrabold text-[var(--text-primary)] mb-6">
             {editingUserId ? `Edit User: ${userForm.username}` : 'Buat User Baru'}
           </h2>
           <form onSubmit={handleSubmitUser} className="space-y-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div>
-                <label className="block text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2">Username</label>
-                <input required type="text" value={userForm.username} onChange={e => setUserForm({...userForm, username: e.target.value})} disabled={!!editingUserId && !isAdmin} className="w-full px-4 py-3 bg-[var(--surface)] border border-[var(--border-color)] rounded-xl text-[var(--text-primary)] font-medium focus:outline-none focus:ring-2 focus:ring-[var(--primary-500)]/30 focus:border-[var(--primary-500)] transition-all disabled:opacity-50 disabled:bg-[var(--surface-50)]" />
+            <div className="form-grid-2 lg:grid-cols-4">
+              <div className="form-group">
+                <label>Username</label>
+                <input required type="text" value={userForm.username} onChange={e => setUserForm({...userForm, username: e.target.value})} disabled={!!editingUserId && !isAdmin} className="form-control disabled:opacity-50" />
               </div>
-              <div>
-                <label className="block text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2">Full Name</label>
-                <input required type="text" value={userForm.full_name} onChange={e => setUserForm({...userForm, full_name: e.target.value})} disabled={!!editingUserId && !isAdmin} className="w-full px-4 py-3 bg-[var(--surface)] border border-[var(--border-color)] rounded-xl text-[var(--text-primary)] font-medium focus:outline-none focus:ring-2 focus:ring-[var(--primary-500)]/30 focus:border-[var(--primary-500)] transition-all disabled:opacity-50 disabled:bg-[var(--surface-50)]" />
+              <div className="form-group">
+                <label>Full Name</label>
+                <input required type="text" value={userForm.full_name} onChange={e => setUserForm({...userForm, full_name: e.target.value})} disabled={!!editingUserId && !isAdmin} className="form-control disabled:opacity-50" />
               </div>
-              <div>
-                <label className="block text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2">{editingUserId ? 'New Password (opsional)' : 'Password'}</label>
-                <input required={!editingUserId} type="password" placeholder={editingUserId ? 'Kosongkan jika tidak diubah' : ''} value={userForm.password} onChange={e => setUserForm({...userForm, password: e.target.value})} className="w-full px-4 py-3 bg-[var(--surface)] border border-[var(--border-color)] rounded-xl text-[var(--text-primary)] font-medium focus:outline-none focus:ring-2 focus:ring-[var(--primary-500)]/30 focus:border-[var(--primary-500)] transition-all" />
+              <div className="form-group">
+                <label>{editingUserId ? 'New Password (opsional)' : 'Password'}</label>
+                <input required={!editingUserId} type="password" placeholder={editingUserId ? 'Kosongkan jika tidak diubah' : ''} value={userForm.password} onChange={e => setUserForm({...userForm, password: e.target.value})} className="form-control" />
               </div>
-              <div>
-                <label className="block text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2">Email</label>
-                <input type="email" placeholder="contoh@email.com" value={userForm.email} onChange={e => setUserForm({...userForm, email: e.target.value})} className="w-full px-4 py-3 bg-[var(--surface)] border border-[var(--border-color)] rounded-xl text-[var(--text-primary)] font-medium focus:outline-none focus:ring-2 focus:ring-[var(--primary-500)]/30 focus:border-[var(--primary-500)] transition-all" />
+              <div className="form-group">
+                <label>Email</label>
+                <input type="email" placeholder="contoh@email.com" value={userForm.email} onChange={e => setUserForm({...userForm, email: e.target.value})} className="form-control" />
               </div>
             </div>
 
@@ -216,144 +216,69 @@ export default function UserManagement() {
         </div>
       )}
 
-      <div className="bg-[var(--surface)] rounded-2xl border border-[var(--border-color)] overflow-hidden shadow-sm">
-        {/* Desktop Table */}
-        <div className="overflow-x-auto hidden md:block">
-          <table className="min-w-full divide-y divide-[var(--border-color)]">
-            <thead className="bg-[var(--surface-50)] border-b border-[var(--border-color)]">
-              <tr>
-                <th className="px-6 py-4 text-left text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider">Username</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider">Full Name</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider">Email</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider">Role</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider">Created At</th>
-                <th className="px-6 py-4 text-right text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-[var(--border-color)]">
-              {loading ? (
-                [...Array(5)].map((_, i) => (
-                  <tr key={i} className="animate-skeleton">
-                    <td className="px-6 py-4"><div className="h-4 bg-[var(--border-color)] rounded w-24"></div></td>
-                    <td className="px-6 py-4"><div className="h-4 bg-[var(--border-color)] rounded w-32"></div></td>
-                    <td className="px-6 py-4"><div className="h-4 bg-[var(--border-color)] rounded w-40"></div></td>
-                    <td className="px-6 py-4"><div className="h-6 bg-[var(--border-color)] rounded-lg w-32"></div></td>
-                    <td className="px-6 py-4"><div className="h-4 bg-[var(--border-color)] rounded w-24"></div></td>
-                    <td className="px-6 py-4"><div className="h-8 bg-[var(--border-color)] rounded w-16 ml-auto"></div></td>
-                  </tr>
-                ))
-              ) : users.map((user, index) => (
-                <tr 
-                  key={user.id} 
-                  className={`hover:bg-[var(--surface-hover)] cursor-pointer transition-colors group animate-page-enter`}
-                  onClick={() => handleEditClick(user)}
-                >
-                  <td className="px-6 py-4 text-sm font-extrabold text-[var(--text-primary)]">@{user.username}</td>
-                  <td className="px-6 py-4 text-sm font-medium text-[var(--text-secondary)]">{user.full_name}</td>
-                  <td className="px-6 py-4 text-sm text-[var(--text-secondary)]">{user.email || '-'}</td>
-                  <td className="px-6 py-4 text-sm font-medium" onClick={(e) => e.stopPropagation()}>
-                    {isAdmin ? (
-                      <select 
-                        value={user.role || 'user'} 
-                        onChange={(e) => handleChangeRole(user.id, e.target.value)}
-                        className="bg-transparent border border-[var(--border-color)] rounded-lg py-1.5 px-3 text-sm text-[var(--text-primary)] font-bold focus:outline-none focus:border-[var(--primary-500)] focus:ring-1 focus:ring-[var(--primary-500)]/30 hover:border-[var(--primary-400)] transition-all cursor-pointer"
-                      >
-                        <option value="administrator/dev">Administrator/Dev</option>
-                        <option value="port & dispatch section head">Port & Dispatch Section Head</option>
-                        <option value="port & dispatch admin">Port & Dispatch Admin</option>
-                        <option value="operator">Operator</option>
-                        <option value="user">User Biasa</option>
-                      </select>
-                    ) : (
-                      <span className={`px-3 py-1 rounded-full text-[11px] font-extrabold tracking-wider ${user.role === 'administrator/dev' ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400 border border-purple-200 dark:border-purple-800' : 'bg-[var(--surface-50)] text-[var(--text-secondary)] border border-[var(--border-color)]'}`}>
-                        {(user.role || 'user').toUpperCase()}
-                      </span>
-                    )}
-                  </td>
-                  <td className="px-6 py-4 text-sm font-medium text-[var(--text-secondary)]">{new Date(user.created_at).toLocaleDateString()}</td>
-                  <td className="px-6 py-4 text-right flex justify-end items-center opacity-0 group-hover:opacity-100 transition-opacity" onClick={(e) => e.stopPropagation()}>
-                    <button onClick={() => handleEditClick(user)} className="text-blue-600 hover:text-white hover:bg-blue-600 p-2 rounded-lg mr-1 transition-colors" title="Edit User">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                    </button>
-                    <button onClick={() => handleDeleteUser(user.id)} className="text-red-600 hover:text-white hover:bg-red-600 p-2 rounded-lg disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-red-600 transition-colors" disabled={user.username === 'admin'} title="Hapus User">
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </td>
+      <div className="data-table-container">
+        <table className="data-table">
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Full Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Created At</th>
+              <th className="text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {loading ? (
+              [...Array(5)].map((_, i) => (
+                <tr key={i} className="animate-skeleton">
+                  <td data-label="Username"><div className="h-4 bg-[var(--border-color)] rounded w-24"></div></td>
+                  <td data-label="Full Name"><div className="h-4 bg-[var(--border-color)] rounded w-32"></div></td>
+                  <td data-label="Email"><div className="h-4 bg-[var(--border-color)] rounded w-40"></div></td>
+                  <td data-label="Role"><div className="h-6 bg-[var(--border-color)] rounded-lg w-32"></div></td>
+                  <td data-label="Created At"><div className="h-4 bg-[var(--border-color)] rounded w-24"></div></td>
+                  <td data-label="Actions" className="md:text-right"><div className="h-8 bg-[var(--border-color)] rounded w-16 md:ml-auto"></div></td>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        {/* Mobile Cards */}
-        <div className="grid grid-cols-1 gap-4 p-4 md:hidden bg-[var(--bg-default)]">
-          {loading ? (
-            [...Array(3)].map((_, i) => (
-              <div key={i} className="bg-[var(--surface)] rounded-2xl p-5 border border-[var(--border-color)] flex flex-col space-y-4 shadow-sm animate-skeleton">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <div className="h-4 bg-[var(--border-color)] rounded w-24 mb-2"></div>
-                    <div className="h-3 bg-[var(--border-color)] rounded w-32"></div>
-                  </div>
-                  <div className="h-6 bg-[var(--border-color)] rounded w-20"></div>
-                </div>
-                <div className="flex justify-between items-center pt-3 border-t border-[var(--border-color)] mt-2">
-                  <div className="h-3 bg-[var(--border-color)] rounded w-24"></div>
-                  <div className="flex space-x-2">
-                    <div className="w-8 h-8 rounded-xl bg-[var(--border-color)]"></div>
-                    <div className="w-8 h-8 rounded-xl bg-[var(--border-color)]"></div>
-                  </div>
-                </div>
-              </div>
-            ))
-          ) : users.map((user, index) => (
-            <div 
-              key={user.id}
-              className={`bg-[var(--surface)] rounded-2xl p-5 border border-[var(--border-color)] flex flex-col space-y-4 cursor-pointer shadow-sm active:scale-[0.98] transition-transform animate-page-enter`}
-              onClick={() => handleEditClick(user)}
-            >
-              <div className="flex justify-between items-start">
-                <div>
-                  <div className="text-sm font-extrabold text-[var(--primary-600)] dark:text-[var(--primary-400)]">@{user.username}</div>
-                  <div className="text-xs font-bold text-[var(--text-secondary)] mt-1">{user.full_name}</div>
-                </div>
-                <div className="text-right" onClick={(e) => e.stopPropagation()}>
+              ))
+            ) : users.map((user, index) => (
+              <tr key={user.id} className="group cursor-pointer" onClick={() => handleEditClick(user)}>
+                <td data-label="Username" className="font-extrabold text-[var(--text-primary)]">@{user.username}</td>
+                <td data-label="Full Name" className="font-medium text-[var(--text-secondary)]">{user.full_name}</td>
+                <td data-label="Email" className="text-[var(--text-secondary)]">{user.email || '-'}</td>
+                <td data-label="Role" onClick={(e) => e.stopPropagation()}>
                   {isAdmin ? (
                     <select 
                       value={user.role || 'user'} 
                       onChange={(e) => handleChangeRole(user.id, e.target.value)}
-                      className="bg-[var(--surface-50)] border border-[var(--border-color)] rounded-lg py-1 px-2 text-xs font-bold text-[var(--text-primary)] focus:outline-none focus:border-[var(--primary-500)]"
+                      className="bg-transparent border border-[var(--border-color)] rounded-lg py-1.5 px-3 text-sm text-[var(--text-primary)] font-bold focus:outline-none focus:border-[var(--primary-500)] focus:ring-1 focus:ring-[var(--primary-500)]/30 hover:border-[var(--primary-400)] transition-all cursor-pointer"
                     >
-                      <option value="administrator/dev">Admin/Dev</option>
-                      <option value="port & dispatch section head">P&D Head</option>
-                      <option value="port & dispatch admin">P&D Admin</option>
+                      <option value="administrator/dev">Administrator/Dev</option>
+                      <option value="port & dispatch section head">Port & Dispatch Section Head</option>
+                      <option value="port & dispatch admin">Port & Dispatch Admin</option>
                       <option value="operator">Operator</option>
                       <option value="user">User Biasa</option>
                     </select>
                   ) : (
-                    <span className={`px-2 py-1 rounded-full text-[10px] font-extrabold tracking-wider border ${user.role === 'administrator/dev' ? 'bg-purple-100 text-purple-700 border-purple-200 dark:bg-purple-900/30 dark:text-purple-400 dark:border-purple-800' : 'bg-[var(--surface-50)] text-[var(--text-secondary)] border-[var(--border-color)]'}`}>
+                    <span className={`px-3 py-1 rounded-full text-[11px] font-extrabold tracking-wider ${user.role === 'administrator/dev' ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400 border border-purple-200 dark:border-purple-800' : 'bg-[var(--surface-50)] text-[var(--text-secondary)] border border-[var(--border-color)]'}`}>
                       {(user.role || 'user').toUpperCase()}
                     </span>
                   )}
-                </div>
-              </div>
-              
-              <div className="flex justify-between items-center pt-3 border-t border-[var(--border-color)] mt-2">
-                <div className="text-xs font-medium text-[var(--text-secondary)]">
-                  {new Date(user.created_at).toLocaleDateString()}
-                </div>
-                <div className="flex justify-end space-x-2" onClick={(e) => e.stopPropagation()}>
-                  <button onClick={() => handleEditClick(user)} className="p-2.5 text-blue-600 bg-blue-50 dark:bg-blue-900/20 rounded-xl" title="Edit">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                  </button>
-                  <button onClick={() => handleDeleteUser(user.id)} className="p-2.5 text-red-600 bg-red-50 dark:bg-red-900/20 rounded-xl disabled:opacity-30" disabled={user.username === 'admin'} title="Hapus">
-                    <Trash2 className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+                </td>
+                <td data-label="Created At" className="font-medium text-[var(--text-secondary)]">{new Date(user.created_at).toLocaleDateString()}</td>
+                <td data-label="Actions" className="md:text-right">
+                  <div className="flex md:justify-end items-center transition-opacity mt-2 md:mt-0" onClick={(e) => e.stopPropagation()}>
+                    <button onClick={() => handleEditClick(user)} className="text-blue-600 dark:text-blue-400 hover:text-white bg-blue-50 dark:bg-blue-900/20 md:bg-transparent md:dark:bg-transparent hover:bg-blue-600 dark:hover:bg-blue-600 p-2 rounded-lg mr-2 transition-colors" title="Edit User">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                    </button>
+                    <button onClick={() => handleDeleteUser(user.id)} className="text-red-600 dark:text-red-400 hover:text-white bg-red-50 dark:bg-red-900/20 md:bg-transparent md:dark:bg-transparent hover:bg-red-600 dark:hover:bg-red-600 p-2 rounded-lg disabled:opacity-30 disabled:hover:bg-transparent disabled:dark:hover:bg-transparent disabled:hover:text-red-600 disabled:dark:hover:text-red-400 transition-colors" disabled={user.username === 'admin'} title="Hapus User">
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

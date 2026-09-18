@@ -10,7 +10,7 @@
 
 @layer base {
   html, body, #root {
-    overflow-x: hidden;
+    overflow-x: clip;
     width: 100%;
     max-width: 100vw;
   }
@@ -46,7 +46,7 @@
     min-width: 0;
   }
   body {
-    @apply bg-gray-50 text-gray-900;
+    @apply bg-[var(--bg-default)] text-[var(--text-primary)] antialiased;
   }
 }
 
@@ -90,17 +90,17 @@
 }
 
 .dark, [data-theme='dark'] {
-  --bg-default: #020617;
-  --surface: #0f172a;
-  --surface-50: #1e293b;
-  --surface-hover: #334155;
+  --bg-default: #000000;
+  --surface: #0a0a0a;
+  --surface-50: #1a1a1a;
+  --surface-hover: #27272a;
 
   --bg-color: var(--bg-default);
   --bg-card: var(--surface);
   
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --border-color: #334155;
+  --text-primary: #ffffff;
+  --text-secondary: #a1a1aa;
+  --border-color: #27272a;
   --bg-login: var(--bg-default);
 }
 
@@ -291,4 +291,105 @@
   animation: slideUpSheet 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Removed stagger helpers as per user request */
+/* UI Components & Headers */
+.page-header {
+  @apply flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6;
+}
+.page-header h1 {
+  @apply text-2xl md:text-3xl font-extrabold tracking-tight mb-1;
+}
+.page-header p {
+  @apply text-sm text-[var(--text-secondary)];
+}
+
+.btn-primary {
+  @apply px-6 py-3 bg-[var(--primary-500)] text-white font-semibold rounded-full min-h-[48px] flex items-center justify-center gap-2 transition-all hover:-translate-y-px shadow-[0_4px_14px_rgba(225,29,72,0.3)] hover:shadow-[0_6px_20px_rgba(225,29,72,0.4)] border border-[var(--primary-600)];
+}
+.btn-secondary {
+  @apply px-6 py-3 bg-[var(--surface-50)] text-[var(--text-primary)] font-semibold rounded-full min-h-[48px] flex items-center justify-center gap-2 transition-all border border-[var(--border-color)] hover:bg-[var(--surface-hover)] hover:-translate-y-px shadow-sm hover:shadow-md;
+}
+.btn-info {
+  @apply px-6 py-3 bg-blue-600 text-white font-semibold rounded-full min-h-[48px] flex items-center justify-center gap-2 transition-all hover:-translate-y-px shadow-[0_4px_14px_rgba(37,99,235,0.3)] hover:shadow-[0_6px_20px_rgba(37,99,235,0.4)] border border-blue-700;
+}
+.btn-success {
+  @apply px-6 py-3 bg-emerald-600 text-white font-semibold rounded-full min-h-[48px] flex items-center justify-center gap-2 transition-all hover:-translate-y-px shadow-[0_4px_14px_rgba(5,150,105,0.3)] hover:shadow-[0_6px_20px_rgba(5,150,105,0.4)] border border-emerald-700;
+}
+.btn-danger {
+  @apply px-6 py-3 bg-red-600 text-white font-semibold rounded-full min-h-[48px] flex items-center justify-center gap-2 transition-all hover:-translate-y-px shadow-[0_4px_14px_rgba(220,38,38,0.3)] hover:shadow-[0_6px_20px_rgba(220,38,38,0.4)] border border-red-700;
+}
+
+/* Stats Grid & Cards */
+.stats-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6;
+}
+.stat-card {
+  @apply bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md;
+  animation: pageFadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.stat-icon-box {
+  @apply w-12 h-12 rounded-[16px] flex items-center justify-center mb-5 shadow-sm;
+}
+
+/* Responsive Table */
+.data-table-container {
+  @apply w-full overflow-hidden bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl shadow-sm transition-all duration-300;
+}
+.data-table {
+  @apply w-full text-left border-collapse;
+}
+.data-table th {
+  @apply px-6 py-4 text-xs font-bold text-[var(--text-secondary)] uppercase bg-[var(--surface-50)] border-b border-[var(--border-color)] tracking-wider;
+}
+.data-table td {
+  @apply px-6 py-4 border-b border-[var(--border-color)] transition-colors text-sm;
+}
+.data-table tbody tr {
+  @apply hover:bg-[var(--surface-hover)] transition-colors cursor-pointer;
+  animation: pageFadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@media (max-width: 768px) {
+  .data-table-container {
+    @apply border-0 shadow-none bg-transparent;
+  }
+  .data-table thead {
+    display: none;
+  }
+  .data-table, .data-table tbody, .data-table td {
+    display: block;
+    width: 100%;
+  }
+  .data-table tr {
+    display: block;
+    @apply mb-4 border border-[var(--border-color)] rounded-2xl bg-[var(--bg-card)] overflow-hidden shadow-sm;
+  }
+  .data-table td {
+    @apply flex flex-col p-5 border-b border-[var(--border-color)];
+  }
+  .data-table td:last-child {
+    border-bottom: none;
+  }
+  .data-table td::before {
+    content: attr(data-label);
+    @apply text-[10px] font-black text-[var(--text-secondary)] uppercase mb-2 tracking-wider;
+  }
+}
+
+/* Forms & Inputs */
+.form-group {
+  @apply mb-4;
+}
+.form-group label {
+  @apply block text-sm font-semibold text-[var(--text-primary)] mb-1.5;
+}
+.form-group .form-control {
+  @apply w-full;
+}
+.form-control {
+  @apply px-4 py-3 bg-[var(--bg-color)] border border-[var(--border-color)] rounded-xl text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-500)] focus:border-[var(--primary-500)] transition-all shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)];
+}
+.form-grid-2 {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6;
+}
+
+
